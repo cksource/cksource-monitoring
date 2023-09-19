@@ -1,0 +1,22 @@
+// TSConfig for ESLint and development
+{
+  "extends": "../tsconfig.base",
+  "compilerOptions": {
+    "rootDir": "../",
+    "outDir": "./dist-tests",
+    "baseUrl": ".",
+    "paths": {
+      "@src": ["../src"],
+      "@src/*": ["../src/*"]
+    }
+  },
+  "include": [
+    // src files
+    "../src/**/*",
+    // test files
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

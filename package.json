@@ -1,0 +1,32 @@
+{
+  "name": "@cksource-cksource-monitoring/monitoring",
+  "version": "0.0.1",
+  "description": "CKSource Monitoring",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --build",
+    "start": "node ./dist/server.js",
+    "start:local": "npm run build && node ./dist/server.js",
+    "deps:check": "ncu"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cksource/cksource-monitoring.git"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {},
+  "devDependencies": {
+    "@cksource-cs/eslint-config-cs-module": "^4.1.1",
+    "@cksource-cs/http-client-module": "^1.6.1",
+    "@types/node": "18.11.18",
+    "eslint": "8.6.0",
+    "eslint-import-resolver-node": "0.3.6",
+    "npm-check-updates": "10.2.2",
+    "nyc": "15.1.0",
+    "tsconfig-paths": "4.1.1",
+    "typescript": "4.7.4"
+  },
+  "engines": {
+    "node": ">=18.12.1"
+  }
+}
