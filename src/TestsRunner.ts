@@ -5,16 +5,12 @@
 import { ITest } from './tests/Test';
 import { IMetrics, StopTimerFunction } from './Metrics';
 
-import PingCKEditorPage from './tests/PingCKEditorPage';
-
 const METRIC_NAME: string = 'monitoring_test';
 
 export default class TestsRunner {
 	public constructor(
 		private readonly _metrics: IMetrics,
-		private readonly _tests: ITest[] = [
-			new PingCKEditorPage()
-		]
+		private readonly _tests: ITest[]
 	) {}
 
 	public async runTests(): Promise<void> {
@@ -35,16 +31,17 @@ export default class TestsRunner {
 		try {
 			await test.run();
 		} catch ( error ) {
-			statusCode = 500;
+			statusCode = error.statusCode ?? 500;
 		} finally {
 			stopTimer( {
-				statusCode,
-				testName: test.name
+				status_code: statusCode,
+				test_name: test.testName,
+				product_name: test.productName
 			} );
 		}
 	}
 
 	private _startTimer(): StopTimerFunction {
-		return this._metrics.histogram( METRIC_NAME, [ 'statusCode', 'testName' ] ).startTimer();
+		return this._metrics.histogram( METRIC_NAME, [ 'status_code', 'test_name', 'product_name' ] ).startTimer();
 	}
 }

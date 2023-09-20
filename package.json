@@ -19,6 +19,7 @@
   },
   "license": "UNLICENSED",
   "dependencies": {
+    "@cksource-cs/http-client-module": "^1.6.2",
     "prom-client": "14.2.0"
   },
   "devDependencies": {

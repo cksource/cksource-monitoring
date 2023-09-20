@@ -3,7 +3,9 @@
  */
 
 export interface ITest {
-	name: string;
+	productName: string;
+
+	testName: string;
 
 	run(): void|Promise<void>;
  }
