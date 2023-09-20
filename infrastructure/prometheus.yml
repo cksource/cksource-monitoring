@@ -7,6 +7,6 @@ scrape_configs:
   metrics_path: /metrics
   scheme: http
   static_configs:
-  - targets: ['localhost:9091']
+  - targets: ['pushgateway:9091']
     labels:
       service: 'pushgateway'

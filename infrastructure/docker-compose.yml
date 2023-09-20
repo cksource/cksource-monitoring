@@ -11,13 +11,13 @@ services:
         "--storage.tsdb.retention.time=60d"
       ]
     hostname: prometheus
-    image: prom/prometheus:v2.47.1
+    image: prom/prometheus:v2.47.0
     networks:
       - cksource-monitoring
     ports:
       - "9090:9090"
     volumes:
-      - ./infrastructure/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     logging:
       driver: "json-file" # todo: change to none
 
