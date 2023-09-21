@@ -17,12 +17,6 @@ export default class TestsRunner {
 		await Promise.all( this._tests.map( test => this._runTest( test ) ) );
 	}
 
-	public async getTestResults(): Promise<string> {
-		const { data } = await this._metrics.getResponse();
-
-		return data;
-	}
-
 	private async _runTest( test: ITest ): Promise<void> {
 		const stopTimer: StopTimerFunction = this._startTimer();
 
