@@ -7,7 +7,7 @@
     "build": "tsc --build",
     "start": "node ./dist/server.js",
     "start:local": "npm run build && node ./dist/server.js",
-    "start:local:infra": "docker-compose -f ./infrastructure/docker-compose.yml up -d",
+    "start:local:infra": "docker-compose -f ./infrastructure/docker-compose.yml up -d && node infrastructure/scripts/setup-infra.js",
     "stop:local:infra": "docker-compose -f ./infrastructure/docker-compose.yml down",
     "deps:check": "ncu",
     "lint": "eslint '**/*.ts'",
