@@ -5,7 +5,7 @@
 ## Quick start
 
 1. `pnpm run start:local:infra`
-2. `pnpm run start:local`
+2. Start tests and metrics generation: `pnpm run start:local`
 4. Go to [Dashboards](http://localhost:3000/dashboards) and browse available dashboards.
 
 ## Create/edit Grafana dashboards
