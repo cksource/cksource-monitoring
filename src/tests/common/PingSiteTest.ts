@@ -10,12 +10,12 @@ import { ITest } from '../Test';
 import { RequestFailError } from '../../errors/RequestFailError';
 import FailSimulator from '../../FailSimulator';
 
-const failSimulator: FailSimulator = new FailSimulator();
-
 class PingSiteTest implements ITest {
 	public productName: string;
 
 	public testName: string = 'ping';
+
+	private readonly _failSimulator: FailSimulator = new FailSimulator();
 
 	public constructor(
 		private readonly _address: string,
@@ -33,7 +33,7 @@ class PingSiteTest implements ITest {
 			throw new RequestFailError( httpResponse.statusCode, httpResponse.text() );
 		}
 
-		failSimulator.simulate();
+		this._failSimulator.simulate();
 	}
 }
 
