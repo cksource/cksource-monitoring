@@ -4,25 +4,18 @@
 
 import { Pushgateway } from 'prom-client';
 
-import { HttpClient } from '@cksource-cs/http-client-module';
-
 import TestsRunner from './TestsRunner';
 import Metrics from './Metrics';
 import { ITest } from './tests/Test';
-import PingCKEditorSiteTest from './tests/ckeditor.com/PingCKEditorSiteTest';
-import PingCKSourceSiteTest from './tests/cksource.com/PingCKSourceSiteTest';
-import PingOnlineHtmlEditorSiteTest from './tests/onlinehtmleditor.dev/PingOnlineHtmlEditorSiteTest';
-import PingMarkdownHtmlEditorSiteTest from './tests/onlinemarkdowneditor.dev/PingMarkdownHtmlEditorSiteTest';
+import PingSiteTest from './tests/common/PingSiteTest';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 
-const HTTP_CLIENT: HttpClient = new HttpClient();
-
 const TESTS: ITest[] = [
-	new PingCKEditorSiteTest( HTTP_CLIENT ),
-	new PingCKSourceSiteTest( HTTP_CLIENT ),
-	new PingOnlineHtmlEditorSiteTest( HTTP_CLIENT ),
-	new PingMarkdownHtmlEditorSiteTest( HTTP_CLIENT )
+	new PingSiteTest( 'https://ckeditor.com/' ),
+	new PingSiteTest( 'https://cksource.com/' ),
+	new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
+	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
 ];
 
 ( function() {
