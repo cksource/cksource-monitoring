@@ -7,14 +7,21 @@
     "build": "tsc --build",
     "start": "node ./dist/server.js",
     "start:local": "npm run build && node ./dist/server.js",
-    "deps:check": "ncu"
+    "start:local:infra": "docker-compose -f ./infrastructure/docker-compose.yml up -d && node infrastructure/scripts/setup-infra.js",
+    "stop:local:infra": "docker-compose -f ./infrastructure/docker-compose.yml down",
+    "deps:check": "ncu",
+    "lint": "eslint '**/*.ts'",
+    "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:cksource/cksource-monitoring.git"
   },
   "license": "UNLICENSED",
-  "dependencies": {},
+  "dependencies": {
+    "@cksource-cs/http-client-module": "^1.6.2",
+    "prom-client": "14.2.0"
+  },
   "devDependencies": {
     "@cksource-cs/eslint-config-cs-module": "^4.1.1",
     "@cksource-cs/http-client-module": "^1.6.1",
