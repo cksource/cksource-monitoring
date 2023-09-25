@@ -88,7 +88,7 @@
 				"x": 0,
 				"y": 0
 			},
-			"id": 2,
+			"id": 3,
 			"options": {
 				"colWidth": 0.96,
 				"legend": {
@@ -111,7 +111,7 @@
 					},
 					"disableTextWrap": false,
 					"editorMode": "code",
-					"expr": "sum by (product_name,test_name)(increase(monitoring_test_histogram_count{status_code!~\"2..\"}[30s]))\nor\nsum by (product_name,test_name)(increase(monitoring_test_histogram_count[30s])) < bool 1",
+					"expr": "sum by (product_name, test_name)(increase(monitoring_test_fails_counter[30s]))",
 					"fullMetaSearch": false,
 					"hide": false,
 					"includeNullMetadata": true,
@@ -246,7 +246,7 @@
 	"timepicker": {},
 	"timezone": "",
 	"title": "CKSource Monitoring",
-	"uid": "c11e286b-ed4e-4194-88fe-20e6d63c703e",
-	"version": 3,
+	"uid": "fd910522-dfeb-463a-b91d-5604478c688f",
+	"version": 2,
 	"weekStart": ""
 }
