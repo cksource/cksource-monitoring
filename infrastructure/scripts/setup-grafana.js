@@ -6,10 +6,10 @@
 
 const { HttpClient } = require( '@cksource-cs/http-client-module' );
 
-const prometheusDataSource = require( '../grafana/datasources/prometheus-data-source2.json' );
+const prometheusDataSource = require( '../grafana/datasources/cksource-monitoring-prometheus-datasource.json' );
 const folder = require( '../grafana/folders/cksource-monitoring-folder.json' );
-const cksourceMonitoringDashboard = require( '../grafana/dashboards/cksource-monitoring-dashboard2.json' );
-const alerts = require( '../grafana/alerts/test-alerts2.json' );
+const cksourceMonitoringDashboard = require( '../grafana/dashboards/cksource-monitoring-dashboard.json' );
+const alerts = require( '../grafana/alerts/cksource-monitoring-alerts.json' );
 
 const GRAFANA_URL = 'http://localhost:3000';
 const GRAFANA_AUTH = 'cks:pass';
@@ -50,8 +50,10 @@ function _importDashboards() {
 	} );
 }
 
-function _importAlerts() {
-	return _import( 'v1/provisioning/alert-rules', { ...alerts[ 0 ], folderUID: folder.uid } );
+async function _importAlerts() {
+	for ( const alert of alerts ) {
+		await _import( 'v1/provisioning/alert-rules', { ...alert, folderUID: folder.uid } );
+	}
 }
 
 function _importFolder() {
