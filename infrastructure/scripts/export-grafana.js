@@ -28,15 +28,27 @@ async function exportGrafana() {
 	}
 }
 
-function _exportAlerts() {
-	return _export( 'v1/provisioning/alert-rules', 'alerts/cksource-monitoring-alerts.json' );
+async function _exportAlerts() {
+	await _exportAndSave( 'v1/provisioning/alert-rules', 'alerts/cksource-monitoring-alerts.json' );
+
+	const response = await _export( 'v1/provisioning/contact-points' );
+
+	const slackContactPoint = response.find( cp => cp.name === 'CKSource Slack' );
+
+	_save( slackContactPoint, 'contact-points/cksource-monitoring-slack-contact-point.json' );
 }
 
 function _exportDashboards() {
-	return _export( `dashboards/uid/${ dashboard.dashboard.uid }`, 'dashboards/cksource-monitoring-dashboard.json' );
+	return _exportAndSave( `dashboards/uid/${ dashboard.dashboard.uid }`, 'dashboards/cksource-monitoring-dashboard.json' );
 }
 
-async function _export( apiPath, filePath ) {
+async function _exportAndSave( apiPath, filePath ) {
+	const result = await _export( apiPath );
+
+	_save( result, filePath );
+}
+
+async function _export( apiPath ) {
 	const response = await httpClient.get( `${ GRAFANA_URL }/api/${ apiPath }`, {
 		auth: GRAFANA_AUTH,
 		headers: {
@@ -48,7 +60,11 @@ async function _export( apiPath, filePath ) {
 		throw new Error( response.text() );
 	}
 
-	fs.writeFileSync( `../grafana/${ filePath }`, response.text() );
+	return response.json();
+}
+
+function _save( data, filePath ) {
+	fs.writeFileSync( `../grafana/${ filePath }`, JSON.stringify( data, null, 4 ) );
 }
 
 ( async function() {
