@@ -4,19 +4,15 @@
 
 /* eslint-disable no-console */
 
-const { HttpClient } = require( '@cksource-cs/http-client-module' );
+const RequestHelper = require( './grafana-request-helper' );
 
-const prometheusDataSource = require( '../grafana/datasources/cksource-monitoring-prometheus-datasource.json' );
-const folder = require( '../grafana/folders/cksource-monitoring-folder.json' );
-const cksourceMonitoringDashboard = require( '../grafana/dashboards/cksource-monitoring-dashboard.json' );
-const alerts = require( '../grafana/alerts/cksource-monitoring-alerts.json' );
-const slackContactPoint = require( '../grafana/contact-points/cksource-monitoring-slack-contact-point.json' );
+const prometheusDataSource = require( '../grafana/cksource-monitoring-prometheus-datasource.json' );
+const cksourceMonitoringFolder = require( '../grafana/cksource-monitoring-folder.json' );
+const cksourceMonitoringDashboard = require( '../grafana/cksource-monitoring-dashboard.json' );
+const cksourceMonitoringAlerts = require( '../grafana/cksource-monitoring-alerts.json' );
+const slackContactPoint = require( '../grafana/cksource-monitoring-slack-contact-point.json' );
 
-const GRAFANA_URL = 'http://localhost:3000';
-const GRAFANA_AUTH = 'cks:pass';
-const SLACK_CHANNEL = 'https://hooks.slack.com/services/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';
-
-const httpClient = new HttpClient();
+const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL ?? 'unknown';
 
 async function setupGrafana() {
 	try {
@@ -30,7 +26,7 @@ async function setupGrafana() {
 
 		await _importFolder();
 
-		await _importDashboards();
+		await _importDashboard();
 
 		await _importAlerts();
 	} catch ( error ) {
@@ -38,43 +34,86 @@ async function setupGrafana() {
 	}
 }
 
-function _importDataSource() {
-	return _import( 'datasources', prometheusDataSource );
+async function _importDataSource() {
+	const existingDataSource = await RequestHelper.get( `datasources/uid/${ prometheusDataSource.uid }` );
+
+	if ( !existingDataSource ) {
+		await RequestHelper.post( 'datasources', prometheusDataSource );
+	} else {
+		console.log( 'Grafana DataSource already exists. Import skipped.' );
+	}
 }
 
-function _importFolder() {
-	return _import( 'folders', folder );
+async function _importFolder() {
+	const existingFolder = await RequestHelper.get( `folders/${ cksourceMonitoringFolder.uid }` );
+
+	if ( !existingFolder ) {
+		await RequestHelper.post( 'folders', cksourceMonitoringFolder );
+	} else {
+		console.log( 'Grafana Folder already exists. Import skipped.' );
+	}
 }
 
-function _importDashboards() {
-	return _import( 'dashboards/db', {
+async function _importDashboard() {
+	const existingDashboard = await RequestHelper.get( `dashboards/uid/${ cksourceMonitoringDashboard.uid }` );
+
+	await RequestHelper.post( 'dashboards/db', {
 		dashboard: {
-			...cksourceMonitoringDashboard.dashboard,
-			id: null
+			...cksourceMonitoringDashboard,
+			id: null,
+			version: existingDashboard ? existingDashboard.dashboard.version : 1
 		},
-		folderUid: folder.uid
+		folderUid: cksourceMonitoringFolder.uid
 	} );
 }
 
 async function _importAlerts() {
-	for ( const alert of alerts ) {
-		await _import( 'v1/provisioning/alert-rules', { ...alert, folderUID: folder.uid } );
+	await _importAlertRules();
+
+	await _importSlackContactPoint();
+
+	await RequestHelper.put( 'v1/provisioning/policies', { receiver: slackContactPoint.name } );
+}
+
+async function _importAlertRules() {
+	for ( const alert of cksourceMonitoringAlerts ) {
+		const existingAlert = await RequestHelper.get( `v1/provisioning/alert-rules/${ alert.uid }` );
+
+		if ( !existingAlert ) {
+			await RequestHelper.post( 'v1/provisioning/alert-rules', { ...alert, folderUID: cksourceMonitoringFolder.uid } );
+		} else {
+			await RequestHelper.put(
+				`v1/provisioning/alert-rules/${ alert.uid }`,
+				{ ...alert, folderUID: cksourceMonitoringFolder.uid }
+			);
+		}
 	}
+}
 
-	slackContactPoint.settings.url = SLACK_CHANNEL;
+async function _importSlackContactPoint() {
+	slackContactPoint.settings.url = SLACK_WEBHOOK_URL;
 
-	await _import( 'v1/provisioning/contact-points', slackContactPoint );
+	const response = await RequestHelper.get( 'v1/provisioning/contact-points' );
 
-	await _update( 'v1/provisioning/policies', { receiver: slackContactPoint.name } );
+	const existingSlackContactPoint = response.find( cp => cp.name === 'CKSource Slack' );
+
+	if ( !existingSlackContactPoint ) {
+		await RequestHelper.post( 'v1/provisioning/contact-points', slackContactPoint );
+	} else {
+		await RequestHelper.put(
+			`v1/provisioning/contact-points/${ slackContactPoint.uid }`,
+			slackContactPoint
+		);
+	}
 }
 
 async function _waitForGrafanaReadiness() {
 	let isReady = false;
 
 	try {
-		const response = ( await httpClient.get( `${ GRAFANA_URL }/api/health` ) ).json();
+		const response = await RequestHelper.get( 'health' );
 
-		isReady = response.database === 'ok';
+		isReady = response?.database === 'ok';
 	} catch ( error ) {
 		isReady = false;
 	}
@@ -90,38 +129,6 @@ function _wait( time ) {
 	return new Promise( resolve => {
 		setTimeout( resolve, time );
 	} );
-}
-
-async function _import( apiPath, body ) {
-	const response = await httpClient.post( `${ GRAFANA_URL }/api/${ apiPath }`, {
-		auth: GRAFANA_AUTH,
-		body: JSON.stringify( body ),
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	} );
-
-	if ( response.statusCode > 299 ) {
-		throw new Error( response.text() );
-	}
-
-	console.log( `Grafana ${ apiPath } imported.` );
-}
-
-async function _update( apiPath, body ) {
-	const response = await httpClient.put( `${ GRAFANA_URL }/api/${ apiPath }`, {
-		auth: GRAFANA_AUTH,
-		body: JSON.stringify( body ),
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	} );
-
-	if ( response.statusCode > 299 ) {
-		throw new Error( response.text() );
-	}
-
-	console.log( `Grafana ${ apiPath } updated.` );
 }
 
 module.exports = setupGrafana;
