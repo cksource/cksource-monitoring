@@ -5,7 +5,9 @@
 	"settings": {
 		"mentionChannel": "channel",
 		"url": "[REDACTED]",
-		"username": "CKSource Monitoring"
+		"username": "CKSource Monitoring",
+		"title": "[ {{ .Status | toUpper }} ] {{ .CommonLabels.alertname }}",
+		"text": "{{ range .Alerts }}\n*Description:* {{ .Annotations.description }}{{ if gt (len .GeneratorURL) 0 }}\n[Source link]({{ .GeneratorURL }}) {{ end }}{{ if gt (len .SilenceURL) 0 }}\n[Silence link]({{ .SilenceURL }}) {{ end }}{{ end }}"
 	},
 	"disableResolveMessage": false,
 	"provenance": "api"

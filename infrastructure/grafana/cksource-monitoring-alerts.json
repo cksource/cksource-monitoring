@@ -7,6 +7,9 @@
 		"ruleGroup": "CKSourceMonitoring",
 		"title": "Test failed",
 		"condition": "C",
+		"annotations": {
+			"description": "Test `{{ index $labels \"test_name\" }}` failed for `{{ index $labels \"product_name\" }}`"
+		},
 		"data": [
 			{
 				"refId": "A",
