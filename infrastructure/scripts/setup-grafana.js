@@ -11,6 +11,7 @@ const cksourceMonitoringFolder = require( '../grafana/cksource-monitoring-folder
 const cksourceMonitoringDashboard = require( '../grafana/cksource-monitoring-dashboard.json' );
 const cksourceMonitoringAlerts = require( '../grafana/cksource-monitoring-alerts.json' );
 const slackContactPoint = require( '../grafana/cksource-monitoring-slack-contact-point.json' );
+const notificationPolicies = require( '../grafana/cksource-monitoring-notification-policies.json' );
 
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL ?? 'unknown';
 
@@ -72,7 +73,10 @@ async function _importAlerts() {
 
 	await _importSlackContactPoint();
 
-	await RequestHelper.put( 'v1/provisioning/policies', { receiver: slackContactPoint.name } );
+	await RequestHelper.put(
+		'v1/provisioning/policies',
+		{ ...notificationPolicies, receiver: slackContactPoint.name }
+	);
 }
 
 async function _importAlertRules() {

@@ -16,8 +16,6 @@ async function exportGrafana() {
 
 		await _exportAlerts();
 
-		console.log( 'Grafana alerts rules exported.' );
-
 		console.log( 'Grafana exported.' );
 	} catch ( error ) {
 		console.log( error );
@@ -25,8 +23,26 @@ async function exportGrafana() {
 }
 
 async function _exportAlerts() {
-	await _exportAndSave( 'v1/provisioning/alert-rules', 'cksource-monitoring-alerts.json' );
+	await _exportAlertRules();
 
+	await _exportSlackContactPoint();
+
+	await _exportAndSave( 'v1/provisioning/policies', 'cksource-monitoring-notification-policies.json' );
+
+	console.log( 'Grafana Alerts exported.' );
+}
+
+async function _exportAlertRules() {
+	const alertRules = await RequestHelper.get( 'v1/provisioning/alert-rules' );
+
+	for ( const alertRule of alertRules ) {
+		delete alertRule.updated;
+	}
+
+	_save( alertRules, 'cksource-monitoring-alerts.json' );
+}
+
+async function _exportSlackContactPoint() {
 	const response = await RequestHelper.get( 'v1/provisioning/contact-points' );
 
 	const slackContactPoint = response.find( cp => cp.name === 'CKSource Slack' );
@@ -46,6 +62,8 @@ async function _exportDashboards() {
 	}
 
 	_save( exportedDashboard.dashboard, 'cksource-monitoring-dashboard.json' );
+
+	console.log( 'Grafana Dashboard exported.' );
 }
 
 async function _exportAndSave( apiPath, filePath ) {
