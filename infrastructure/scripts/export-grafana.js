@@ -5,8 +5,9 @@
 /* eslint-disable no-console */
 
 const fs = require( 'fs' );
+const path = require( 'path' );
 
-const RequestHelper = require( './grafana-request-helper' );
+const RequestHelper = require( './helpers/grafana-request-helper' );
 
 const dashboard = require( '../grafana/cksource-monitoring-dashboard.json' );
 
@@ -61,6 +62,8 @@ async function _exportDashboards() {
 		throw new Error( 'CKSource Monitoring dashboard not found.' );
 	}
 
+	delete exportedDashboard.dashboard.version;
+
 	_save( exportedDashboard.dashboard, 'cksource-monitoring-dashboard.json' );
 
 	console.log( 'Grafana Dashboard exported.' );
@@ -73,7 +76,7 @@ async function _exportAndSave( apiPath, filePath ) {
 }
 
 function _save( data, filePath ) {
-	fs.writeFileSync( `../grafana/${ filePath }`, JSON.stringify( data, null, '\t' ) );
+	fs.writeFileSync( path.resolve( __dirname, `../grafana/${ filePath }` ), JSON.stringify( data, null, '\t' ) );
 }
 
 ( async function() {

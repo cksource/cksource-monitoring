@@ -4,7 +4,7 @@
 
 /* eslint-disable no-console */
 
-const RequestHelper = require( './grafana-request-helper' );
+const RequestHelper = require( './helpers/grafana-request-helper' );
 
 const prometheusDataSource = require( '../grafana/cksource-monitoring-prometheus-datasource.json' );
 const cksourceMonitoringFolder = require( '../grafana/cksource-monitoring-folder.json' );
@@ -15,7 +15,7 @@ const notificationPolicies = require( '../grafana/cksource-monitoring-notificati
 
 const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL ?? 'unknown';
 
-async function setupGrafana() {
+async function importGrafana() {
 	try {
 		console.log( 'Waiting for Grafana readiness...' );
 
@@ -135,4 +135,6 @@ function _wait( time ) {
 	} );
 }
 
-module.exports = setupGrafana;
+( async function() {
+	await importGrafana();
+}() );
