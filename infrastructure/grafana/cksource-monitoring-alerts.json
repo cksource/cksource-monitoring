@@ -7,9 +7,6 @@
 		"ruleGroup": "CKSourceMonitoring",
 		"title": "Test failed",
 		"condition": "C",
-		"annotations": {
-			"description": "Test `{{ index $labels \"test_name\" }}` failed for `{{ index $labels \"product_name\" }}`"
-		},
 		"data": [
 			{
 				"refId": "A",
@@ -116,10 +113,13 @@
 				}
 			}
 		],
-		"updated": "2023-11-08T11:39:16Z",
+		"updated": "2023-11-09T08:29:22Z",
 		"noDataState": "NoData",
 		"execErrState": "Error",
 		"for": "30s",
+		"annotations": {
+			"description": "Test `{{ index $labels \"test_name\" }}` failed for `{{ index $labels \"product_name\" }}`"
+		},
 		"isPaused": false
 	}
 ]

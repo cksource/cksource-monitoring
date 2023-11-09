@@ -4,11 +4,10 @@
 	"type": "slack",
 	"settings": {
 		"mentionChannel": "channel",
-		"url": "[REDACTED]",
-		"username": "CKSource Monitoring",
+		"text": "{{ range .Alerts }}\n*Description:* {{ .Annotations.description }}{{ if gt (len .GeneratorURL) 0 }}\n<{{ .GeneratorURL }}|Source> {{ end }}{{ if gt (len .SilenceURL) 0 }} <{{ .SilenceURL }}|Silence> {{ end }}{{ end }}",
 		"title": "[ {{ .Status | toUpper }} ] {{ .CommonLabels.alertname }}",
-		"text": "{{ range .Alerts }}\n*Description:* {{ .Annotations.description }}{{ if gt (len .GeneratorURL) 0 }}\n<{{ .GeneratorURL }}|Source> {{ end }}{{ if gt (len .SilenceURL) 0 }} <{{ .SilenceURL }}|Silence> {{ end }}{{ end }}"
+		"url": "[REDACTED]",
+		"username": "CKSource Monitoring"
 	},
-	"disableResolveMessage": false,
-	"provenance": "api"
+	"disableResolveMessage": false
 }

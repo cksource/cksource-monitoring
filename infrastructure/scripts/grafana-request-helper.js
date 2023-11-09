@@ -38,7 +38,8 @@ class GrafanaRequestHelper {
 			auth: GRAFANA_AUTH,
 			body: JSON.stringify( body ),
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'X-Disable-Provenance': 'true'
 			}
 		} );
 
@@ -54,7 +55,8 @@ class GrafanaRequestHelper {
 			auth: GRAFANA_AUTH,
 			body: JSON.stringify( body ),
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'X-Disable-Provenance': 'true'
 			}
 		} );
 
