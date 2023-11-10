@@ -8,14 +8,32 @@
 2. Start tests and metrics generation: `pnpm run tests:start:local`
 3. Go to [Dashboards](http://localhost:3000/dashboards) and browse available dashboards.
 
-## Create/edit Grafana dashboards
+## Create/edit Grafana dashboards in UI
 
 1. [Login](http://localhost:3000/login) to Grafana as Admin (`cks`/`pass`).
 2. Choose dashboard from [Dashboards](http://localhost:3000/dashboards) or create new one.
 3. Edit Dashboard and save changes by pressing "Save dashboard" button.
-4. When you want to save your changes in repository then:
-   1. Go to `Dashboard settings > JSON Model`
-   2. Copy JSON Model and paste to existing or new `.json` file in `infrastructure/grafana/dashboards` directory.
+4. Save changes made in Grafana UI permanently. See the "[Saving changes](#save-changes-made-in-grafana-ui-permanently)" section.
+
+## Create/edit Grafana alerts in UI
+
+1. [Login](http://localhost:3000/login) to Grafana as Admin (`cks`/`pass`).
+2. Modify/add some of below resources:
+   1. [Alert rules](http://localhost:3000/alerting/list) - verify results of tests
+   2. [Contact points](http://localhost:3000/alerting/notifications) - define where alert notifications can be sent
+   3. [Notification policies](http://localhost:3000/alerting/routes) - define which alerts should be sent to which contact points
+3. Make sure you saved changes in Grafana UI by pressing "Save" button for each modified resource.
+4. Save changes made in Grafana UI permanently. See the "[Saving changes](#save-changes-made-in-grafana-ui-permanently)" section.
+
+## Save changes made in Grafana UI permanently
+
+1. Run `pnpm run export:grafana:local` script and verify exported `JSON` results in `infrastructure/grafana` directory.
+2. Commit changes.
+
+## Import changes made in Grafana JSON models to Grafana
+
+1. Modify any `JSON` file from `infrastructure/grafana` directory manually.
+2. Run `pnpm run import:grafana:local`
 
 ## First run
 

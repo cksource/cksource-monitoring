@@ -7,8 +7,8 @@ import { Counter } from 'prom-client';
 import { ITest } from './tests/Test';
 import { IMetrics, StopTimerFunction } from './Metrics';
 
-const METRIC_NAME: string = 'monitoring_test';
-const GAUGE_NAME: string = 'monitoring_test_fails';
+const HISTOGRAM_NAME: string = 'monitoring_test';
+const COUNTER_NAME: string = 'monitoring_test_fails';
 
 export default class TestsRunner {
 	private readonly _counter: Counter;
@@ -17,7 +17,7 @@ export default class TestsRunner {
 		private readonly _metrics: IMetrics,
 		private readonly _tests: ITest[]
 	) {
-		this._counter = this._metrics.counter( GAUGE_NAME, [ 'test_name', 'product_name' ] );
+		this._counter = this._metrics.counter( COUNTER_NAME, [ 'test_name', 'product_name' ] );
 	}
 
 	public async runTests(): Promise<void> {
@@ -52,6 +52,6 @@ export default class TestsRunner {
 	}
 
 	private _startTimer(): StopTimerFunction {
-		return this._metrics.histogram( METRIC_NAME, [ 'status_code', 'test_name', 'product_name' ] ).startTimer();
+		return this._metrics.histogram( HISTOGRAM_NAME, [ 'status_code', 'test_name', 'product_name' ] ).startTimer();
 	}
 }

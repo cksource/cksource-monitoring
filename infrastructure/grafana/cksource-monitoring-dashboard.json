@@ -18,7 +18,7 @@
 	"editable": true,
 	"fiscalYearStartMonth": 0,
 	"graphTooltip": 0,
-	"id": 1,
+	"id": 2,
 	"links": [],
 	"liveNow": false,
 	"panels": [
@@ -246,7 +246,6 @@
 	"timepicker": {},
 	"timezone": "",
 	"title": "CKSource Monitoring",
-	"uid": "fd910522-dfeb-463a-b91d-5604478c688f",
-	"version": 2,
+	"uid": "b41b0dbe-a837-43b3-9e7b-e9c1042d2244",
 	"weekStart": ""
 }

@@ -7,8 +7,10 @@
     "build": "tsc --build",
     "start": "node ./dist/server.js",
     "tests:start:local": "npm run build && node ./dist/server.js",
-    "docker:start:local": "docker-compose -f ./infrastructure/docker-compose.yml up -d && node infrastructure/scripts/setup-infra.js",
+    "docker:start:local": "docker-compose -f ./infrastructure/docker-compose.yml up -d && npm run import:grafana:local",
     "docker:stop:local": "docker-compose -f ./infrastructure/docker-compose.yml down",
+    "import:grafana:local": "node infrastructure/scripts/import-grafana.js",
+    "export:grafana:local": "node infrastructure/scripts/export-grafana.js",
     "deps:check": "ncu",
     "lint": "eslint '**/*.ts'",
     "lint:fix": "npm run lint -- --fix"
