@@ -4,8 +4,6 @@
 
 import { URL } from 'url';
 
-import { HttpClient, IHttpClient, IHttpResponse } from '@cksource-cs/http-client-module';
-
 import { ITest } from '../Test';
 import { RequestFailError } from '../../errors/RequestFailError';
 import FailSimulator from '../../FailSimulator';
@@ -18,8 +16,7 @@ class PingSiteTest implements ITest {
 	private readonly _failSimulator: FailSimulator = new FailSimulator();
 
 	public constructor(
-		private readonly _address: string,
-		private readonly _httpClient: IHttpClient = new HttpClient()
+		private readonly _address: string
 	) {
 		const parsedUrl: URL = new URL( this._address );
 
@@ -27,10 +24,10 @@ class PingSiteTest implements ITest {
 	}
 
 	public async run(): Promise<void> {
-		const httpResponse: IHttpResponse = await this._httpClient.get( this._address );
+		const httpResponse: Response = await fetch( this._address );
 
-		if ( httpResponse.statusCode > 399 ) {
-			throw new RequestFailError( httpResponse.statusCode, httpResponse.text() );
+		if ( httpResponse.status > 399 ) {
+			throw new RequestFailError( httpResponse.status, await httpResponse.text() );
 		}
 
 		this._failSimulator.simulate();

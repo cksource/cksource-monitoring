@@ -1,0 +1,11 @@
+apiVersion: 1
+providers:
+  - name: 'Monitoring dashboards'
+    type: file
+    folder: CKSourceMonitoring
+    disableDeletion: true
+    updateIntervalSeconds: 60
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards
+      foldersFromFilesStructure: true

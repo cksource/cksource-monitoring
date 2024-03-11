@@ -4,8 +4,7 @@
 
 ## Quick start
 
-1. `pnpm run docker:start:local`
-2. Start tests and metrics generation: `pnpm run tests:start:local`
+1. `pnpm run docker:start`
 3. Go to [Dashboards](http://localhost:3000/dashboards) and browse available dashboards.
 
 ## Create/edit Grafana dashboards in UI
@@ -25,22 +24,13 @@
 3. Make sure you saved changes in Grafana UI by pressing "Save" button for each modified resource.
 4. Save changes made in Grafana UI permanently. See the "[Saving changes](#save-changes-made-in-grafana-ui-permanently)" section.
 
-## Save changes made in Grafana UI permanently
-
-1. Run `pnpm run export:grafana:local` script and verify exported `JSON` results in `infrastructure/grafana` directory.
-2. Commit changes.
-
-## Import changes made in Grafana JSON models to Grafana
-
-1. Modify any `JSON` file from `infrastructure/grafana` directory manually.
-2. Run `pnpm run import:grafana:local`
 
 ## First run
 
 ### Requirements
 
 - Node min version: `18.12.1`
-- PNPM version: `6.24.2`. Run `npm install pnpm@6.24.2 -g`
+- PNPM version: `>=8.14.0`. Run `npm install pnpm@8 -g`
 
 ## Project setup
 

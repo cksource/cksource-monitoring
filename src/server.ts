@@ -12,16 +12,20 @@ import PingSiteTest from './tests/common/PingSiteTest';
 const APPLICATION_NAME: string = 'cksource-monitoring';
 
 const TESTS: ITest[] = [
-	new PingSiteTest( 'https://ckeditor.com/' ),
-	new PingSiteTest( 'https://cksource.com/' ),
-	new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
+	// new PingSiteTest( 'https://ckeditor.com/' ),
+	// new PingSiteTest( 'https://cksource.com/' ),
+	// new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
 	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
 ];
 
 ( function() {
 	const metrics: Metrics = new Metrics();
 	const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
-	const pushGateway: Pushgateway = new Pushgateway( 'http://127.0.0.1:9091', {}, metrics.register );
+	const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
+		'http://pushgateway:9091',
+		{},
+		metrics.register
+	);
 
 	setInterval(
 		async () => {
