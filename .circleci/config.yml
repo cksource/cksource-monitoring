@@ -16,7 +16,7 @@ jobs:
       - checkout
       - run:
           name: Install pnpm
-          command: npm i -g pnpm@8
+          command: sudo npm i -g pnpm@8
       - run:
           name: Install dependencies
           command: pnpm install
