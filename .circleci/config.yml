@@ -32,28 +32,31 @@ workflows:
     jobs:
       - run_tests
       - cs-orb/release_to_ecr:
+          name: 'release_app'
           image_name: it-cksource-monitoring-service
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           build_context: ./docker
-          dockerfile_path: ./app/Dockerfile
+          dockerfile_path: ./docker/app/Dockerfile
           requires: [run_tests]
           # filters:
           #   branches:
           #     only: [master]
       - cs-orb/release_to_ecr:
+          name: 'release_prometheus'
           image_name: it-cksource-monitoring-prometheus
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           build_context: ./docker
-          dockerfile_path: ./prometheus/Dockerfile
+          dockerfile_path: ./docker/prometheus/Dockerfile
           requires: [run_tests]
           # filters:
           #   branches:
           #     only: [master]
       - cs-orb/release_to_ecr:
+          name: 'release_grafana'
           image_name: it-cksource-monitoring-grafana
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           build_context: ./docker
-          dockerfile_path: ./grafana/Dockerfile
+          dockerfile_path: ./docker/grafana/Dockerfile
           requires: [run_tests]
           # filters:
           #   branches:
