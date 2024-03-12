@@ -17,7 +17,6 @@ services:
       - GF_SECURITY_ADMIN_USER=cks
       - GF_SECURITY_ADMIN_PASSWORD=pass
       - GF_AUTH_ANONYMOUS_ENABLED=true
-    hostname: grafana
     build:
       context: ../
       dockerfile: ./docker/grafana/Dockerfile
@@ -33,15 +32,17 @@ services:
         "--storage.tsdb.path=/prometheus/data",
         "--storage.tsdb.retention.time=60d"
       ]
-    hostname: prometheus
     build:
       context: ../
       dockerfile: ./docker/prometheus/Dockerfile
+    ports:
+      - 9090:9090
     logging:
       driver: "none"
 
   pushgateway:
-    hostname: pushgateway
-    image: prom/pushgateway:v1.6.2
+    image: prom/pushgateway:v1.7.0
+    ports:
+      - 9091:9091
     logging:
       driver: "none"
