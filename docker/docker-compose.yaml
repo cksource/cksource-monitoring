@@ -19,7 +19,7 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
     build:
       context: ../
-      dockerfile: ./docker/grafana/Dockerfile
+      dockerfile: ./docker/grafana/Dockerfile.dev
     ports:
       - "3000:3000"
     logging:
@@ -34,7 +34,7 @@ services:
       ]
     build:
       context: ../
-      dockerfile: ./docker/prometheus/Dockerfile
+      dockerfile: ./docker/prometheus/Dockerfile.dev
     ports:
       - 9090:9090
     logging:

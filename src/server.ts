@@ -10,6 +10,7 @@ import { ITest } from './tests/Test';
 import PingSiteTest from './tests/common/PingSiteTest';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
+const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
 
 const TESTS: ITest[] = [
 	// new PingSiteTest( 'https://ckeditor.com/' ),
@@ -22,7 +23,7 @@ const TESTS: ITest[] = [
 	const metrics: Metrics = new Metrics();
 	const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
 	const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
-		'http://pushgateway:9091',
+		PUSHGATEWAY_URL,
 		{},
 		metrics.register
 	);
