@@ -13,6 +13,7 @@ RUN pnpm build
 FROM node:18.19.1-alpine3.19
 
 ENV NODE_ENV=production
+ENV PUSHGATEWAY_URL=https://monitoring-pushgateway.internal.cke-cs-dev.com
 
 RUN npm install -g pnpm@8
 RUN apk add --no-cache curl

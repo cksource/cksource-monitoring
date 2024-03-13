@@ -6,7 +6,7 @@ services:
     container_name: cksource-monitoring
     build: 
       context: ../
-      dockerfile: ./docker/app/Dockerfile.dev
+      dockerfile: ./docker/tests-runner/Dockerfile.dev
     volumes:
       - ../src:/app/src
 
