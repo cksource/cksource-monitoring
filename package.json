@@ -10,7 +10,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --build",
-    "docker:start": "docker-compose -f docker/docker-compose.yaml up --build -d",
+    "docker:start": "docker-compose -f docker/docker-compose.yaml up --build",
     "docker:logs": "docker logs cksource-monitoring -f",
     "docker:stop": "docker-compose -f docker/docker-compose.yaml down",
     "deps:check": "ncu",
