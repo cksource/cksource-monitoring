@@ -16,7 +16,7 @@ import fs from 'fs';
   })
 	const dashboardData = await res.json();
 	fs.writeFileSync(
-		`./infrastructure/grafana/dashboards/${dashboard.title.replace(' ', '-').toLowerCase()}.json`,
+		`./infrastructure/grafana/dashboards/${dashboard.title.replaceAll(' ', '-').toLowerCase()}.json`,
 		JSON.stringify(dashboardData.dashboard, null, 2)
 	)
  }
