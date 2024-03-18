@@ -13,9 +13,9 @@ const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
 
 const TESTS: ITest[] = [
-	// new PingSiteTest( 'https://ckeditor.com/' ),
-	// new PingSiteTest( 'https://cksource.com/' ),
-	// new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
+	new PingSiteTest( 'https://ckeditor.com/' ),
+	new PingSiteTest( 'https://cksource.com/' ),
+	new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
 	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
 ];
 
