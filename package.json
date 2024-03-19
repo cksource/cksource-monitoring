@@ -19,7 +19,7 @@
     "types": "tsc --noEmit"
   },
   "dependencies": {
-      "prom-client": "15.1.0"
+    "prom-client": "15.1.0"
   },
   "devDependencies": {
     "@cksource-cs/eslint-config-cs-module": "^4.1.1",
