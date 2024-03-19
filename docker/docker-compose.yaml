@@ -2,21 +2,24 @@
 version: "3.8"
 
 services:
-  # app:
-  #   container_name: cksource-monitoring
-  #   build: 
-  #     context: ../
-  #     dockerfile: ./docker/tests-runner/Dockerfile.dev
-  #   volumes:
-  #     - ../src:/app/src
+  app:
+    container_name: cksource-monitoring
+    build: 
+      context: ../
+      dockerfile: ./docker/tests-runner/Dockerfile.dev
+    volumes:
+      - ../src:/app/src
 
   grafana:
     depends_on:
       - prometheus
+    env_file:
+      - ../.env
     environment:
       - GF_SECURITY_ADMIN_USER=cks
-      - GF_SECURITY_ADMIN_PASSWORD=pass
       - GF_AUTH_ANONYMOUS_ENABLED=true
+      - PUSHGATEWAY_URL=http://pushgateway:9091
+      # - PUSHGATEWAY_URL=https://monitoring-pushgateway.internal.cke-cs-dev.com
     build:
       context: ../
       dockerfile: ./docker/grafana/Dockerfile.dev

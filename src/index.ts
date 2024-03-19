@@ -19,7 +19,8 @@ const TESTS: ITest[] = [
 	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
 ];
 
-( function() {
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+( async function main(): Promise<void> {
 	const metrics: Metrics = new Metrics();
 	const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
 	const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
@@ -28,15 +29,10 @@ const TESTS: ITest[] = [
 		metrics.register
 	);
 
-	setInterval(
-		async () => {
-			await testRunner.runTests();
+	await testRunner.runTests();
 
-			await pushGateway.push( { jobName: APPLICATION_NAME } );
+	await pushGateway.push( { jobName: APPLICATION_NAME } );
 
-			// eslint-disable-next-line no-console
-			console.log( '--- Tests finished: ', new Date() );
-		},
-		5000
-	);
+	// eslint-disable-next-line no-console
+	console.log( '--- Tests finished: ', new Date() );
 }() );

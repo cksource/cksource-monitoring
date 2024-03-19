@@ -11,4 +11,4 @@ RUN pnpm install
 
 COPY /src ./src
 
-CMD ["npx", "tsx", "watch", "src/server.ts"]
+CMD ["npx", "tsx", "watch", "src/index.ts"]
