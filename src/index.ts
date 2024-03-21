@@ -31,8 +31,12 @@ const TESTS: ITest[] = [
 
 	await testRunner.runTests();
 
+	// eslint-disable-next-line no-console
+	console.log( PUSHGATEWAY_URL );
 	await pushGateway.push( { jobName: APPLICATION_NAME } );
 
 	// eslint-disable-next-line no-console
 	console.log( '--- Tests finished: ', new Date() );
+
+	process.exit( 0 );
 }() );
