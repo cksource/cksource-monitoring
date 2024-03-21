@@ -14,7 +14,6 @@ FROM amazon/aws-lambda-nodejs:18.2024.03.04.09
 ENV NODE_ENV=production
 
 RUN npm install -g pnpm@8
-RUN apk add --no-cache curl
 
 WORKDIR /app
 COPY --from=builder /tmp/dist ./dist
