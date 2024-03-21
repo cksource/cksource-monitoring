@@ -9,9 +9,7 @@ COPY src/ ./src/
 RUN pnpm build
 
 ###############################################
-ARG VERSION=18.2023.06.16.14
-
-FROM amazon/aws-lambda-nodejs:$VERSION
+FROM amazon/aws-lambda-nodejs:18.2024.03.04.09
 
 ENV NODE_ENV=production
 

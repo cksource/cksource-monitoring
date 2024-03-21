@@ -39,5 +39,7 @@ exports.handler = async () => {
 
 	// eslint-disable-next-line no-console
 	console.log( '--- Tests finished: ', new Date() );
+
+	return 'Done';
 };
 
