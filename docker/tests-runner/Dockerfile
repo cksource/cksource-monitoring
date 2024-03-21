@@ -9,8 +9,9 @@ COPY src/ ./src/
 RUN pnpm build
 
 ###############################################
+ARG VERSION=18.2023.06.16.14
 
-FROM node:18.19.1-alpine3.19
+FROM amazon/aws-lambda-nodejs:$VERSION
 
 ENV NODE_ENV=production
 
@@ -24,5 +25,5 @@ COPY --from=builder /tmp/package.json ./
 
 RUN pnpm install
 
-CMD ["node", "./dist/index.js"]
+CMD ["dist/index.handler"]
 

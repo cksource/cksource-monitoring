@@ -19,8 +19,7 @@ const TESTS: ITest[] = [
 	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-( async function main(): Promise<void> {
+exports.handler = async () => {
 	const metrics: Metrics = new Metrics();
 	const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
 	const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
@@ -40,6 +39,5 @@ const TESTS: ITest[] = [
 
 	// eslint-disable-next-line no-console
 	console.log( '--- Tests finished: ', new Date() );
+};
 
-	process.exit( 0 );
-}() );
