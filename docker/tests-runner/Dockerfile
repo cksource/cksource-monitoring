@@ -15,7 +15,7 @@ ENV NODE_ENV=production
 
 RUN npm install -g pnpm@8
 
-WORKDIR /app
+WORKDIR ${LAMBDA_TASK_ROOT}
 COPY --from=builder /tmp/dist ./dist
 COPY --from=builder /tmp/package.json ./
 
