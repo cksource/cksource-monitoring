@@ -19,7 +19,7 @@ const TESTS: ITest[] = [
 	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
 ];
 
-exports.handler = async () => {
+export const handler = async (): Promise<string> => {
 	const metrics: Metrics = new Metrics();
 	const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
 	const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
