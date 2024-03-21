@@ -33,6 +33,8 @@ export default class TestsRunner {
 			await test.run();
 		} catch ( error ) {
 			// eslint-disable-next-line no-console
+			console.log( error );
+			// eslint-disable-next-line no-console
 			console.log( `Test - ${ test.productName } - failed.` );
 
 			statusCode = error.statusCode ?? 500;
