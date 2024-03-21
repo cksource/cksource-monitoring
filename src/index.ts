@@ -18,16 +18,15 @@ const TESTS: ITest[] = [
 	new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
 	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
 ];
+const metrics: Metrics = new Metrics();
+const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
+const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
+	PUSHGATEWAY_URL,
+	{},
+	metrics.register
+);
 
 export const handler = async (): Promise<string> => {
-	const metrics: Metrics = new Metrics();
-	const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
-	const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
-		PUSHGATEWAY_URL,
-		{},
-		metrics.register
-	);
-
 	try {
 		await testRunner.runTests();
 
