@@ -97,11 +97,12 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 1
       },
       "id": 3,
+      "interval": "60s",
       "options": {
         "colWidth": 0.96,
         "legend": {
@@ -124,7 +125,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by (product_name, test_name)(increase(monitoring_test_fails_counter[30s]))",
+          "expr": "sum by (product_name, test_name)(increase(monitoring_test_fails_counter[60s]))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -204,11 +205,12 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 1
+        "w": 24,
+        "x": 0,
+        "y": 9
       },
       "id": 1,
+      "interval": "60s",
       "options": {
         "legend": {
           "calcs": [],
@@ -230,7 +232,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "sum by (test_name, product_name)(rate(monitoring_test_histogram_sum{status_code!~\"4..|5..\"}[1m]))\n/\nsum by (test_name, product_name)(rate(monitoring_test_histogram_count{status_code!~\"4..|5..\"}[1m]))",
+          "expr": "sum by(test_name, product_name) (rate(monitoring_test_histogram_sum{status_code!~\"4..|5..\"}[1m])) / \nsum by(test_name, product_name) (rate(monitoring_test_histogram_count{status_code!~\"4..|5..\"}[1m]))",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
@@ -260,6 +262,6 @@
   "timezone": "",
   "title": "CKSource Monitoring",
   "uid": "b41b0dbe-a837-43b3-9e7b-e9c1042d2244",
-  "version": 30,
+  "version": 32,
   "weekStart": ""
 }

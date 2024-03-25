@@ -6,14 +6,11 @@ import { URL } from 'url';
 
 import { ITest } from '../Test';
 import { RequestFailError } from '../../errors/RequestFailError';
-import FailSimulator from '../../FailSimulator';
 
 class PingSiteTest implements ITest {
 	public productName: string;
 
 	public testName: string = 'ping';
-
-	private readonly _failSimulator: FailSimulator = new FailSimulator();
 
 	public constructor(
 		private readonly _address: string
@@ -29,8 +26,6 @@ class PingSiteTest implements ITest {
 		if ( httpResponse.status > 399 ) {
 			throw new RequestFailError( httpResponse.status, await httpResponse.text() );
 		}
-
-		this._failSimulator.simulate();
 	}
 }
 
