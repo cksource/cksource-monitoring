@@ -11,7 +11,6 @@ datasources:
     basicAuth: true
     basicAuthUser: cks
     basicAuthPassword: $BASIC_AUTH_PASSWORD
-    withCredentials: false
     isDefault: true
     jsonData:
       httpMethod: POST
