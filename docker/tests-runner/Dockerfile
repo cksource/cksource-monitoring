@@ -23,4 +23,3 @@ COPY --from=builder /tmp/package.json ./
 RUN pnpm install
 
 CMD ["dist/index.handler"]
-
