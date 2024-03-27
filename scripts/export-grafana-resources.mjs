@@ -3,10 +3,11 @@
  */
 
 import fs from 'fs';
+import 'dotenv/config';
 
-const GRAFANA_URL = 'https://monitoring.internal.cke-cs-dev.com';
-const GRAFANA_USER = 'cks';
-const GRAFANA_PASSWORD = process.env.GRAFANA_PASSWORD;
+const GRAFANA_URL = 'http:/localhost:3000';
+const GRAFANA_USER = process.env.GF_SECURITY_ADMIN_USER;
+const GRAFANA_PASSWORD = process.env.GF_SECURITY_ADMIN_PASSWORD;
 
 ( async () => {
 	const dashboards = await request( '/api/search?query=' );

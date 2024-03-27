@@ -7,6 +7,8 @@ services:
     build: 
       context: ../
       dockerfile: ./docker/tests-runner/Dockerfile.dev
+    env_file:
+      - ../.env
     volumes:
       - ../src:/app/src
 
@@ -16,10 +18,6 @@ services:
       dockerfile: ./docker/grafana/Dockerfile.dev
     depends_on:
       - prometheus
-    environment:
-      - GF_SECURITY_ADMIN_USER=cks
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - PUSHGATEWAY_URL=http://pushgateway:9091
     env_file:
       - ../.env
     ports:
