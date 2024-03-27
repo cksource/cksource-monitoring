@@ -58,3 +58,12 @@ workflows:
           # filters:
           #   branches:
           #     only: [master]
+      - cs-orb/release_to_ecr:
+          name: 'release_pushgateway'
+          image_name: it-cksource-monitoring-pushgateway-service
+          version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
+          dockerfile_path: ./docker/pushgateway/Dockerfile
+          requires: [run_tests]
+          # filters:
+          #   branches:
+          #     only: [master]
