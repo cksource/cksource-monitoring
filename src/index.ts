@@ -3,6 +3,7 @@
  */
 
 import { Pushgateway } from 'prom-client';
+import { SecretsManager } from '@aws-sdk/client-secrets-manager';
 
 import TestsRunner from './TestsRunner';
 import Metrics from './Metrics';
@@ -20,14 +21,21 @@ const TESTS: ITest[] = [
 ];
 const metrics: Metrics = new Metrics();
 const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
-const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
-	PUSHGATEWAY_URL,
-	{},
-	metrics.register
-);
 
 export const handler = async (): Promise<string> => {
 	try {
+		const BASIC_AUTH_PASSWORD: string = await _getBasicAuthPassword();
+
+		const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
+			PUSHGATEWAY_URL,
+			{
+				headers: {
+					'Authorization': `Basic ${ Buffer.from( `cks:${ BASIC_AUTH_PASSWORD }` ).toString( 'base64' ) }`
+				}
+			},
+			metrics.register
+		);
+
 		await testRunner.runTests();
 
 		await pushGateway.push( { jobName: APPLICATION_NAME } );
@@ -42,3 +50,20 @@ export const handler = async (): Promise<string> => {
 	return 'Done';
 };
 
+async function _getBasicAuthPassword(): Promise<string> {
+	if ( process.env.BASIC_AUTH_PASSWORD ) {
+		return process.env.BASIC_AUTH_PASSWORD;
+	}
+
+	const sm: SecretsManager = new SecretsManager();
+
+	const { SecretString: secret } = await sm.getSecretValue( {
+		SecretId: process.env.BASIC_AUTH_PASSWORD_ID
+	} );
+
+	if ( !secret ) {
+		throw new Error( 'BASIC_AUTH_PASSWORD value is missing.' );
+	}
+
+	return secret;
+}

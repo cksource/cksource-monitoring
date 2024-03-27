@@ -11,35 +11,41 @@ services:
       - ../src:/app/src
 
   grafana:
+    build:
+      context: ../
+      dockerfile: ./docker/grafana/Dockerfile.dev
     depends_on:
       - prometheus
-    env_file:
-      - ../.env
     environment:
       - GF_SECURITY_ADMIN_USER=cks
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - PUSHGATEWAY_URL=http://pushgateway:9091
-      # - PUSHGATEWAY_URL=https://monitoring-pushgateway.internal.cke-cs-dev.com
-    build:
-      context: ../
-      dockerfile: ./docker/grafana/Dockerfile.dev
+    env_file:
+      - ../.env
     ports:
       - "3000:3000"
 
   prometheus:
+    build:
+      context: ../
+      dockerfile: ./docker/prometheus/Dockerfile.dev
     command:
       [
         "--config.file=/etc/prometheus/prometheus.yml",
         "--storage.tsdb.path=/prometheus/data",
-        "--storage.tsdb.retention.time=60d"
+        "--storage.tsdb.retention.time=60d",
+        "--web.config.file=/etc/prometheus/webconfig.yml"
       ]
-    build:
-      context: ../
-      dockerfile: ./docker/prometheus/Dockerfile.dev
+    env_file:
+      - ../.env
     ports:
       - 9090:9090
 
   pushgateway:
-    image: prom/pushgateway:v1.7.0
+    build:
+      context: ../
+      dockerfile: ./docker/pushgateway/Dockerfile
+    command:
+      [ "--web.config.file=/etc/pushgateway/webconfig.yml" ]
     ports:
       - 9091:9091

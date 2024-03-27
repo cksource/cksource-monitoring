@@ -19,6 +19,7 @@
     "types": "tsc --noEmit"
   },
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.540.0",
     "prom-client": "15.1.0"
   },
   "devDependencies": {

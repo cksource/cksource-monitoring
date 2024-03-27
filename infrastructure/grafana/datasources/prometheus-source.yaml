@@ -8,8 +8,9 @@ datasources:
     url: http://prometheus:9090
     user: ''
     database: ''
-    basicAuth: false
-    basicAuthUser: ''
+    basicAuth: true
+    basicAuthUser: cks
+    basicAuthPassword: $BASIC_AUTH_PASSWORD
     withCredentials: false
     isDefault: true
     jsonData:
