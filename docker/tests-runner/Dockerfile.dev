@@ -1,6 +1,5 @@
 FROM node:18.19.1-alpine3.19
 
-# Changing WORKDIR value will also change the paths used in S3.
 WORKDIR /app
 
 RUN apk add --no-cache curl

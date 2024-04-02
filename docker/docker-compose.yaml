@@ -15,7 +15,7 @@ services:
   grafana:
     build:
       context: ../
-      dockerfile: ./docker/grafana/Dockerfile.dev
+      dockerfile: ./docker/grafana/Dockerfile
     depends_on:
       - prometheus
     env_file:
@@ -26,7 +26,9 @@ services:
   prometheus:
     build:
       context: ../
-      dockerfile: ./docker/prometheus/Dockerfile.dev
+      dockerfile: ./docker/prometheus/Dockerfile
+      args:
+        PUSHGATEWAY_URL: "pushgateway:9091"
     command:
       [
         "--config.file=/etc/prometheus/prometheus.yml",
