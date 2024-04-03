@@ -2,7 +2,7 @@ FROM bitnami/prometheus:2.51.1
 
 USER root
 
-RUN apt-get update -y && apt-get install apache2-utils -y
+RUN apt-get update -y && apt-get install apache2-utils curl -y
 
 ARG PUSHGATEWAY_URL=monitoring-pushgateway.internal.cke-cs-dev.com
 
