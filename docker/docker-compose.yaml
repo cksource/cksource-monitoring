@@ -20,6 +20,8 @@ services:
       - prometheus
     env_file:
       - ../.env
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: true 
     ports:
       - "3000:3000"
 
@@ -45,6 +47,8 @@ services:
     build:
       context: ../
       dockerfile: ./docker/pushgateway/Dockerfile
+    env_file:
+      - ../.env
     command:
       [ "--web.config.file=/etc/pushgateway/webconfig.yml" ]
     ports:
