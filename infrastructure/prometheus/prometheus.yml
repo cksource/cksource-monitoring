@@ -3,10 +3,13 @@ global:
   scrape_timeout: 1s
   evaluation_interval: 15s
 scrape_configs:
-- job_name: push-gateway
-  metrics_path: /metrics
-  scheme: http
-  static_configs:
-  - targets: ['pushgateway:9091']
-    labels:
-      service: 'pushgateway'
+  - job_name: push-gateway
+    metrics_path: /metrics
+    scheme: http
+    basic_auth:
+      username: cks
+      password_file: "/etc/prometheus/password"
+    static_configs:
+      - targets: ['pushgateway:9091']
+        labels:
+          service: 'pushgateway'

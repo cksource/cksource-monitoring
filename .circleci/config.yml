@@ -1,0 +1,69 @@
+version: 2.1
+
+orbs:
+  cs-orb: cksource/cs-orb@1.1
+
+executors:
+  default:
+    docker:
+      - image: cimg/node:18.14.2
+    resource_class: medium
+
+jobs:
+  run_tests:
+    executor: default
+    steps:
+      - checkout
+      - run:
+          name: Install pnpm
+          command: sudo npm i -g pnpm@8
+      - run:
+          name: Install dependencies
+          command: pnpm install
+      - run:
+          name: Check linting
+          command: pnpm lint
+      - run:
+          name: Check types
+          command: pnpm types
+
+workflows:
+  release:
+    jobs:
+      - run_tests
+      - cs-orb/release_to_ecr:
+          name: 'release_tests_lambda'
+          image_name: it-cksource-monitoring-lambda-service
+          version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
+          dockerfile_path: ./docker/tests-runner/Dockerfile
+          requires: [run_tests]
+          filters:
+            branches:
+              only: [master]
+      - cs-orb/release_to_ecr:
+          name: 'release_prometheus'
+          image_name: it-cksource-monitoring-prometheus-service
+          version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
+          dockerfile_path: ./docker/prometheus/Dockerfile
+          requires: [run_tests]
+          filters:
+            branches:
+              only: [master]
+      - cs-orb/release_to_ecr:
+          name: 'release_grafana'
+          image_name: it-cksource-monitoring-grafana-service
+          version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
+          dockerfile_path: ./docker/grafana/Dockerfile
+          requires: [run_tests]
+          filters:
+            branches:
+              only: [master]
+      - cs-orb/release_to_ecr:
+          name: 'release_pushgateway'
+          image_name: it-cksource-monitoring-pushgateway-service
+          version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
+          dockerfile_path: ./docker/pushgateway/Dockerfile
+          requires: [run_tests]
+          filters:
+            branches:
+              only: [master]
