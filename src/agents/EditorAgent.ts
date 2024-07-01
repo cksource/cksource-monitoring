@@ -33,7 +33,7 @@ class EditorAgent implements IEditorAgent {
 
 	public async launchAgent(): Promise<void> {
 		this.puppeteer = puppeteer;
-		this.browser = await this.puppeteer.launch();
+		this.browser = await this.puppeteer.launch( { args: ['--no-sandbox', '--disable-setuid-sandbox'] } );
 		this.page = await this.browser.newPage();
 
 		console.log( 'EditorAgent initialized.' );
