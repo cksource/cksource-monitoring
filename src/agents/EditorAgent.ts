@@ -12,8 +12,6 @@ import puppeteer, {
 	KeyPressOptions
 } from 'puppeteer';
 
-import { Editor } from 'ckeditor5';
-
 import IEditorAgent from './IEditorAgent';
 
 class EditorAgent implements IEditorAgent {
@@ -29,13 +27,12 @@ class EditorAgent implements IEditorAgent {
 
 	private _editableSelector: string;
 
-	private _editor: Editor | null;
-
 	public async launchAgent(): Promise<void> {
 		this.puppeteer = puppeteer;
-		this.browser = await this.puppeteer.launch( { args: ['--no-sandbox', '--disable-setuid-sandbox'] } );
+		this.browser = await this.puppeteer.launch( { args: [ '--no-sandbox', '--disable-setuid-sandbox' ] } );
 		this.page = await this.browser.newPage();
 
+		// eslint-disable-next-line no-console
 		console.log( 'EditorAgent initialized.' );
 	}
 
@@ -47,6 +44,7 @@ class EditorAgent implements IEditorAgent {
 			waitUntil: 'domcontentloaded'
 		};
 
+		// eslint-disable-next-line no-console
 		console.log( `Visiting ${ this._url }` );
 		await this.page.goto( this._url, options );
 	}
@@ -60,12 +58,12 @@ class EditorAgent implements IEditorAgent {
 		const hash: string = parsedUrl.hash;
 		const editableSelector: string = hash ? `#tab-${ hash } .ck-editor__editable_inline` : '.ck-editor__editable_inline';
 
-		let editor: Editor | null = null;
-
+		// eslint-disable-next-line no-console
 		console.log( 'Waiting for the editor.' );
 
 		await this.page.waitForSelector( editableSelector, { timeout: 10000 } );
-		
+
+		// eslint-disable-next-line no-console
 		console.log( 'Editor initialized.' );
 
 		this._editableSelector = editableSelector;

@@ -2,11 +2,9 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import URL from 'url';
-
 import puppeteer, { Browser, Page } from 'puppeteer';
 
-export default interface IEditorAgent {
+interface IEditorAgent {
     agentName: string;
     puppeteer: typeof puppeteer;
     browser: Browser;
@@ -23,3 +21,4 @@ export default interface IEditorAgent {
     clickToolbarItem( buttonName: string ): Promise<void>;
  }
 
+export default IEditorAgent;
