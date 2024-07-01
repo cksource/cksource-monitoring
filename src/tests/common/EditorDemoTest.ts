@@ -5,6 +5,11 @@ import { URL } from 'url';
 
 import { ITest } from '../Test';
 
+import EditorAgent from '../../agents/EditorAgent';
+import IEditorAgent from '../../agents/IEditorAgent';
+
+import { DemoFailError } from '../../errors/DemoFailError';
+
 class EditorDemoTest implements ITest {
 	public productName: string;
 
@@ -13,11 +18,19 @@ class EditorDemoTest implements ITest {
 	public constructor( private readonly _address: string ) {
 		const parsedUrl: URL = new URL( this._address );
 
-		this.productName = parsedUrl.host;
+		this.productName = parsedUrl.pathname;
 	}
 
 	public async run(): Promise<void> {
+		const editorAgent: IEditorAgent = new EditorAgent();
 
+		try {
+			await editorAgent.launchAgent();
+			await editorAgent.visit( this._address );
+			await editorAgent.waitForEditor();
+		} catch ( error ) {
+			throw new DemoFailError( this.productName, 'Demo is down.' );
+		}
 	}
 }
 

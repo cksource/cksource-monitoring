@@ -4,11 +4,11 @@
 
 import URL from 'url';
 
-import { PuppeteerNode, Browser, Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 
 export default interface IEditorAgent {
     agentName: string;
-    puppeteer: PuppeteerNode;
+    puppeteer: typeof puppeteer;
     browser: Browser;
     page: Page;
 

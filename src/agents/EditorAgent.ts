@@ -4,8 +4,7 @@
 
 import { URL } from 'url';
 
-import {
-	PuppeteerNode,
+import puppeteer, {
 	Browser,
 	Page,
 	GoToOptions,
@@ -20,7 +19,7 @@ import IEditorAgent from './IEditorAgent';
 class EditorAgent implements IEditorAgent {
 	public agentName: string = 'editor-agent';
 
-	public puppeteer: PuppeteerNode;
+	public puppeteer: typeof puppeteer;
 
 	public browser: Browser;
 
@@ -33,9 +32,11 @@ class EditorAgent implements IEditorAgent {
 	private _editor: Editor | null;
 
 	public async launchAgent(): Promise<void> {
-		this.puppeteer = new PuppeteerNode();
+		this.puppeteer = puppeteer;
 		this.browser = await this.puppeteer.launch();
 		this.page = await this.browser.newPage();
+
+		console.log( 'EditorAgent initialized.' );
 	}
 
 	public async visit( url: string ): Promise<void> {
@@ -46,6 +47,7 @@ class EditorAgent implements IEditorAgent {
 			waitUntil: 'domcontentloaded'
 		};
 
+		console.log( `Visiting ${ this._url }` );
 		await this.page.goto( this._url, options );
 	}
 
@@ -60,37 +62,13 @@ class EditorAgent implements IEditorAgent {
 
 		let editor: Editor | null = null;
 
-		await this.page.evaluate( () => new Promise( ( resolve, reject ) => {
-			let counter: number = 1;
+		console.log( 'Waiting for the editor.' );
 
-			const getEditorState = (): string | undefined => {
-				const document: Document = globalThis.document;
-				const editableElement: HTMLElement & { ckeditorInstance?: Editor; } = document.querySelector( editableSelector )!;
-
-				editor = editableElement.ckeditorInstance!;
-
-				return editor?.state;
-			};
-
-			const editorStateChecker: ReturnType<typeof setInterval> = setInterval( () => {
-				const editorState: string | undefined = getEditorState();
-
-				if ( editorState && editorState === 'ready' ) {
-					clearInterval( editorStateChecker );
-					resolve( 'initialized' );
-				}
-
-				counter++;
-			}, 1000 );
-
-			if ( counter === 10 ) {
-				clearInterval( editorStateChecker );
-				reject( 'initialization error' );
-			}
-		} ) );
+		await this.page.waitForSelector( editableSelector, { timeout: 10000 } );
+		
+		console.log( 'Editor initialized.' );
 
 		this._editableSelector = editableSelector;
-		this._editor = editor;
 	}
 
 	public async focusEditor(): Promise<void> {

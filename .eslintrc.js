@@ -3,5 +3,6 @@
  */
 module.exports = {
 	'root': true,
-	'extends': '@cksource-cs/eslint-config-cs-module/typescript'
+	'extends': '@cksource-cs/eslint-config-cs-module/typescript',
+	'no-console': 'off'
 };
