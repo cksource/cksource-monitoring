@@ -2,7 +2,7 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import URL from 'url';
+import { URL } from 'url';
 
 import {
 	PuppeteerNode,
@@ -26,7 +26,7 @@ class EditorAgent implements IEditorAgent {
 
 	public page: Page;
 
-	private _url: URL;
+	private _url: string;
 
 	private _editableSelector: string;
 
@@ -38,7 +38,7 @@ class EditorAgent implements IEditorAgent {
 		this.page = await this.browser.newPage();
 	}
 
-	public async visit( url: URL ): Promise<void> {
+	public async visit( url: string ): Promise<void> {
 		this._url = url;
 
 		const options: GoToOptions = {
@@ -46,7 +46,7 @@ class EditorAgent implements IEditorAgent {
 			waitUntil: 'domcontentloaded'
 		};
 
-		await this.page.goto( this._url.href, options );
+		await this.page.goto( this._url, options );
 	}
 
 	public async setViewport( size: { width: number; height: number; } ): Promise<void> {
@@ -54,7 +54,8 @@ class EditorAgent implements IEditorAgent {
 	}
 
 	public async waitForEditor(): Promise<void> {
-		const hash: string = this._url.hash;
+		const parsedUrl: URL = new URL( this._url );
+		const hash: string = parsedUrl.hash;
 		const editableSelector: string = hash ? `#tab-${ hash } .ck-editor__editable_inline` : '.ck-editor__editable_inline';
 
 		let editor: Editor | null = null;

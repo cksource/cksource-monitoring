@@ -14,7 +14,7 @@ export default interface IEditorAgent {
 
     launchAgent(): Promise<void>;
     setViewport( size: { width: number; height: number; } ): Promise<void>;
-    visit( url: URL ): Promise<void>;
+    visit( url: string ): Promise<void>;
     waitForEditor(): Promise<void>;
     focusEditor(): Promise<void>;
     type( text: string ): Promise<void>;
