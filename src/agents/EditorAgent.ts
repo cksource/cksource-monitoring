@@ -4,57 +4,21 @@
 
 import { URL } from 'url';
 
-import puppeteer, {
-	Browser,
-	Page,
-	GoToOptions,
+import {
 	KeyInput,
 	KeyPressOptions
 } from 'puppeteer';
 
+import Agent from './Agent';
 import IEditorAgent from './IEditorAgent';
 
-class EditorAgent implements IEditorAgent {
-	public agentName: string = 'editor-agent';
-
-	public puppeteer: typeof puppeteer;
-
-	public browser: Browser;
-
-	public page: Page;
-
-	private _url: string;
+class EditorAgent extends Agent implements IEditorAgent {
+	public agentName: string = 'EditorAgent';
 
 	private _editableSelector: string;
 
-	public async launchAgent(): Promise<void> {
-		this.puppeteer = puppeteer;
-		this.browser = await this.puppeteer.launch( { args: [ '--no-sandbox', '--disable-setuid-sandbox' ] } );
-		this.page = await this.browser.newPage();
-
-		// eslint-disable-next-line no-console
-		console.log( 'EditorAgent initialized.' );
-	}
-
-	public async visit( url: string ): Promise<void> {
-		this._url = url;
-
-		const options: GoToOptions = {
-			timeout: 15000,
-			waitUntil: 'domcontentloaded'
-		};
-
-		// eslint-disable-next-line no-console
-		console.log( `Visiting ${ this._url }` );
-		await this.page.goto( this._url, options );
-	}
-
-	public async setViewport( size: { width: number; height: number; } ): Promise<void> {
-		await this.page.setViewport( size );
-	}
-
 	public async waitForEditor(): Promise<void> {
-		const parsedUrl: URL = new URL( this._url );
+		const parsedUrl: URL = new URL( this.url );
 		const hash: string = parsedUrl.hash;
 		const editableSelector: string = hash ? `#tab-${ hash } .ck-editor__editable_inline` : '.ck-editor__editable_inline';
 
