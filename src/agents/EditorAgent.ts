@@ -20,7 +20,9 @@ class EditorAgent extends Agent implements IEditorAgent {
 	public async waitForEditor(): Promise<void> {
 		const parsedUrl: URL = new URL( this.url );
 		const hash: string = parsedUrl.hash;
-		const editableSelector: string = hash ? `#tab-${ hash } .ck-editor__editable_inline` : '.ck-editor__editable_inline';
+		const editableSelector: string = hash ?
+			`#tab-${ hash.replace( '#', '' ) } .ck-editor__editable_inline` :
+			'.ck-editor__editable_inline';
 
 		// eslint-disable-next-line no-console
 		console.log( 'Waiting for the editor.' );
