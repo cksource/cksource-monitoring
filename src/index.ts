@@ -9,6 +9,7 @@ import TestsRunner from './TestsRunner';
 import Metrics from './Metrics';
 import { ITest } from './tests/Test';
 import PingSiteTest from './tests/common/PingSiteTest';
+import EditorDemoTest from './tests/common/EditorDemoTest';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
@@ -17,7 +18,9 @@ const TESTS: ITest[] = [
 	new PingSiteTest( 'https://ckeditor.com/' ),
 	new PingSiteTest( 'https://cksource.com/' ),
 	new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
-	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
+	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' ),
+	new EditorDemoTest( 'https://ckeditor.com/ckeditor-5/demo/feature-rich/' )
+
 ];
 const metrics: Metrics = new Metrics();
 const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );

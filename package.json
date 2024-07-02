@@ -20,7 +20,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "3.540.0",
-    "prom-client": "15.1.0"
+    "ckeditor5": "^42.0.0",
+    "prom-client": "15.1.0",
+    "puppeteer": "^22.12.1"
   },
   "devDependencies": {
     "@cksource-cs/eslint-config-cs-module": "^4.1.1",
