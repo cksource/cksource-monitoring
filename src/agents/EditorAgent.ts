@@ -6,10 +6,12 @@ import { URL } from 'url';
 
 import {
 	KeyInput,
-	KeyPressOptions
+	KeyPressOptions,
+	Page
 } from 'puppeteer';
 
 import Agent from './Agent';
+import IAgent from './IAgent';
 import IEditorAgent from './IEditorAgent';
 
 class EditorAgent extends Agent implements IEditorAgent {
@@ -17,8 +19,16 @@ class EditorAgent extends Agent implements IEditorAgent {
 
 	private _editableSelector: string;
 
-	public async waitForEditor( testId: number ): Promise<void> {
-		const url: string = this.pages[ testId ].url();
+	public page: Page;
+
+	public constructor( private readonly _agent: IAgent, private readonly _testId: number ) {
+		super();
+
+		this._agent = _agent;
+	}
+
+	public async waitForEditor(): Promise<void> {
+		const url: string = this.page.url();
 
 		const parsedUrl: URL = new URL( url );
 		const hash: string = parsedUrl.hash;
@@ -29,7 +39,7 @@ class EditorAgent extends Agent implements IEditorAgent {
 		// eslint-disable-next-line no-console
 		console.log( `${ parsedUrl.pathname + hash } - Waiting for the editor.` );
 
-		await this.pages[ testId ].waitForSelector( editableSelector, { timeout: 15000 } );
+		await this.page.waitForSelector( editableSelector, { timeout: 15000 } );
 
 		// eslint-disable-next-line no-console
 		console.log( `${ parsedUrl.pathname + hash } - Editor initialized.` );
@@ -37,15 +47,15 @@ class EditorAgent extends Agent implements IEditorAgent {
 		this._editableSelector = editableSelector;
 	}
 
-	public async focusEditor( testId: number ): Promise<void> {
-		await this.pages[ testId ].focus( this._editableSelector );
+	public async focusEditor(): Promise<void> {
+		await this.page.focus( this._editableSelector );
 	}
 
-	public async type( testId: number, text: string ): Promise<void> {
-		await this.pages[ testId ].keyboard.type( text );
+	public async type( text: string ): Promise<void> {
+		await this.page.keyboard.type( text );
 	}
 
-	public async selectContent( testId: number, direction: string, offset: number ): Promise<void> {
+	public async selectContent( direction: string, offset: number ): Promise<void> {
 		let arrowKey: KeyInput = 'ArrowRight';
 
 		if ( direction === ( 'Left' || 'left' ) ) {
@@ -54,19 +64,19 @@ class EditorAgent extends Agent implements IEditorAgent {
 
 		const keyPressOptions: KeyPressOptions = { delay: 20 };
 
-		await this.pages[ testId ].keyboard.down( 'Shift' );
+		await this.page.keyboard.down( 'Shift' );
 
 		for ( let i: number = 0; i < offset; i++ ) {
-			await this.pages[ testId ].keyboard.press( arrowKey, keyPressOptions );
+			await this.page.keyboard.press( arrowKey, keyPressOptions );
 		}
 	}
 
-	public async deleteContent( testId: number ): Promise<void> {
-		await this.pages[ testId ].keyboard.press( 'Backspace' );
+	public async deleteContent(): Promise<void> {
+		await this.page.keyboard.press( 'Backspace' );
 	}
 
-	public async clickToolbarItem( testId: number, buttonName: string ): Promise<void> {
-		await this.pages[ testId ].evaluate( () => {
+	public async clickToolbarItem( buttonName: string ): Promise<void> {
+		await this.page.evaluate( () => {
 			const toolbarElement: HTMLElement | null = globalThis.document.querySelector( '.ck-toolbar' );
 
 			if ( !toolbarElement ) {
@@ -82,6 +92,20 @@ class EditorAgent extends Agent implements IEditorAgent {
 
 			buttonToClick?.click();
 		} );
+	}
+
+	public async setupAgent(): Promise<void> {
+		await this._agent.openPage( this._testId );
+
+		this.page = this._agent.pages[ this._testId ];
+	}
+
+	public async visitPage( address: string ): Promise<void> {
+		await this._agent.visit( this._testId, address );
+	}
+
+	public async closePage(): Promise<void> {
+		await this._agent.closePage( this._testId );
 	}
 }
 

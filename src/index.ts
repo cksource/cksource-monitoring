@@ -11,8 +11,8 @@ import { ITest } from './tests/Test';
 import PingSiteTest from './tests/common/PingSiteTest';
 import EditorDemoTest from './tests/common/EditorDemoTest';
 
-import EditorAgent from './agents/EditorAgent';
-import IEditorAgent from './agents/IEditorAgent';
+import Agent from './agents/Agent';
+import IAgent from './agents/IAgent';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
@@ -54,11 +54,11 @@ export const handler = async (): Promise<string> => {
 
 	];
 
-	const editorAgent: IEditorAgent = new EditorAgent();
+	const agent: IAgent = new Agent();
 
-	await editorAgent.launchAgent();
+	await agent.launchAgent();
 
-	DEMOS_URLS.forEach( ( url, testId ) => TESTS.push( new EditorDemoTest( editorAgent!, url, testId ) ) );
+	DEMOS_URLS.forEach( ( url, testId ) => TESTS.push( new EditorDemoTest( agent, url, testId ) ) );
 
 	const metrics: Metrics = new Metrics();
 	const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
@@ -84,7 +84,7 @@ export const handler = async (): Promise<string> => {
 		console.log( error );
 	}
 
-	await editorAgent.stopAgent();
+	await agent.stopAgent();
 
 	// eslint-disable-next-line no-console
 	console.log( '--- Tests finished: ', new Date() );
