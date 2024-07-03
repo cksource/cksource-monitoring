@@ -8,11 +8,14 @@ import puppeteer, { Browser, Page } from 'puppeteer';
      agentName: string;
      puppeteer: typeof puppeteer;
      browser: Browser;
-     page: Page;
+     pages: { [ testId: number ]: Page; };
 
      launchAgent(): Promise<void>;
-     setViewport( size: { width: number; height: number; } ): Promise<void>;
-     visit( url: string ): Promise<void>;
+     stopAgent(): Promise<void>;
+     openPage( testId: number ): Promise<Page>;
+     closePage( testId: number ): Promise<void>;
+     setViewport( testId: number, size: { width: number; height: number; } ): Promise<void>;
+     visit( testId: number, url: string ): Promise<void>;
   }
 
 export default IAgent;

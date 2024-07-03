@@ -17,33 +17,35 @@ class EditorAgent extends Agent implements IEditorAgent {
 
 	private _editableSelector: string;
 
-	public async waitForEditor(): Promise<void> {
-		const parsedUrl: URL = new URL( this.url );
+	public async waitForEditor( testId: number ): Promise<void> {
+		const url: string = this.pages[ testId ].url();
+
+		const parsedUrl: URL = new URL( url );
 		const hash: string = parsedUrl.hash;
 		const editableSelector: string = hash ?
 			`#tab-${ hash.replace( '#', '' ) } .ck-editor__editable_inline` :
 			'.ck-editor__editable_inline';
 
 		// eslint-disable-next-line no-console
-		console.log( 'Waiting for the editor.' );
+		console.log( `${ parsedUrl.pathname + hash } - Waiting for the editor.` );
 
-		await this.page.waitForSelector( editableSelector, { timeout: 10000 } );
+		await this.pages[ testId ].waitForSelector( editableSelector, { timeout: 15000 } );
 
 		// eslint-disable-next-line no-console
-		console.log( 'Editor initialized.' );
+		console.log( `${ parsedUrl.pathname + hash } - Editor initialized.` );
 
 		this._editableSelector = editableSelector;
 	}
 
-	public async focusEditor(): Promise<void> {
-		await this.page.focus( this._editableSelector );
+	public async focusEditor( testId: number ): Promise<void> {
+		await this.pages[ testId ].focus( this._editableSelector );
 	}
 
-	public async type( text: string ): Promise<void> {
-		await this.page.keyboard.type( text );
+	public async type( testId: number, text: string ): Promise<void> {
+		await this.pages[ testId ].keyboard.type( text );
 	}
 
-	public async selectContent( direction: string, offset: number ): Promise<void> {
+	public async selectContent( testId: number, direction: string, offset: number ): Promise<void> {
 		let arrowKey: KeyInput = 'ArrowRight';
 
 		if ( direction === ( 'Left' || 'left' ) ) {
@@ -52,19 +54,19 @@ class EditorAgent extends Agent implements IEditorAgent {
 
 		const keyPressOptions: KeyPressOptions = { delay: 20 };
 
-		await this.page.keyboard.down( 'Shift' );
+		await this.pages[ testId ].keyboard.down( 'Shift' );
 
 		for ( let i: number = 0; i < offset; i++ ) {
-			await this.page.keyboard.press( arrowKey, keyPressOptions );
+			await this.pages[ testId ].keyboard.press( arrowKey, keyPressOptions );
 		}
 	}
 
-	public async deleteContent(): Promise<void> {
-		await this.page.keyboard.press( 'Backspace' );
+	public async deleteContent( testId: number ): Promise<void> {
+		await this.pages[ testId ].keyboard.press( 'Backspace' );
 	}
 
-	public async clickToolbarItem( buttonName: string ): Promise<void> {
-		await this.page.evaluate( () => {
+	public async clickToolbarItem( testId: number, buttonName: string ): Promise<void> {
+		await this.pages[ testId ].evaluate( () => {
 			const toolbarElement: HTMLElement | null = globalThis.document.querySelector( '.ck-toolbar' );
 
 			if ( !toolbarElement ) {

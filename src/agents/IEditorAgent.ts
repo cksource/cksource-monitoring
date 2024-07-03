@@ -5,12 +5,12 @@
 import IAgent from './IAgent';
 
 interface IEditorAgent extends IAgent {
-    waitForEditor(): Promise<void>;
-    focusEditor(): Promise<void>;
-    type( text: string ): Promise<void>;
-    selectContent( direction: string, offset: number ): Promise<void>;
-    deleteContent(): Promise<void>;
-    clickToolbarItem( buttonName: string ): Promise<void>;
+    waitForEditor( testId: number ): Promise<void>;
+    focusEditor( testId: number ): Promise<void>;
+    type( testId: number, text: string ): Promise<void>;
+    selectContent( testId: number, direction: string, offset: number ): Promise<void>;
+    deleteContent( testId: number ): Promise<void>;
+    clickToolbarItem( testId: number, buttonName: string ): Promise<void>;
  }
 
 export default IEditorAgent;

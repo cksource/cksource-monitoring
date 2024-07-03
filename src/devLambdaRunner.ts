@@ -6,4 +6,4 @@ import { handler } from './index';
 
 setInterval( async () => {
 	await handler();
-}, 10 * 1000 );
+}, 30 * 1000 );

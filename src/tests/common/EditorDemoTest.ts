@@ -5,7 +5,6 @@ import { URL } from 'url';
 
 import { ITest } from '../Test';
 
-import EditorAgent from '../../agents/EditorAgent';
 import IEditorAgent from '../../agents/IEditorAgent';
 
 import { DemoFailError } from '../../errors/DemoFailError';
@@ -15,19 +14,21 @@ class EditorDemoTest implements ITest {
 
 	public testName: string = 'editor-demo';
 
-	public constructor( private readonly _address: string ) {
+	public constructor( private readonly _agent: IEditorAgent, private readonly _address: string, private readonly _testId: number ) {
 		const parsedUrl: URL = new URL( this._address );
 
-		this.productName = parsedUrl.pathname;
+		this.productName = parsedUrl.pathname + parsedUrl.hash;
 	}
 
 	public async run(): Promise<void> {
-		const editorAgent: IEditorAgent = new EditorAgent();
+		const editorAgent: IEditorAgent = this._agent;
+
+		await editorAgent.openPage( this._testId );
 
 		try {
-			await editorAgent.launchAgent();
-			await editorAgent.visit( this._address );
-			await editorAgent.waitForEditor();
+			await editorAgent.visit( this._testId, this._address );
+			await editorAgent.waitForEditor( this._testId );
+			await editorAgent.closePage( this._testId );
 		} catch ( error ) {
 			throw new DemoFailError( this.productName, 'Demo is down.' );
 		}
