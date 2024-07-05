@@ -11,17 +11,15 @@ import {
 } from 'puppeteer';
 
 import Agent from './Agent';
-import IAgent from './IAgent';
-import IEditorAgent from './IEditorAgent';
 
-class EditorAgent extends Agent implements IEditorAgent {
+class EditorAgent extends Agent {
 	public agentName: string = 'EditorAgent';
-
-	private _editableSelector: string;
 
 	public page: Page;
 
-	public constructor( private readonly _agent: IAgent, private readonly _testId: number ) {
+	private _editableSelector: string;
+
+	public constructor( private readonly _agent: Agent ) {
 		super();
 
 		this._agent = _agent;
@@ -39,7 +37,11 @@ class EditorAgent extends Agent implements IEditorAgent {
 		// eslint-disable-next-line no-console
 		console.log( `${ parsedUrl.pathname + hash } - Waiting for the editor.` );
 
-		await this.page.waitForSelector( editableSelector, { timeout: 15000 } );
+		try {
+			await this.page.waitForSelector( editableSelector, { timeout: 15000 } );
+		} catch ( error ) {
+			throw new Error( error );
+		}
 
 		// eslint-disable-next-line no-console
 		console.log( `${ parsedUrl.pathname + hash } - Editor initialized.` );
@@ -94,18 +96,14 @@ class EditorAgent extends Agent implements IEditorAgent {
 		} );
 	}
 
-	public async setupAgent(): Promise<void> {
-		await this._agent.openPage( this._testId );
-
-		this.page = this._agent.pages[ this._testId ];
-	}
-
-	public async visitPage( address: string ): Promise<void> {
-		await this._agent.visit( this._testId, address );
-	}
-
 	public async closePage(): Promise<void> {
-		await this._agent.closePage( this._testId );
+		await this.page.close();
+	}
+
+	public async visit( url: string ): Promise<void> {
+		await this._agent.visit( url );
+
+		this.page = this._agent.pages.get( url )!;
 	}
 }
 

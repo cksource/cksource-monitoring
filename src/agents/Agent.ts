@@ -8,19 +8,17 @@ import puppeteer, {
 	GoToOptions
 } from 'puppeteer';
 
-import IAgent from './IAgent';
-
-class Agent implements IAgent {
+class Agent {
 	public agentName: string = 'agent';
 
 	public puppeteer: typeof puppeteer;
 
 	public browser: Browser;
 
-	public pages: { [ testId: number ]: Page; };
+	public pages: Map<string, Page>;
 
 	public constructor() {
-		this.pages = {};
+		this.pages = new Map<string, Page>();
 	}
 
 	public async launchAgent(): Promise<void> {
@@ -35,34 +33,36 @@ class Agent implements IAgent {
 		for ( const page of await this.browser.pages() ) {
 			await page.close();
 		}
+
+		await this.browser.close();
 	}
 
-	public async openPage( testId: number ): Promise<Page> {
-		const page: Page = await this.browser.newPage();
-
-		this.pages[ testId ] = page;
-
-		return this.pages[ testId ];
+	public async closePage( url: string ): Promise<void> {
+		await this.pages.get( url )!.close();
 	}
 
-	public async closePage( testId: number ): Promise<void> {
-		await this.pages[ testId ].close();
-	}
+	public async visit( url: string ): Promise<void> {
+		await this._openPage( url );
 
-	public async visit( testId: number, address: string ): Promise<void> {
 		const options: GoToOptions = {
 			timeout: 15000,
 			waitUntil: 'domcontentloaded'
 		};
 
 		// eslint-disable-next-line no-console
-		console.log( `Visiting ${ address }` );
+		console.log( `Visiting ${ url }` );
 
-		await this.pages[ testId ].goto( address, options );
+		await this.pages.get( url )!.goto( url, options );
 	}
 
-	public async setViewport( testId: number, size: { width: number; height: number; } ): Promise<void> {
-		await this.pages[ testId ].setViewport( size );
+	public async setViewport( url: string, size: { width: number; height: number; } ): Promise<void> {
+		await this.pages.get( url )!.setViewport( size );
+	}
+
+	private async _openPage( url: string ): Promise<void> {
+		const page: Page = await this.browser.newPage();
+
+		this.pages.set( url, page );
 	}
 }
 

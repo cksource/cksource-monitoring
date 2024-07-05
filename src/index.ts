@@ -12,53 +12,45 @@ import PingSiteTest from './tests/common/PingSiteTest';
 import EditorDemoTest from './tests/common/EditorDemoTest';
 
 import Agent from './agents/Agent';
-import IAgent from './agents/IAgent';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
 
 export const handler = async (): Promise<string> => {
-	const DEMOS_URLS: string[] = [
-		'https://ckeditor.com/ckeditor-5/demo/feature-rich/',
-		'https://ckeditor.com/ckeditor-5/demo/editor-types/#classic',
-		'https://ckeditor.com/ckeditor-5/demo/editor-types/#document',
-		'https://ckeditor.com/ckeditor-5/demo/editor-types/#balloon',
-		'https://ckeditor.com/ckeditor-5/demo/editor-types/#balloon-block',
-		'https://ckeditor.com/ckeditor-5/demo/editor-types/#inline',
-		'https://ckeditor.com/ckeditor-5/demo/editor-types/#bottom-toolbar',
-		'https://ckeditor.com/ckeditor-5/demo/editor-types/#button-grouping',
-		'https://ckeditor.com/ai-assistant/',
-		'https://ckeditor.com/collaboration/demo/#real-time-collaboration',
-		'https://ckeditor.com/collaboration/demo/#collaboration',
-		'https://ckeditor.com/productivity-pack/',
-		'https://ckeditor.com/ckeditor-5/demo/internationalization/',
-		'https://ckeditor.com/export-to-pdf-word/#export-to-pdf',
-		'https://ckeditor.com/export-to-pdf-word/#export-to-word',
-		'https://ckeditor.com/export-to-pdf-word/#pagination',
-		'https://ckeditor.com/import-from-word/demo/#extended-import',
-		'https://ckeditor.com/import-from-word/demo/#simple-import',
-		'https://ckeditor.com/productivity-pack/paste-from-office-enhanced-demo/',
-		'https://ckeditor.com/ckbox/demo/#ckeditor-with-ckbox',
-		'https://ckeditor.com/ckeditor-5/demo/html-support/',
-		'https://ckeditor.com/ckeditor-5/demo/markdown/',
-		'https://ckeditor.com/ckeditor-5/demo/headless/',
-		'https://ckeditor.com/mathtype/',
-		'https://ckeditor.com/spellchecker/'
-	];
+	const agent: Agent = new Agent();
+
+	await agent.launchAgent();
 
 	const TESTS: ITest[] = [
 		new PingSiteTest( 'https://ckeditor.com/' ),
 		new PingSiteTest( 'https://cksource.com/' ),
 		new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
-		new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
-
+		new PingSiteTest( 'https://onlinemarkdowneditor.dev/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/feature-rich/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/editor-types/#classic' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/editor-types/#document' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/editor-types/#balloon' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/editor-types/#balloon-block' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/editor-types/#inline' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/editor-types/#bottom-toolbar' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/editor-types/#button-grouping' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ai-assistant/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/collaboration/demo/#real-time-collaboration' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/collaboration/demo/#collaboration' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/productivity-pack/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/internationalization/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/export-to-pdf-word/#export-to-pdf' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/export-to-pdf-word/#export-to-word' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/export-to-pdf-word/#pagination' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/import-from-word/demo/#simple-import' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/productivity-pack/paste-from-office-enhanced-demo/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckbox/demo/#ckeditor-with-ckbox' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/html-support/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/markdown/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/ckeditor-5/demo/headless/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/mathtype/' ),
+		new EditorDemoTest( agent, 'https://ckeditor.com/spellchecker/' )
 	];
-
-	const agent: IAgent = new Agent();
-
-	await agent.launchAgent();
-
-	DEMOS_URLS.forEach( ( url, testId ) => TESTS.push( new EditorDemoTest( agent, url, testId ) ) );
 
 	const metrics: Metrics = new Metrics();
 	const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
