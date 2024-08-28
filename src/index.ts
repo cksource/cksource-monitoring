@@ -10,15 +10,14 @@ import Metrics from './Metrics';
 import { ITest } from './tests/Test';
 import PingSiteTest from './tests/common/PingSiteTest';
 
+import { pingSiteData } from './sitesToTest';
+
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
 
-const TESTS: ITest[] = [
-	new PingSiteTest( 'https://ckeditor.com/' ),
-	new PingSiteTest( 'https://cksource.com/' ),
-	new PingSiteTest( 'https://onlinehtmleditor.dev/' ),
-	new PingSiteTest( 'https://onlinemarkdowneditor.dev/' )
-];
+// Generate the tests set that will be executed by the test runner.
+const TESTS: ITest[] = _getTestsDefinition();
+
 const metrics: Metrics = new Metrics();
 const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
 
@@ -67,3 +66,23 @@ async function _getBasicAuthPassword(): Promise<string> {
 
 	return secret;
 }
+
+function _getTestsDefinition(): ITest[] {
+	const TESTS_DEFINITION: ITest[] = [];
+
+	// Create ping site tests.
+	let basicAuth: boolean = false;
+
+	for ( const siteCategory in pingSiteData ) {
+		pingSiteData[ siteCategory ].forEach( siteUrl => {
+			if ( siteCategory === 'basicAuth' ) {
+				basicAuth = true;
+			}
+
+			TESTS_DEFINITION.push( new PingSiteTest( siteUrl, basicAuth ) );
+		} );
+	}
+
+	return TESTS_DEFINITION;
+}
+

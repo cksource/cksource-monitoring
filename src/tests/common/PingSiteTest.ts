@@ -13,19 +13,35 @@ class PingSiteTest implements ITest {
 	public testName: string = 'ping';
 
 	public constructor(
-		private readonly _address: string
+		public address: string,
+		private readonly _basicAuth: boolean
 	) {
-		const parsedUrl: URL = new URL( this._address );
+		const parsedUrl: URL = new URL( this.address );
 
-		this.productName = parsedUrl.host;
+		this.productName = parsedUrl.host + parsedUrl.pathname;
 	}
 
 	public async run(): Promise<void> {
-		const httpResponse: Response = await fetch( this._address );
+		const headers: { Authorization?: string; } = {};
 
-		if ( httpResponse.status > 399 ) {
+		if ( this._basicAuth ) {
+			headers.Authorization = `Basic ${ this._getWebsiteBasicAuth() }`;
+		}
+
+		const httpResponse: Response = await fetch( this.address, { method: 'HEAD', headers } );
+
+		const statusCode: number = httpResponse.status;
+
+		if ( statusCode > 399 ) {
 			throw new RequestFailError( httpResponse.status, await httpResponse.text() );
 		}
+	}
+
+	private _getWebsiteBasicAuth(): string {
+		const user: string | undefined = process.env.BASIC_AUTH_WEBSITE_USERNAME;
+		const password: string | undefined = process.env.BASIC_AUTH_WEBSITE_PASSWORD;
+
+		return Buffer.from( user + ':' + password, 'binary' ).toString( 'base64' );
 	}
 }
 
