@@ -28,7 +28,7 @@ class PingSiteTest implements ITest {
 			headers.Authorization = `Basic ${ this._getWebsiteBasicAuth() }`;
 		}
 
-		const httpResponse: Response = await fetch( this.address, { method: 'HEAD', headers } );
+		const httpResponse: Response = await fetch( this.address, { headers } );
 
 		const statusCode: number = httpResponse.status;
 
