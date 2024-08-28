@@ -13,10 +13,10 @@ class PingSiteTest implements ITest {
 	public testName: string = 'ping';
 
 	public constructor(
-		public address: string,
+		private readonly _address: string,
 		private readonly _basicAuth: boolean
 	) {
-		const parsedUrl: URL = new URL( this.address );
+		const parsedUrl: URL = new URL( this._address );
 
 		this.productName = parsedUrl.host + parsedUrl.pathname;
 	}
@@ -28,7 +28,7 @@ class PingSiteTest implements ITest {
 			headers.Authorization = `Basic ${ this._getWebsiteBasicAuth() }`;
 		}
 
-		const httpResponse: Response = await fetch( this.address, { headers } );
+		const httpResponse: Response = await fetch( this._address, { headers } );
 
 		const statusCode: number = httpResponse.status;
 
