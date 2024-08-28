@@ -21,13 +21,14 @@ const pingSiteData: Record<string, string[]> = {
 	CDNs: [
 		'https://cdn.ckeditor.com/',
 		'https://download.cksource.com/',
-		'https://cdn.ckbox.io/ckbox/latest/ckbox.js',
-		'https://download.ckbox.io/ckbox/ckbox_2.4.0.zip'
+		'https://cdn.ckbox.io/healthz.html',
+		'https://download.ckbox.io/healthz.html'
 	],
 	internalCDNs: [
 		'https://ckeditor5.github.io/docs/nightly/ckeditor5/latest/index.html',
 		'https://builder.ckeditor-dev.com/ckeditor-5/builder/',
-		'https://builder-nightly.ckeditor-dev.com/ckeditor-5/builder/'
+		'https://builder-nightly.ckeditor-dev.com/ckeditor-5/builder/',
+		'https://builder-demo.ckeditor-dev.com/ckeditor-5/builder/'
 	],
 	internalTools: [
 		'https://cla.tiny.cloud/tiny/img/cla-workflow.png',
@@ -43,10 +44,6 @@ const pingSiteData: Record<string, string[]> = {
 		'https://qa-automation.internal.cke-cs-dev.com/health',
 		'https://hanghub.cksource.com/healthz',
 		'https://cs-framework-docs.internal.cke-cs-dev.com/healthz'
-	],
-	basicAuth: [
-		'https://portal-storybook.ckeditor-dev.com/',
-		'https://ckbox-storybook.cke-cs-dev.com/'
 	]
 };
 

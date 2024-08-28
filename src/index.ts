@@ -71,16 +71,8 @@ function _getTestsDefinition(): ITest[] {
 	const TESTS_DEFINITION: ITest[] = [];
 
 	// Create ping site tests.
-	let basicAuth: boolean = false;
-
 	for ( const siteCategory in pingSiteData ) {
-		pingSiteData[ siteCategory ].forEach( siteUrl => {
-			if ( siteCategory === 'basicAuth' ) {
-				basicAuth = true;
-			}
-
-			TESTS_DEFINITION.push( new PingSiteTest( siteUrl, basicAuth ) );
-		} );
+		pingSiteData[ siteCategory ].forEach( siteUrl => TESTS_DEFINITION.push( new PingSiteTest( siteUrl ) ) );
 	}
 
 	return TESTS_DEFINITION;
