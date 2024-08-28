@@ -17,13 +17,15 @@ class PingSiteTest implements ITest {
 	) {
 		const parsedUrl: URL = new URL( this._address );
 
-		this.productName = parsedUrl.host;
+		this.productName = parsedUrl.host + parsedUrl.pathname;
 	}
 
 	public async run(): Promise<void> {
 		const httpResponse: Response = await fetch( this._address );
 
-		if ( httpResponse.status > 399 ) {
+		const statusCode: number = httpResponse.status;
+
+		if ( statusCode > 399 ) {
 			throw new RequestFailError( httpResponse.status, await httpResponse.text() );
 		}
 	}
