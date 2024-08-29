@@ -4,13 +4,17 @@
 
 import { URL } from 'url';
 
-import { ITest } from '../Test';
+import { ITest, TestResults } from '../Test';
 import { RequestFailError } from '../../errors/RequestFailError';
 
 class PingSiteTest implements ITest {
 	public productName: string;
 
 	public testName: string = 'ping';
+
+	public productGroup: string;
+
+	public organization: string;
 
 	public constructor(
 		private readonly _address: string
@@ -20,7 +24,7 @@ class PingSiteTest implements ITest {
 		this.productName = parsedUrl.host + parsedUrl.pathname;
 	}
 
-	public async run(): Promise<void> {
+	public async run(): Promise<TestResults> {
 		const httpResponse: Response = await fetch( this._address );
 
 		const statusCode: number = httpResponse.status;
@@ -28,6 +32,8 @@ class PingSiteTest implements ITest {
 		if ( statusCode > 399 ) {
 			throw new RequestFailError( httpResponse.status, await httpResponse.text() );
 		}
+
+		return { status: statusCode < 399 ? 1 : 0 };
 	}
 }
 

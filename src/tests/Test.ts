@@ -5,7 +5,13 @@
 export interface ITest {
 	productName: string;
 
+	productGroup: string;
+
+	organization: string;
+
 	testName: string;
 
-	run(): void|Promise<void>;
- }
+	run(): TestResults | Promise<TestResults>;
+}
+
+export type TestResults = { status: number; } & Record<string, string | number | undefined>;
