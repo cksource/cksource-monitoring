@@ -127,8 +127,8 @@ class DomainExpirationValidationTest implements ITest {
 			return undefined;
 		}
 
-		const domainExpiration: Date = new Date( lines.pop() );
-		const expiresInDays: number = Math.floor( ( domainExpiration.getTime() - ( new Date() ).getTime() ) / ( 1000 * 60 * 60 * 24 ) );
+		const timeDifference: number = ( new Date( lines.pop() ) ).getTime() - ( new Date() ).getTime();
+		const expiresInDays: number = Math.floor( timeDifference / ( 1000 * 60 * 60 * 24 ) );
 
 		return expiresInDays > 0 ? expiresInDays : 0;
 	}

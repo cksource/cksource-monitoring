@@ -28,12 +28,12 @@ class CertificateExpirationValidationTest implements ITest {
 	}
 
 	public async run(): Promise<TestResults> {
-		const certExpiration: string | undefined = await this._requestCertificate( this.productName );
+		const expiresInDays: number | undefined = await this._requestCertificate( this.productName );
 
-		return { status: typeof certExpiration === 'string' ? 0 : 1, certExpiration };
+		return { status: expiresInDays ? 0 : 1, expiresInDays };
 	}
 
-	private _requestCertificate( host: string ): Promise<string|undefined> {
+	private _requestCertificate( host: string ): Promise<number|undefined> {
 		let certExpiration: string | undefined;
 
 		return new Promise( ( resolve, reject ) => {
@@ -48,7 +48,10 @@ class CertificateExpirationValidationTest implements ITest {
 			} );
 
 			req.end( () => {
-				resolve( certExpiration );
+				const timeDifference: number = ( new Date( certExpiration ) ).getTime() - ( new Date() ).getTime();
+				const expiresInDays: number = Math.floor( timeDifference / ( 1000 * 60 * 60 * 24 ) );
+
+				resolve( expiresInDays > 0 ? expiresInDays : 0 );
 			} );
 		} );
 	}
