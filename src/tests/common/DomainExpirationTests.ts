@@ -39,14 +39,14 @@ class DomainExpirationValidationTest implements ITest {
 
 	private async _requestDomainCheck( domain: string ): Promise<number|undefined> {
 		const domainTld: string = domain.slice( domain.lastIndexOf( '.' ) + 1 );
-		let whoisHost: string;
+		let whoisHost: string = '';
 
 		if ( WhoisResolvers[ domainTld ] ) {
 			whoisHost = WhoisResolvers[ domainTld ];
 		}
 
 		if ( !whoisHost ) {
-			const tld: string = await this._whoisTld( domain );
+			const tld: string | undefined = await this._whoisTld( domain );
 
 			if ( !tld ) {
 				throw new RequestFailError( 404, `TLD for "${ domain }" not supported` );
@@ -61,7 +61,7 @@ class DomainExpirationValidationTest implements ITest {
 		return this._getExpiresInDays( result );
 	}
 
-	private _whoisQuery( domain: string, server: string ): Promise<string|undefined> {
+	private _whoisQuery( domain: string, server: string ): Promise<string> {
 		const port: number = 43;
 		const timeout: number = 15000;
 		const querySuffix: string = '\r\n';
@@ -127,7 +127,7 @@ class DomainExpirationValidationTest implements ITest {
 			return undefined;
 		}
 
-		const timeDifference: number = ( new Date( lines.pop() ) ).getTime() - ( new Date() ).getTime();
+		const timeDifference: number = ( new Date( lines.pop() as string ) ).getTime() - ( new Date() ).getTime();
 		const expiresInDays: number = Math.floor( timeDifference / ( 1000 * 60 * 60 * 24 ) );
 
 		return expiresInDays > 0 ? expiresInDays : 0;
@@ -158,7 +158,7 @@ class DomainExpirationValidationTest implements ITest {
 		}
 	}
 
-	private _parseTldResult( result: string ): string {
+	private _parseTldResult( result: string ): string | undefined {
 		const lines: string[] = result
 			.trim()
 			.split( '\n' )

@@ -30,11 +30,11 @@ class CertificateExpirationValidationTest implements ITest {
 	public async run(): Promise<TestResults> {
 		const expiresInDays: number | undefined = await this._requestCertificate( this.productName );
 
-		return { status: expiresInDays ? 0 : 1, expiresInDays };
+		return { status: typeof expiresInDays !== 'number' ? 0 : 1, expiresInDays };
 	}
 
 	private _requestCertificate( host: string ): Promise<number|undefined> {
-		let certExpiration: string | undefined;
+		let certExpiration: string;
 
 		return new Promise( ( resolve, reject ) => {
 			const options: RequestOptions = {
@@ -44,10 +44,14 @@ class CertificateExpirationValidationTest implements ITest {
 			};
 
 			const req: ReturnType<typeof https.request> = https.request( options, res => {
-				certExpiration = ( res.socket as TLSSocket )?.getPeerCertificate()?.valid_to;
+				certExpiration = ( res.socket as TLSSocket )?.getPeerCertificate()?.valid_to ?? '';
 			} );
 
 			req.end( () => {
+				if ( !certExpiration ) {
+					reject( undefined );
+				}
+
 				const timeDifference: number = ( new Date( certExpiration ) ).getTime() - ( new Date() ).getTime();
 				const expiresInDays: number = Math.floor( timeDifference / ( 1000 * 60 * 60 * 24 ) );
 
