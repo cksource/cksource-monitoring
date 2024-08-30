@@ -245,7 +245,7 @@
       "type": "row"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -253,13 +253,13 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Tiugo Monitoring",
   "uid": "b9142b19-b50b-4ef5-9c32-185abe026784",
-  "version": 3,
+  "version": 4,
   "weekStart": ""
 }

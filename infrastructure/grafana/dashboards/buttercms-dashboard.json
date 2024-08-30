@@ -471,7 +471,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [],
@@ -479,13 +479,13 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "ButterCMS dashboard",
   "uid": "f79b49d3-e98e-416c-b786-6d4c4d9caebd",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
