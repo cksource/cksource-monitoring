@@ -48,7 +48,6 @@ export default class TestsRunner {
 
 			status = 1;
 		} finally {
-			console.log( `Finishing ${ test.testName } - ${ productName }` );
 			stopTimer( {
 				status,
 				test_name: test.testName,

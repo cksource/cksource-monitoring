@@ -120,6 +120,36 @@ const tiugoPingSiteData: Record<string, Record<string, string>[]> = {
 	]
 };
 
+const butterCMSPingSiteData: Record<string, Record<string, string>[]> = {
+	websites: [
+		{
+			name: 'Landing page',
+			url: 'https://buttercms.com',
+			expectedContent: 'ButterCMS'
+		},
+		{
+			name: 'Home page',
+			url: 'https://buttercms.com/home/',
+			expectedContent: 'Login'
+		},
+		{
+			name: 'Login page',
+			url: 'https://buttercms.com/login/',
+			expectedContent: 'Login'
+		}
+	],
+	apis: [
+		{
+			name: 'API Main page',
+			url: 'https://api.buttercms.com/v2/'
+		},
+		{
+			name: 'Posts API',
+			url: 'https://api.buttercms.com/v2/posts/?auth_token=6e9f14b48892b00079604c24c7c64a6a987456cf'
+		}
+	]
+};
+
 export function getTestsDefinition(): ITest[] {
 	const TESTS_DEFINITION: ITest[] = [];
 
@@ -141,6 +171,19 @@ export function getTestsDefinition(): ITest[] {
 		tiugoPingSiteData[ group ].forEach( entry => {
 			TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
 				organization: 'Tiugo',
+				productGroup: group,
+				productName: entry.name,
+				url: entry.url,
+				expectedContent: entry.expectedContent
+			} ) ) );
+		} );
+	}
+
+	// Create ping site tests for ButterCMS
+	for ( const group in butterCMSPingSiteData ) {
+		butterCMSPingSiteData[ group ].forEach( entry => {
+			TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
+				organization: 'ButterCMS',
 				productGroup: group,
 				productName: entry.name,
 				url: entry.url,
