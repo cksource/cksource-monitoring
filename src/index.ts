@@ -5,26 +5,20 @@
 import { Pushgateway } from 'prom-client';
 import { SecretsManager } from '@aws-sdk/client-secrets-manager';
 
-import TestsRunner from './TestsRunner';
-import Metrics from './Metrics';
+import TestsRunner from './common/TestsRunner';
+import Metrics from './common/Metrics';
 import { ITest } from './tests/Test';
-import PingSiteTest from './tests/common/PingSiteTest';
 
-import { pingSiteData } from './sitesToTest';
+import { getTestsDefinition } from './testsDefinition';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
 
-// Generate the tests set that will be executed by the test runner.
-const TESTS: ITest[] = _getTestsDefinition();
-
 const metrics: Metrics = new Metrics();
-const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
 
 export const handler = async (): Promise<string> => {
 	try {
 		const BASIC_AUTH_PASSWORD: string = await _getBasicAuthPassword();
-
 		const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
 			PUSHGATEWAY_URL,
 			{
@@ -35,15 +29,18 @@ export const handler = async (): Promise<string> => {
 			metrics.register
 		);
 
+		// Generate the tests set that will be executed by the test runner.
+		const TESTS: ITest[] = getTestsDefinition();
+
+		const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
+
 		await testRunner.runTests();
 
 		await pushGateway.push( { jobName: APPLICATION_NAME } );
 	} catch ( error ) {
-		// eslint-disable-next-line no-console
 		console.log( error );
 	}
 
-	// eslint-disable-next-line no-console
 	console.log( '--- Tests finished: ', new Date() );
 
 	return 'Done';
@@ -66,15 +63,3 @@ async function _getBasicAuthPassword(): Promise<string> {
 
 	return secret;
 }
-
-function _getTestsDefinition(): ITest[] {
-	const TESTS_DEFINITION: ITest[] = [];
-
-	// Create ping site tests.
-	for ( const siteCategory in pingSiteData ) {
-		pingSiteData[ siteCategory ].forEach( siteUrl => TESTS_DEFINITION.push( new PingSiteTest( siteUrl ) ) );
-	}
-
-	return TESTS_DEFINITION;
-}
-
