@@ -108,7 +108,7 @@ const cksourcePingSiteData: Record<string, Record<string, string>[]> = {
 			url: 'https://hanghub.cksource.com/healthz'
 		}
 	]
-} as const;
+};
 
 const tiugoPingSiteData: Record<string, Record<string, string>[]> = {
 	websites: [
@@ -118,7 +118,7 @@ const tiugoPingSiteData: Record<string, Record<string, string>[]> = {
 			expectedContent: 'Tiugo Technologies'
 		}
 	]
-} as const;
+};
 
 export function getTestsDefinition(): ITest[] {
 	const TESTS_DEFINITION: ITest[] = [];
