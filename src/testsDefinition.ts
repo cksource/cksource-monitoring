@@ -146,6 +146,10 @@ const butterCMSPingSiteData: Record<string, Record<string, string>[]> = {
 		{
 			name: 'Posts API',
 			url: 'https://api.buttercms.com/v2/posts/?auth_token=6e9f14b48892b00079604c24c7c64a6a987456cf'
+		},
+		{
+			name: 'Posts API - main page',
+			url: 'https://buttercms.com/v2/posts/?auth_token=6e9f14b48892b00079604c24c7c64a6a987456cf'
 		}
 	]
 };
