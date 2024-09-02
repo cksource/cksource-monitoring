@@ -8,7 +8,5 @@ export interface ITest {
 	testName: string;
 	testDefinition: ITestDefinition;
 
-	run(): TestResults | Promise<TestResults>;
+	run(): void | Promise<void>;
  }
-
-export type TestResults = { status: number; } & Record<string, string | number | undefined>;

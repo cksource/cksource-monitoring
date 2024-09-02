@@ -2,8 +2,10 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import { ITest, TestResults } from '../Test';
+import { ITest } from '../Test';
 import { PingSiteTestDefinition } from './PingSiteTestDefinition';
+import { ContentFailError } from '../../errors/ContentFailError';
+import { RequestFailError } from '../../errors/RequestFailError';
 
 class PingSiteTest implements ITest {
 	public testName: string = 'ping';
@@ -12,29 +14,19 @@ class PingSiteTest implements ITest {
 		public testDefinition: PingSiteTestDefinition
 	) {}
 
-	public async run(): Promise<TestResults> {
+	public async run(): Promise<void> {
 		const httpResponse: Response = await fetch( this.testDefinition.url );
 		const statusCode: number = httpResponse.status;
 
 		if ( statusCode > 399 ) {
-			console.log(
-				this.testDefinition.formatErrorMessage( this.testName, 'Wrong Status Code received', `Received: ${ statusCode }` )
-			);
-
-			return { status: 1 };
+			throw new RequestFailError( { statusCode } );
 		}
 
 		const content: string = await httpResponse.text();
 
 		if ( this.testDefinition.expectedContent && !content.includes( this.testDefinition.expectedContent ) ) {
-			console.log(
-				this.testDefinition.formatErrorMessage( this.testName, 'Expected string was not found in the received content.' )
-			);
-
-			return { status: 1 };
+			throw new ContentFailError( { expectedContent: this.testDefinition.expectedContent } );
 		}
-
-		return { status: 0 };
 	}
 }
 
