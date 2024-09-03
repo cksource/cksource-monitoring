@@ -3,7 +3,7 @@
  */
 
 export class ContentFailError extends Error {
-	public reason: string = 'Requested content doesn\'t contain the expected string.';
+	public reason: string = 'Requested content does not contain the expected string.';
 
 	public message: string;
 
