@@ -4,11 +4,13 @@
 
 import { Counter } from 'prom-client';
 
-import { ITest, TestResults } from '../tests/Test';
+import { ITest } from '../tests/Test';
 import { IMetrics, StopTimerFunction } from './Metrics';
 
 const HISTOGRAM_NAME: string = 'monitoring_test';
 const COUNTER_NAME: string = 'monitoring_test_fails';
+
+type Status = 'success' | 'failure';
 
 export default class TestsRunner {
 	private readonly _counter: Counter;
@@ -35,18 +37,16 @@ export default class TestsRunner {
 	private async _runTest( test: ITest ): Promise<void> {
 		const stopTimer: StopTimerFunction = this._startTimer();
 
-		let status: number = 0;
+		let status: Status = 'success';
 
 		const { productName, organization, productGroup } = test.testDefinition;
 
 		try {
-			const data: TestResults = await test.run();
-
-			status = data.status;
+			await test.run();
 		} catch ( error ) {
-			console.log( `Test ${ test.testName }  - ${ productName } - failed. Reason: ${ error.message }` );
+			console.log( `Test ${ test.testName }  - ${ productGroup }-${ productName } - failed. ${ error.message }` );
 
-			status = 1;
+			status = 'failure';
 		} finally {
 			stopTimer( {
 				status,
@@ -62,7 +62,7 @@ export default class TestsRunner {
 				organization,
 				product_group: productGroup,
 				product_name: productName
-			} ).inc( status );
+			} ).inc( status === 'failure' ? 1 : 0 );
 		}
 	}
 

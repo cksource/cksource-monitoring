@@ -12,7 +12,6 @@ export interface ITestDefinition {
 	organization: string;
 	productGroup: string;
 	productName: string;
-	formatErrorMessage( testName: string, errorMessage: string, additionalData?: string ): string;
 }
 
 export class TestDefinition implements ITestDefinition {
@@ -26,9 +25,5 @@ export class TestDefinition implements ITestDefinition {
 		this.organization = metadata.organization;
 		this.productGroup = metadata.productGroup;
 		this.productName = metadata.productName;
-	}
-
-	public formatErrorMessage( testName: string, errorMessage: string, additionalData: string = '' ): string {
-		return `Test ${ testName } for ${ this.productName } failed. Reason: ${ errorMessage }. ${ additionalData }`;
 	}
 }
