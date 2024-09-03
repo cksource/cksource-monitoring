@@ -219,7 +219,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "sum by(test_name, product_name) (rate(monitoring_test_histogram_sum{status=\"0\", organization=\"Tiugo\"}[1m])) / sum by(test_name, product_name) (rate(monitoring_test_histogram_count{status=\"0\", organization=\"Tiugo\"}[1m]))",
+          "expr": "sum by(test_name, product_name) (rate(monitoring_test_histogram_sum{status=\"success\", organization=\"Tiugo\"}[1m])) / sum by(test_name, product_name) (rate(monitoring_test_histogram_count{status=\"success\", organization=\"Tiugo\"}[1m]))",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
