@@ -13,3 +13,15 @@ scrape_configs:
       - targets: ['pushgateway:9091']
         labels:
           service: 'pushgateway'
+  - job_name: buttercms-postgres-exporter
+    metrics_path: /metrics
+    scheme: https
+    # Can be slow as it connects to different infrastructure
+    scrape_timeout: 5s
+    basic_auth:
+      username: cks
+      password_file: "/etc/prometheus/password"
+    static_configs:
+      - targets: ['buttercms-postgres-exporter.internal.cke-cs-dev.com']
+        labels:
+          service: 'buttercms-postgres-exporter'
