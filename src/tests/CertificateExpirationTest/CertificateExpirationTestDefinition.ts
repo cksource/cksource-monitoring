@@ -5,16 +5,16 @@
 import { TestDefinition, ITestDefinitionMetadata } from '../TestDefinition';
 
 export interface ICertificateExpirationTestDefinitionMetadata extends ITestDefinitionMetadata {
-	url: string;
+	host: string;
  }
 
 export class CertificateExpirationTestDefinition extends TestDefinition {
-	public url: string;
+	public host: string;
 
 	public expectedContent?: string;
 
 	public constructor( metadata: ICertificateExpirationTestDefinitionMetadata ) {
 		super( metadata );
-		this.url = metadata.url;
+		this.host = metadata.host;
 	}
 }

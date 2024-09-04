@@ -13,7 +13,7 @@ import { CertificateExpirationError } from '../../errors/CertificateExpirationEr
 
 const GAUGE_NAME: string = 'monitoring_expiration_test';
 
-class CertificateExpirationValidationTest implements ITest {
+class CertificateExpirationTest implements ITest {
 	public testName: string = 'certificate_expiration';
 
 	private readonly _requestOptions: RequestOptions;
@@ -21,11 +21,8 @@ class CertificateExpirationValidationTest implements ITest {
 	public constructor(
 		public testDefinition: CertificateExpirationTestDefinition
 	) {
-		const parsedUrl: URL = new URL( 'https://' + this.testDefinition.url );
-
 		this._requestOptions = {
-			host: parsedUrl.host,
-			path: parsedUrl.pathname,
+			host: this.testDefinition.host,
 			agent: new https.Agent( { maxCachedSessions: 0 } )
 		};
 	}
@@ -92,4 +89,4 @@ class CertificateExpirationValidationTest implements ITest {
 	}
 }
 
-export default CertificateExpirationValidationTest;
+export default CertificateExpirationTest;

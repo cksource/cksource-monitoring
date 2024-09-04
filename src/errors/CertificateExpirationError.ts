@@ -3,7 +3,7 @@
  */
 
 export class CertificateExpirationError extends Error {
-	public reason: string = 'Certificate will expire soon.';
+	public reason: string = 'Certificate check failed or is close to expiration.';
 
 	public message: string;
 
