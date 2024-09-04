@@ -42,7 +42,7 @@ export default class TestsRunner {
 		const { productName, organization, productGroup } = test.testDefinition;
 
 		try {
-			await test.run();
+			await test.run( this._metrics );
 		} catch ( error ) {
 			console.log( `Test ${ test.testName }  - ${ productGroup }-${ productName } - failed. ${ error.message }` );
 

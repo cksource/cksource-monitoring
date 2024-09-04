@@ -5,8 +5,6 @@
 import PingSiteTest from './tests/PingSiteTest/PingSiteTest';
 import { PingSiteTestDefinition } from './tests/PingSiteTest/PingSiteTestDefinition';
 import { ITest } from './tests/Test';
-import CertificateExpirationTest from './tests/CertificateExpirationTest/CertificateExpirationTest';
-import { CertificateExpirationTestDefinition } from './tests/CertificateExpirationTest/CertificateExpirationTestDefinition';
 
 const cksourcePingSiteData: Record<string, Record<string, string>[]> = {
 	websites: [
@@ -175,55 +173,44 @@ const butterCMSPingSiteData: Record<string, Record<string, string>[]> = {
 export function getTestsDefinition(): ITest[] {
 	const TESTS_DEFINITION: ITest[] = [];
 
-	// // Create ping site tests for CKSource
-	// for ( const group in cksourcePingSiteData ) {
-	// 	cksourcePingSiteData[ group ].forEach( entry => {
-	// 		TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
-	// 			organization: 'CKSource',
-	// 			productGroup: group,
-	// 			productName: entry.name,
-	// 			url: entry.url,
-	// 			expectedContent: entry.expectedContent
-	// 		} ) ) );
-	// 	} );
-	// }
-
-	// // Create ping site tests for Tiugo
-	// for ( const group in tiugoPingSiteData ) {
-	// 	tiugoPingSiteData[ group ].forEach( entry => {
-	// 		TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
-	// 			organization: 'Tiugo',
-	// 			productGroup: group,
-	// 			productName: entry.name,
-	// 			url: entry.url,
-	// 			expectedContent: entry.expectedContent
-	// 		} ) ) );
-	// 	} );
-	// }
-
-	// // Create ping site tests for ButterCMS
-	// for ( const group in butterCMSPingSiteData ) {
-	// 	butterCMSPingSiteData[ group ].forEach( entry => {
-	// 		TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
-	// 			organization: 'ButterCMS',
-	// 			productGroup: group,
-	// 			productName: entry.name,
-	// 			url: entry.url,
-	// 			expectedContent: entry.expectedContent
-	// 		} ) ) );
-	// 	} );
-	// }
-
-	TESTS_DEFINITION.push(
-		new CertificateExpirationTest(
-			new CertificateExpirationTestDefinition( {
+	// Create ping site tests for CKSource
+	for ( const group in cksourcePingSiteData ) {
+		cksourcePingSiteData[ group ].forEach( entry => {
+			TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
 				organization: 'CKSource',
-				productGroup: 'websites',
-				productName: 'ckeditor.com',
-				url: 'ckeditor.com'
-			} )
-		)
-	);
+				productGroup: group,
+				productName: entry.name,
+				url: entry.url,
+				expectedContent: entry.expectedContent
+			} ) ) );
+		} );
+	}
+
+	// Create ping site tests for Tiugo
+	for ( const group in tiugoPingSiteData ) {
+		tiugoPingSiteData[ group ].forEach( entry => {
+			TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
+				organization: 'Tiugo',
+				productGroup: group,
+				productName: entry.name,
+				url: entry.url,
+				expectedContent: entry.expectedContent
+			} ) ) );
+		} );
+	}
+
+	// Create ping site tests for ButterCMS
+	for ( const group in butterCMSPingSiteData ) {
+		butterCMSPingSiteData[ group ].forEach( entry => {
+			TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
+				organization: 'ButterCMS',
+				productGroup: group,
+				productName: entry.name,
+				url: entry.url,
+				expectedContent: entry.expectedContent
+			} ) ) );
+		} );
+	}
 
 	return TESTS_DEFINITION;
 }
