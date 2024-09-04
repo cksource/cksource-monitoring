@@ -44,6 +44,10 @@ class DomainExpirationTest implements ITest {
 		const domainTld: string = domain.slice( domain.lastIndexOf( '.' ) + 1 );
 		const whoisHost: string = this._whoisServers[ domainTld ];
 
+		if ( !whoisHost ) {
+			return null;
+		}
+
 		const result: string = await this._whoisQuery( domain, whoisHost );
 
 		return this._getExpireData( result );
@@ -96,8 +100,7 @@ class DomainExpirationTest implements ITest {
 				'test_name',
 				'product_name',
 				'product_group',
-				'organization',
-				'set_at'
+				'organization'
 			]
 		);
 
@@ -106,8 +109,7 @@ class DomainExpirationTest implements ITest {
 				test_name: this.testName,
 				product_name: this.testDefinition.productName,
 				product_group: this.testDefinition.productGroup,
-				organization: this.testDefinition.organization,
-				set_at: ( new Date() ).toISOString()
+				organization: this.testDefinition.organization
 			},
 			value
 		);
