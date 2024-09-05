@@ -5,7 +5,7 @@
 import { Counter } from 'prom-client';
 
 import { ITest } from '../tests/Test';
-import { IMetrics, StopTimerFunction } from './Metrics';
+import Metrics, { IMetrics, StopTimerFunction } from './Metrics';
 
 const HISTOGRAM_NAME: string = 'monitoring_test';
 const COUNTER_NAME: string = 'monitoring_test_fails';
@@ -15,10 +15,12 @@ type Status = 'success' | 'failure';
 export default class TestsRunner {
 	private readonly _counter: Counter;
 
+	private readonly _metrics: IMetrics;
+
 	public constructor(
-		private readonly _metrics: IMetrics,
 		private readonly _tests: ITest[]
 	) {
+		this._metrics = new Metrics();
 		this._counter = this._metrics.counter(
 			COUNTER_NAME,
 			[
@@ -42,7 +44,7 @@ export default class TestsRunner {
 		const { productName, organization, productGroup } = test.testDefinition;
 
 		try {
-			await test.run( this._metrics );
+			await test.run();
 		} catch ( error ) {
 			console.log( `Test ${ test.testName }  - ${ productGroup }-${ productName } - failed. ${ error.message }` );
 

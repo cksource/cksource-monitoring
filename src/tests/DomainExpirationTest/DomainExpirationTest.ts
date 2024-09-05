@@ -4,17 +4,13 @@
 
 import * as net from 'net';
 
-import { Gauge } from 'prom-client';
-
-import { ITest } from '../Test';
+import ExpirationTest from '../ExpirationTest';
 import { DomainExpirationTestDefinition } from './DomainExpirationTestDefinition';
-import { DomainExpirationError } from '../../errors/DomainExpirationError';
-import { IMetrics } from '../../common/Metrics';
 
-const GAUGE_NAME: string = 'monitoring_expiration_test';
-
-class DomainExpirationTest implements ITest {
+class DomainExpirationTest extends ExpirationTest {
 	public testName: string = 'domain_expiration';
+
+	private readonly _domain: string;
 
 	private readonly _whoisServers: { [key: string]: string; } = {
 		'com': 'whois.verisign-grs.com',
@@ -26,29 +22,20 @@ class DomainExpirationTest implements ITest {
 
 	public constructor(
 		public testDefinition: DomainExpirationTestDefinition
-	) {}
-
-	public async run( metrics: IMetrics ): Promise<void> {
-		const expiresInDays: number|null = await this._requestDomainCheck( this.testDefinition.domain );
-
-		if ( expiresInDays ) {
-			this._setGaugeValue( metrics, expiresInDays );
-		}
-
-		if ( !expiresInDays || expiresInDays <= 14 ) {
-			throw new DomainExpirationError( { expiresInDays } );
-		}
+	) {
+		super( testDefinition );
+		this._domain = testDefinition.domain;
 	}
 
-	private async _requestDomainCheck( domain: string ): Promise<number|null> {
-		const domainTld: string = domain.slice( domain.lastIndexOf( '.' ) + 1 );
+	protected async getExpirationDate(): Promise<number|null> {
+		const domainTld: string = this._domain.slice( this._domain.lastIndexOf( '.' ) + 1 );
 		const whoisHost: string = this._whoisServers[ domainTld ];
 
 		if ( !whoisHost ) {
 			return null;
 		}
 
-		const result: string = await this._whoisQuery( domain, whoisHost );
+		const result: string = await this._whoisQuery( this._domain, whoisHost );
 
 		return this._getExpireData( result );
 	}
@@ -91,28 +78,6 @@ class DomainExpirationTest implements ITest {
 		const expiresInDays: number = Math.floor( timeDifference / ( 1000 * 60 * 60 * 24 ) );
 
 		return expiresInDays;
-	}
-
-	private _setGaugeValue( metrics: IMetrics, value: number ): void {
-		const gauge: Gauge<string> = metrics.gauge(
-			GAUGE_NAME,
-			[
-				'test_name',
-				'product_name',
-				'product_group',
-				'organization'
-			]
-		);
-
-		gauge.set(
-			{
-				test_name: this.testName,
-				product_name: this.testDefinition.productName,
-				product_group: this.testDefinition.productGroup,
-				organization: this.testDefinition.organization
-			},
-			value
-		);
 	}
 }
 

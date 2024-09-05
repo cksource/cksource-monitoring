@@ -24,10 +24,19 @@ export type StopTimerFunction = ( labels?: LabelValues<string> ) => void
  * @see {@link https://prometheus.io/docs/concepts/metric_types/} prometheus documentation
  */
 export default class Metrics implements IMetrics {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	private static _instance: Metrics;
+
 	public constructor( private readonly _metricsPrefix: string = '', private readonly _register: Registry = new Registry() ) {
+		if ( Metrics._instance ) {
+			return Metrics._instance;
+		}
+
 		collectDefaultMetrics( {
 			register: _register
 		} );
+
+		Metrics._instance = this;
 	}
 
 	public get register(): Registry {

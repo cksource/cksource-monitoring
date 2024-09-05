@@ -32,7 +32,7 @@ export const handler = async (): Promise<string> => {
 		// Generate the tests set that will be executed by the test runner.
 		const TESTS: ITest[] = getTestsDefinition();
 
-		const testRunner: TestsRunner = new TestsRunner( metrics, TESTS );
+		const testRunner: TestsRunner = new TestsRunner( TESTS );
 
 		await testRunner.runTests();
 
