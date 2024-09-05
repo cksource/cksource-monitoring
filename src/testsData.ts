@@ -2,12 +2,12 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-export type IOrganizationName = 'Tiugo' | 'CKSource' | 'Tiny' | 'ButterCMS';
+export type OrganizationName = 'Tiugo' | 'CKSource' | 'Tiny' | 'ButterCMS';
 
 interface ITestList {
 	domain?: string[];
 	certificate?: string[];
-    ping?: Record<string, IPingTestEntry[]>;
+	ping?: Record<string, IPingTestEntry[]>;
 }
 
 interface IPingTestEntry {
@@ -16,9 +16,7 @@ interface IPingTestEntry {
 	expectedContent?: string;
 }
 
-type IOrganizationTest = Record<IOrganizationName, ITestList>;
-
-export const testsData: IOrganizationTest = {
+export const testsData: Record<OrganizationName, ITestList> = {
 	Tiugo: {
 		domain: [
 			'tiugotech.com'
@@ -96,6 +94,10 @@ export const testsData: IOrganizationTest = {
 
 			'https://ckeditor.dev/',
 			'https://develop.ckeditor.dev/',
+
+			'https://cke-cs.com',
+			'https://cke-cs-staging.com',
+			'https://cke-cs-dev.com',
 
 			'https://builder.ckeditor-dev.com',
 			'https://builder-demo.ckeditor-dev.com',
