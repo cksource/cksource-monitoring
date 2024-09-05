@@ -16,8 +16,12 @@ class CertificateExpirationTest extends ExpirationTest {
 		public testDefinition: CertificateExpirationTestDefinition
 	) {
 		super( testDefinition );
+
+		const url: URL = new URL( this.testDefinition.url );
+
 		this._requestOptions = {
-			host: this.testDefinition.host,
+			host: url.host,
+			path: url.pathname,
 			agent: new https.Agent( { maxCachedSessions: 0 } )
 		};
 	}
