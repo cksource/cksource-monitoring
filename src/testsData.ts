@@ -4,16 +4,16 @@
 
 export type OrganizationName = 'Tiugo' | 'CKSource' | 'Tiny' | 'ButterCMS';
 
+export interface IPingTestEntry {
+	name: string;
+	url: string;
+	expectedContent?: string;
+}
+
 interface ITestList {
 	domain?: string[];
 	certificate?: string[];
 	ping?: Record<string, IPingTestEntry[]>;
-}
-
-interface IPingTestEntry {
-	name: string;
-	url: string;
-	expectedContent?: string;
 }
 
 export const testsData: Record<OrganizationName, ITestList> = {

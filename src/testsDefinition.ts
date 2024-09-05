@@ -13,7 +13,7 @@ import { DomainExpirationTestDefinition } from './tests/DomainExpirationTest/Dom
 import CertificateExpirationTest from './tests/CertificateExpirationTest/CertificateExpirationTest';
 import { CertificateExpirationTestDefinition } from './tests/CertificateExpirationTest/CertificateExpirationTestDefinition';
 
-import { testsData } from './testsData';
+import { testsData, IPingTestEntry } from './testsData';
 
 export function getTestsDefinition(): ITest[] {
 	const TESTS_DEFINITION: ITest[] = [];
@@ -23,8 +23,7 @@ export function getTestsDefinition(): ITest[] {
 			switch ( testType ) {
 				case 'ping':
 					for ( const [ productGroup, entries ] of Object.entries( data ) ) {
-						// @ts-ignore entry is always `any` type
-						for ( const entry of entries ) {
+						for ( const entry of entries as IPingTestEntry[] ) {
 							TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
 								organization,
 								productGroup,
@@ -38,25 +37,23 @@ export function getTestsDefinition(): ITest[] {
 					break;
 
 				case 'domain':
-					// @ts-ignore entry is always `any` type
-					data.forEach( entry => {
+					data.forEach( ( domain: string ) => {
 						TESTS_DEFINITION.push( new DomainExpirationTest( new DomainExpirationTestDefinition( {
 							organization,
 							productGroup: testType,
-							productName: entry,
-							domain: entry
+							productName: domain,
+							domain
 						} ) ) );
 					} );
 					break;
 
 				case 'certificate':
-					// @ts-ignore entry is always `any` type
-					data.forEach( entry => {
+					data.forEach( ( url: string ) => {
 						TESTS_DEFINITION.push( new CertificateExpirationTest( new CertificateExpirationTestDefinition( {
 							organization,
 							productGroup: testType,
-							productName: entry,
-							url: entry
+							productName: url,
+							url
 						} ) ) );
 					} );
 
