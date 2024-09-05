@@ -11,8 +11,6 @@ export interface ICertificateExpirationTestDefinitionMetadata extends ITestDefin
 export class CertificateExpirationTestDefinition extends TestDefinition {
 	public host: string;
 
-	public expectedContent?: string;
-
 	public constructor( metadata: ICertificateExpirationTestDefinitionMetadata ) {
 		super( metadata );
 		this.host = metadata.host;

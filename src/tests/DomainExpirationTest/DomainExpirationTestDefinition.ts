@@ -11,8 +11,6 @@ export interface IDomainExpirationTestDefinitionMetadata extends ITestDefinition
 export class DomainExpirationTestDefinition extends TestDefinition {
 	public domain: string;
 
-	public expectedContent?: string;
-
 	public constructor( metadata: IDomainExpirationTestDefinitionMetadata ) {
 		super( metadata );
 		this.domain = metadata.domain;
