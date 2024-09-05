@@ -25,7 +25,6 @@ export function getTestsDefinition(): ITest[] {
 					for ( const [ productGroup, entries ] of Object.entries( data ) ) {
 						// @ts-ignore entry is always `any` type
 						for ( const entry of entries ) {
-							console.log( entry );
 							TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
 								organization,
 								productGroup,
