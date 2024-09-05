@@ -20,7 +20,7 @@ export default class TestsRunner {
 	public constructor(
 		private readonly _tests: ITest[]
 	) {
-		this._metrics = new Metrics();
+		this._metrics = Metrics.getInstance();
 		this._counter = this._metrics.counter(
 			COUNTER_NAME,
 			[

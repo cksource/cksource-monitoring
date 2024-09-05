@@ -21,7 +21,7 @@ abstract class ExpirationTest implements ITest {
 	public constructor(
 		public testDefinition: ITestDefinition
 	) {
-		const metrics: IMetrics = new Metrics();
+		const metrics: IMetrics = Metrics.getInstance();
 
 		this._gauge = metrics.gauge(
 			GAUGE_NAME,

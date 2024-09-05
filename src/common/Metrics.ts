@@ -27,16 +27,14 @@ export default class Metrics implements IMetrics {
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	private static _instance: Metrics;
 
-	public constructor( private readonly _metricsPrefix: string = '', private readonly _register: Registry = new Registry() ) {
-		if ( Metrics._instance ) {
-			return Metrics._instance;
-		}
+	private readonly _metricsPrefix: string = '';
 
+	private readonly _register: Registry = new Registry();
+
+	private constructor() {
 		collectDefaultMetrics( {
-			register: _register
+			register: this._register
 		} );
-
-		Metrics._instance = this;
 	}
 
 	public get register(): Registry {
@@ -120,6 +118,14 @@ export default class Metrics implements IMetrics {
 				labelNames,
 				...( percentiles && { percentiles } )
 			} );
+	}
+
+	public static getInstance(): Metrics {
+		if ( !Metrics._instance ) {
+			Metrics._instance = new Metrics();
+		}
+
+		return Metrics._instance;
 	}
 
 	private _prepareMetricName( name: string, metricType: string ): string {

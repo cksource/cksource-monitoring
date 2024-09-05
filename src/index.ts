@@ -14,7 +14,7 @@ import { getTestsDefinition } from './testsDefinition';
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
 
-const metrics: Metrics = new Metrics();
+const metrics: Metrics = Metrics.getInstance();
 
 export const handler = async (): Promise<string> => {
 	try {
