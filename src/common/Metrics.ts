@@ -24,9 +24,16 @@ export type StopTimerFunction = ( labels?: LabelValues<string> ) => void
  * @see {@link https://prometheus.io/docs/concepts/metric_types/} prometheus documentation
  */
 export default class Metrics implements IMetrics {
-	public constructor( private readonly _metricsPrefix: string = '', private readonly _register: Registry = new Registry() ) {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
+	private static _instance: Metrics;
+
+	private readonly _metricsPrefix: string = '';
+
+	private readonly _register: Registry = new Registry();
+
+	private constructor() {
 		collectDefaultMetrics( {
-			register: _register
+			register: this._register
 		} );
 	}
 
@@ -111,6 +118,14 @@ export default class Metrics implements IMetrics {
 				labelNames,
 				...( percentiles && { percentiles } )
 			} );
+	}
+
+	public static getInstance(): Metrics {
+		if ( !Metrics._instance ) {
+			Metrics._instance = new Metrics();
+		}
+
+		return Metrics._instance;
 	}
 
 	private _prepareMetricName( name: string, metricType: string ): string {

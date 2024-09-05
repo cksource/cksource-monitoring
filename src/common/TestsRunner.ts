@@ -5,7 +5,7 @@
 import { Counter } from 'prom-client';
 
 import { ITest } from '../tests/Test';
-import { IMetrics, StopTimerFunction } from './Metrics';
+import Metrics, { IMetrics, StopTimerFunction } from './Metrics';
 
 const HISTOGRAM_NAME: string = 'monitoring_test';
 const COUNTER_NAME: string = 'monitoring_test_fails';
@@ -15,10 +15,12 @@ type Status = 'success' | 'failure';
 export default class TestsRunner {
 	private readonly _counter: Counter;
 
+	private readonly _metrics: IMetrics;
+
 	public constructor(
-		private readonly _metrics: IMetrics,
 		private readonly _tests: ITest[]
 	) {
+		this._metrics = Metrics.getInstance();
 		this._counter = this._metrics.counter(
 			COUNTER_NAME,
 			[
