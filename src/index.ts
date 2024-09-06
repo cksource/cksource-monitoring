@@ -17,6 +17,8 @@ const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgatew
 const metrics: Metrics = Metrics.getInstance();
 
 export const handler = async ( event: {tests: string[];} ): Promise<string> => {
+	console.log( '--- Tests triggered with the following types: ', event.tests.join( ',' ) );
+
 	try {
 		const BASIC_AUTH_PASSWORD: string = await _getBasicAuthPassword();
 		const pushGateway: Pushgateway<'text/plain; version=0.0.4; charset=utf-8'> = new Pushgateway(
