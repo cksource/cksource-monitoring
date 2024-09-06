@@ -172,7 +172,7 @@ export const testsData: Record<OrganizationName, ITestList> = {
 					url: 'https://ckeditor.com/partners/'
 				},
 				{
-					name: '/technology',
+					name: '/technology-partners',
 					url: 'https://ckeditor.com/technology-partners'
 				}
 			],
@@ -206,14 +206,6 @@ export const testsData: Record<OrganizationName, ITestList> = {
 				{
 					name: 'CKE5 Builder API',
 					url: 'https://builder-api.ckeditor.com/healthz/live'
-				},
-				{
-					name: 'CKE5 Builder nightly',
-					url: 'https://builder-nightly.ckeditor-dev.com/ckeditor-5/builder/'
-				},
-				{
-					name: 'CKE5 Builder demo',
-					url: 'https://builder-demo.ckeditor-dev.com/ckeditor-5/builder/'
 				},
 				{
 					name: 'Merge branches',

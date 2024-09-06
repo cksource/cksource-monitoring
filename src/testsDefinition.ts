@@ -7,21 +7,25 @@ import { ITest } from './tests/Test';
 import PingSiteTest from './tests/PingSiteTest/PingSiteTest';
 import { PingSiteTestDefinition } from './tests/PingSiteTest/PingSiteTestDefinition';
 
-// import DomainExpirationTest from './tests/DomainExpirationTest/DomainExpirationTest';
-// import { DomainExpirationTestDefinition } from './tests/DomainExpirationTest/DomainExpirationTestDefinition';
+import DomainExpirationTest from './tests/DomainExpirationTest/DomainExpirationTest';
+import { DomainExpirationTestDefinition } from './tests/DomainExpirationTest/DomainExpirationTestDefinition';
 
-// import CertificateExpirationTest from './tests/CertificateExpirationTest/CertificateExpirationTest';
-// import { CertificateExpirationTestDefinition } from './tests/CertificateExpirationTest/CertificateExpirationTestDefinition';
+import CertificateExpirationTest from './tests/CertificateExpirationTest/CertificateExpirationTest';
+import { CertificateExpirationTestDefinition } from './tests/CertificateExpirationTest/CertificateExpirationTestDefinition';
 
 import { testsData, IPingTestEntry } from './testsData';
 
-export function getTestsDefinition(): ITest[] {
+export function getTestsDefinition( testTypesToRun: string[] ): ITest[] {
 	const TESTS_DEFINITION: ITest[] = [];
 
 	for ( const [ organization, testTypes ] of Object.entries( testsData ) ) {
 		for ( const [ testType, data ] of Object.entries( testTypes ) ) {
 			switch ( testType ) {
 				case 'ping':
+					if ( !testTypesToRun.includes( 'ping' ) ) {
+						break;
+					}
+
 					for ( const [ productGroup, entries ] of Object.entries( data ) ) {
 						for ( const entry of entries as IPingTestEntry[] ) {
 							TESTS_DEFINITION.push( new PingSiteTest( new PingSiteTestDefinition( {
@@ -37,8 +41,10 @@ export function getTestsDefinition(): ITest[] {
 					break;
 
 				case 'domain':
-					// Temporary disable
-					/*
+					if ( !testTypesToRun.includes( 'domain' ) ) {
+						break;
+					}
+
 					data.forEach( ( domain: string ) => {
 						TESTS_DEFINITION.push( new DomainExpirationTest( new DomainExpirationTestDefinition( {
 							organization,
@@ -47,12 +53,15 @@ export function getTestsDefinition(): ITest[] {
 							domain
 						} ) ) );
 					} );
-					 */
+
 					break;
 
 				case 'certificate':
-					// Temporary disable
-					/*
+
+					if ( !testTypesToRun.includes( 'certificate' ) ) {
+						break;
+					}
+
 					data.forEach( ( url: string ) => {
 						TESTS_DEFINITION.push( new CertificateExpirationTest( new CertificateExpirationTestDefinition( {
 							organization,
@@ -61,7 +70,6 @@ export function getTestsDefinition(): ITest[] {
 							url
 						} ) ) );
 					} );
-					*/
 					break;
 
 				default:
