@@ -2,10 +2,10 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import { ITest } from '../Test';
-import { PingSiteTestDefinition } from './PingSiteTestDefinition';
-import { ContentFailError } from '../../errors/ContentFailError';
-import { RequestFailError } from '../../errors/RequestFailError';
+import { ITest } from '../Test.js';
+import { PingSiteTestDefinition } from './PingSiteTestDefinition.js';
+import { ContentFailError } from '../../errors/ContentFailError.js';
+import { RequestFailError } from '../../errors/RequestFailError.js';
 
 class PingSiteTest implements ITest {
 	public testName: string = 'ping';

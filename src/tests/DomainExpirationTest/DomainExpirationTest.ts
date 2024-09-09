@@ -4,8 +4,8 @@
 
 import * as net from 'net';
 
-import ExpirationTest from '../ExpirationTest';
-import { DomainExpirationTestDefinition } from './DomainExpirationTestDefinition';
+import ExpirationTest from '../ExpirationTest.js';
+import { DomainExpirationTestDefinition } from './DomainExpirationTestDefinition.js';
 
 class DomainExpirationTest extends ExpirationTest {
 	public testName: string = 'domain_expiration';

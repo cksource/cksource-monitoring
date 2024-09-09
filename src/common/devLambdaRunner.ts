@@ -2,7 +2,7 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import { handler } from '../index';
+import { handler } from '../index.js';
 
 const eventData: {tests: string[];} = { tests: [ 'ping' ] };
 // const eventData: {tests: string[];} = { tests: [ 'certificate', 'domain' ] };

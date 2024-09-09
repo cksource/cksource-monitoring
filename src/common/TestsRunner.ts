@@ -5,8 +5,8 @@
 import { Counter } from 'prom-client';
 import pLimit, { LimitFunction } from 'p-limit';
 
-import { ITest } from '../tests/Test';
-import Metrics, { IMetrics, StopTimerFunction } from './Metrics';
+import { ITest } from '../tests/Test.js';
+import Metrics, { IMetrics, StopTimerFunction } from './Metrics.js';
 
 const HISTOGRAM_NAME: string = 'monitoring_test';
 const COUNTER_NAME: string = 'monitoring_test_fails';

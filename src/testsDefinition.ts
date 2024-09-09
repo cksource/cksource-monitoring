@@ -2,18 +2,18 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import { ITest } from './tests/Test';
+import { ITest } from './tests/Test.js';
 
-import PingSiteTest from './tests/PingSiteTest/PingSiteTest';
-import { PingSiteTestDefinition } from './tests/PingSiteTest/PingSiteTestDefinition';
+import PingSiteTest from './tests/PingSiteTest/PingSiteTest.js';
+import { PingSiteTestDefinition } from './tests/PingSiteTest/PingSiteTestDefinition.js';
 
-import DomainExpirationTest from './tests/DomainExpirationTest/DomainExpirationTest';
-import { DomainExpirationTestDefinition } from './tests/DomainExpirationTest/DomainExpirationTestDefinition';
+import DomainExpirationTest from './tests/DomainExpirationTest/DomainExpirationTest.js';
+import { DomainExpirationTestDefinition } from './tests/DomainExpirationTest/DomainExpirationTestDefinition.js';
 
-import CertificateExpirationTest from './tests/CertificateExpirationTest/CertificateExpirationTest';
-import { CertificateExpirationTestDefinition } from './tests/CertificateExpirationTest/CertificateExpirationTestDefinition';
+import CertificateExpirationTest from './tests/CertificateExpirationTest/CertificateExpirationTest.js';
+import { CertificateExpirationTestDefinition } from './tests/CertificateExpirationTest/CertificateExpirationTestDefinition.js';
 
-import { testsData, IPingTestEntry } from './testsData';
+import { testsData, IPingTestEntry } from './testsData.js';
 
 export function getTestsDefinition( testTypesToRun: string[] ): ITest[] {
 	const TESTS_DEFINITION: ITest[] = [];
