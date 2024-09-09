@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 8,
+  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -112,7 +112,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "sum by(product_name, test_name) (increase(monitoring_test_fails_counter{test_name=\"ping\", organization=\"Tiugo\"}[60s]))",
+          "expr": "sum by(product_name, test_name) (increase(monitoring_test_fails_counter{test_name=\"ping\", organization=\"Tiny\"}[60s]))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -123,7 +123,7 @@
           "useBackend": false
         }
       ],
-      "title": "Tiugo Status",
+      "title": "Tiny Status",
       "type": "status-history"
     },
     {
@@ -219,7 +219,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "sum by(test_name, product_name) (rate(monitoring_test_histogram_sum{test_name=\"ping\", status=\"success\", organization=\"Tiugo\"}[1m])) / sum by(test_name, product_name) (rate(monitoring_test_histogram_count{test_name=\"ping\", status=\"success\", organization=\"Tiugo\"}[1m]))",
+          "expr": "sum by(test_name, product_name) (rate(monitoring_test_histogram_sum{test_name=\"ping\", status=\"success\", organization=\"Tiny\"}[1m])) / sum by(test_name, product_name) (rate(monitoring_test_histogram_count{test_name=\"ping\", status=\"success\", organization=\"Tiny\"}[1m]))",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
@@ -230,7 +230,7 @@
           "useBackend": false
         }
       ],
-      "title": "Tiugo Response Times",
+      "title": "Tiny Response Times",
       "type": "timeseries"
     },
     {
@@ -241,7 +241,7 @@
         "y": 7
       },
       "id": 1,
-      "title": "Tiugo Monitoring",
+      "title": "Tiny Monitoring",
       "type": "row"
     }
   ],
@@ -258,8 +258,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Tiugo Monitoring",
-  "uid": "b9142b19-b50b-4ef5-9c32-185abe026784",
+  "title": "Tiny Monitoring",
+  "uid": "e79b6db6-cbc8-45d0-a7f4-3eaa3454bf4b",
   "version": 1,
   "weekStart": ""
 }

@@ -16,8 +16,8 @@ const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgatew
 
 const metrics: Metrics = Metrics.getInstance();
 
-export const handler = async ( event: unknown ): Promise<string> => {
-	console.log( event );
+export const handler = async ( event: {tests: string[];} ): Promise<string> => {
+	console.log( '--- Tests triggered with the following types: ', event.tests.join( ',' ) );
 
 	try {
 		const BASIC_AUTH_PASSWORD: string = await _getBasicAuthPassword();
@@ -32,9 +32,9 @@ export const handler = async ( event: unknown ): Promise<string> => {
 		);
 
 		// Generate the tests set that will be executed by the test runner.
-		const TESTS: ITest[] = getTestsDefinition();
+		const TESTS: ITest[] = getTestsDefinition( event.tests );
 
-		const testRunner: TestsRunner = new TestsRunner( TESTS );
+		const testRunner: TestsRunner = new TestsRunner( TESTS, event.tests );
 
 		await testRunner.runTests();
 

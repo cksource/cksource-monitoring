@@ -3,6 +3,7 @@
  */
 
 import { Counter } from 'prom-client';
+import pLimit, { LimitFunction } from 'p-limit';
 
 import { ITest } from '../tests/Test';
 import Metrics, { IMetrics, StopTimerFunction } from './Metrics';
@@ -18,7 +19,8 @@ export default class TestsRunner {
 	private readonly _metrics: IMetrics;
 
 	public constructor(
-		private readonly _tests: ITest[]
+		private readonly _tests: ITest[],
+		private readonly _testTypesToRun: string[]
 	) {
 		this._metrics = Metrics.getInstance();
 		this._counter = this._metrics.counter(
@@ -33,7 +35,10 @@ export default class TestsRunner {
 	}
 
 	public async runTests(): Promise<void> {
-		await Promise.all( this._tests.map( test => this._runTest( test ) ) );
+		const concurrency: number = this._testTypesToRun.includes( 'domain' ) ? 2 : 8;
+		const limit: LimitFunction = pLimit( concurrency );
+
+		await Promise.all( this._tests.map( test => limit( () => this._runTest( test ) ) ) );
 	}
 
 	private async _runTest( test: ITest ): Promise<void> {

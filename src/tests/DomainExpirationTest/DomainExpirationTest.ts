@@ -17,7 +17,8 @@ class DomainExpirationTest extends ExpirationTest {
 		'net': 'whois.verisign-grs.com',
 		'org': 'whois.pir.org',
 		'io': 'whois.nic.io',
-		'dev': 'whois.nic.google'
+		'dev': 'whois.nic.google',
+		'cloud': 'whois.nic.cloud'
 	};
 
 	public constructor(
