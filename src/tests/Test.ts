@@ -2,8 +2,8 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import { IMetrics } from '../common/Metrics';
-import { ITestDefinition } from './TestDefinition';
+import { IMetrics } from '../common/Metrics.js';
+import { ITestDefinition } from './TestDefinition.js';
 
 export interface ITest {
 	testName: string;

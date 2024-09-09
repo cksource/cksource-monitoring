@@ -6,10 +6,10 @@
 
 import { Gauge } from 'prom-client';
 
-import { ExpirationError } from '../errors/ExpirationError';
-import { ITest } from './Test';
-import { ITestDefinition } from './TestDefinition';
-import Metrics, { IMetrics } from '../common/Metrics';
+import { ExpirationError } from '../errors/ExpirationError.js';
+import { ITest } from './Test.js';
+import { ITestDefinition } from './TestDefinition.js';
+import Metrics, { IMetrics } from '../common/Metrics.js';
 
 const GAUGE_NAME: string = 'monitoring_expiration_test';
 

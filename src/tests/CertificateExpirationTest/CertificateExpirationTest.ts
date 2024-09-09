@@ -4,8 +4,8 @@
 import https, { RequestOptions } from 'https';
 import { TLSSocket } from 'tls';
 
-import ExpirationTest from '../ExpirationTest';
-import { CertificateExpirationTestDefinition } from './CertificateExpirationTestDefinition';
+import ExpirationTest from '../ExpirationTest.js';
+import { CertificateExpirationTestDefinition } from './CertificateExpirationTestDefinition.js';
 
 class CertificateExpirationTest extends ExpirationTest {
 	public testName: string = 'certificate_expiration';

@@ -5,11 +5,11 @@
 import { Pushgateway } from 'prom-client';
 import { SecretsManager } from '@aws-sdk/client-secrets-manager';
 
-import TestsRunner from './common/TestsRunner';
-import Metrics from './common/Metrics';
-import { ITest } from './tests/Test';
+import TestsRunner from './common/TestsRunner.js';
+import Metrics from './common/Metrics.js';
+import { ITest } from './tests/Test.js';
 
-import { getTestsDefinition } from './testsDefinition';
+import { getTestsDefinition } from './testsDefinition.js';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
@@ -17,7 +17,7 @@ const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgatew
 const metrics: Metrics = Metrics.getInstance();
 
 export const handler = async ( event: {tests: string[];} ): Promise<string> => {
-	console.log( '--- Tests triggered with the following types: ', event.tests.join( ',' ) );
+	console.log( '--- Tests triggered with the following types: ', event?.tests?.join( ',' ) );
 
 	try {
 		const BASIC_AUTH_PASSWORD: string = await _getBasicAuthPassword();
