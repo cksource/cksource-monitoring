@@ -38,7 +38,7 @@ export const handler = async ( event: {tests: string[];} ): Promise<string> => {
 
 		await testRunner.runTests();
 
-		await pushGateway.push( { jobName: APPLICATION_NAME } );
+		await pushGateway.pushAdd( { jobName: APPLICATION_NAME } );
 	} catch ( error ) {
 		console.log( error );
 	}
