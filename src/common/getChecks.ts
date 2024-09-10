@@ -13,9 +13,9 @@ import { DomainExpirationCheckDefinition } from '../checksSuites/DomainExpiratio
 import CertificateExpirationCheck from '../checksSuites/CertificateExpirationCheck/CertificateExpirationCheck.js';
 import { CertificateExpirationCheckDefinition } from '../checksSuites/CertificateExpirationCheck/CertificateExpirationCheckDefinition.js';
 
-import { PING, IPingCheckEntry } from './PING.js';
-import { DOMAINS } from './DOMAINS.js';
-import { CERTIFICATES } from './CERTIFICATES.js';
+import { PING, IPingCheckEntry } from '../checks/PING.js';
+import { DOMAINS } from '../checks/DOMAINS.js';
+import { CERTIFICATES } from '../checks/CERTIFICATES.js';
 
 export function getChecks( checkTypesToRun: string[] ): ICheck[] {
 	const CHECKS: ICheck[] = [];

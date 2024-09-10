@@ -9,7 +9,7 @@ import ChecksRunner from './common/ChecksRunner.js';
 import Metrics from './common/Metrics.js';
 import { ICheck } from './checksSuites/Check.js';
 
-import { getChecks } from './checks/index.js';
+import { getChecks } from './common/getChecks.js';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';

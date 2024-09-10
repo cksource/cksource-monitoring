@@ -2,7 +2,7 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import { OrganizationName } from '../types.js';
+import { OrganizationName } from '../common/types.js';
 
 export const DOMAINS: Record<OrganizationName, string[]> = {
 	Tiugo: [
