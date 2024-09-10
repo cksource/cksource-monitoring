@@ -49,3 +49,12 @@ This will update the files in `infrastructure` folder. Commit this files to `mas
 3. Duplicate `.env.template` file and save it as `.env`. Fill out missing env variables.
 
 After project setup, the project can be started. See the [Quick start](#quick-start) section.
+
+## Editing test data
+
+All test resources are located in `src/data` folder. Split into separate test type files:
+ - `PING_DATA`
+ - `DOMAINS_DATA`
+ - `CERTIFICATES_DATA`
+
+Each file contains set of data of given type, groupped by organization (Tiugo, CKSource, Tiny, ButterCMS, etc.). 

@@ -9,7 +9,7 @@ import TestsRunner from './common/TestsRunner.js';
 import Metrics from './common/Metrics.js';
 import { ITest } from './tests/Test.js';
 
-import { getTestsDefinition } from './testsDefinition.js';
+import { getTestsData } from './testsData.js';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
@@ -32,7 +32,7 @@ export const handler = async ( event: {tests: string[];} ): Promise<string> => {
 		);
 
 		// Generate the tests set that will be executed by the test runner.
-		const TESTS: ITest[] = getTestsDefinition( event.tests );
+		const TESTS: ITest[] = getTestsData( event.tests );
 
 		const testRunner: TestsRunner = new TestsRunner( TESTS, event.tests );
 
