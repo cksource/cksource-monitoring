@@ -2,9 +2,9 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import { OrganizationName } from './types.js';
+import { OrganizationName } from '../types.js';
 
-export const CERTIFICATES_DATA: Record<OrganizationName, string[]> = {
+export const CERTIFICATES: Record<OrganizationName, string[]> = {
 	Tiugo: [
 		'https://tiugotech.com'
 	],

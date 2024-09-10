@@ -2,15 +2,15 @@
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
  */
 
-import { OrganizationName } from './types.js';
+import { OrganizationName } from '../types.js';
 
-export interface IPingTestEntry {
+export interface IPingCheckEntry {
 	name: string;
 	url: string;
 	expectedContent?: string;
 }
 
-export const PING_DATA: Record<OrganizationName, Record<string, IPingTestEntry[]>> = {
+export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> = {
 	Tiugo: {
 		websites: [
 			{

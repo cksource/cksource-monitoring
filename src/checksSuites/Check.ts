@@ -3,11 +3,11 @@
  */
 
 import { IMetrics } from '../common/Metrics.js';
-import { ITestDefinition } from './TestDefinition.js';
+import { ICheckDefinition } from './CheckDefinition.js';
 
-export interface ITest {
-	testName: string;
-	testDefinition: ITestDefinition;
+export interface ICheck {
+	checkName: string;
+	checkDefinition: ICheckDefinition;
 
 	run( metrics?: IMetrics ): void | Promise<void>;
- }
+}

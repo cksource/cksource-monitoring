@@ -52,9 +52,9 @@ After project setup, the project can be started. See the [Quick start](#quick-st
 
 ## Editing test data
 
-All test resources are located in `src/data` folder. Split into separate test type files:
- - `PING_DATA`
- - `DOMAINS_DATA`
- - `CERTIFICATES_DATA`
+All test resources are located in `src/checks` folder. Split into separate files by check type:
+ - `PING`
+ - `DOMAINS`
+ - `CERTIFICATES`
 
-Each file contains set of data of given type, groupped by organization (Tiugo, CKSource, Tiny, ButterCMS, etc.). 
+Each file contains set of check objects of given type, groupped by organization (Tiugo, CKSource, Tiny, ButterCMS, etc.). 
