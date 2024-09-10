@@ -1,6 +1,6 @@
 /*
  Copyright (c), CKSource Holding sp. z o.o. All rights reserved.
-*/
+ */
 
 import { OrganizationName } from './types.js';
 

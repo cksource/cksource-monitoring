@@ -13,9 +13,9 @@ import { DomainExpirationTestDefinition } from './tests/DomainExpirationTest/Dom
 import CertificateExpirationTest from './tests/CertificateExpirationTest/CertificateExpirationTest.js';
 import { CertificateExpirationTestDefinition } from './tests/CertificateExpirationTest/CertificateExpirationTestDefinition.js';
 
-import { PING_DATA, IPingTestEntry } from './data/PING_DATA.js'
-import { DOMAINS_DATA } from './data/DOMAINS_DATA.js'
-import { CERTIFICATES_DATA } from './data/CERTIFICATES_DATA.js'
+import { PING_DATA, IPingTestEntry } from './data/PING_DATA.js';
+import { DOMAINS_DATA } from './data/DOMAINS_DATA.js';
+import { CERTIFICATES_DATA } from './data/CERTIFICATES_DATA.js';
 
 export function getTestsData( testTypesToRun: string[] ): ITest[] {
 	const TESTS: ITest[] = [];
@@ -35,7 +35,7 @@ export function getTestsData( testTypesToRun: string[] ): ITest[] {
 			}
 		}
 	}
-	
+
 	if ( testTypesToRun.includes( 'domain' ) ) {
 		for ( const [ organization, data ] of Object.entries( DOMAINS_DATA ) ) {
 			data.forEach( ( domain: string ) => {
@@ -48,7 +48,7 @@ export function getTestsData( testTypesToRun: string[] ): ITest[] {
 			} );
 		}
 	}
-	
+
 	if ( testTypesToRun.includes( 'certificate' ) ) {
 		for ( const [ organization, data ] of Object.entries( CERTIFICATES_DATA ) ) {
 			data.forEach( ( url: string ) => {
