@@ -7,26 +7,26 @@
 import { Gauge } from 'prom-client';
 
 import { ExpirationError } from '../errors/ExpirationError.js';
-import { ITest } from './Test.js';
-import { ITestDefinition } from './TestDefinition.js';
+import { ICheck } from './Check.js';
+import { ICheckDefinition } from './CheckDefinition.js';
 import Metrics, { IMetrics } from '../common/Metrics.js';
 
-const GAUGE_NAME: string = 'monitoring_expiration_test';
+const GAUGE_NAME: string = 'monitoring_expiration_check';
 
-abstract class ExpirationTest implements ITest {
-	public abstract readonly testName: string;
+abstract class ExpirationCheck implements ICheck {
+	public abstract readonly checkName: string;
 
 	private readonly _gauge: Gauge<string>;
 
 	public constructor(
-		public testDefinition: ITestDefinition
+		public checkDefinition: ICheckDefinition
 	) {
 		const metrics: IMetrics = Metrics.getInstance();
 
 		this._gauge = metrics.gauge(
 			GAUGE_NAME,
 			[
-				'test_name',
+				'check_name',
 				'product_name',
 				'product_group',
 				'organization'
@@ -51,14 +51,14 @@ abstract class ExpirationTest implements ITest {
 	private _setGaugeValue( value: number ): void {
 		this._gauge.set(
 			{
-				test_name: this.testName,
-				product_name: this.testDefinition.productName,
-				product_group: this.testDefinition.productGroup,
-				organization: this.testDefinition.organization
+				check_name: this.checkName,
+				product_name: this.checkDefinition.productName,
+				product_group: this.checkDefinition.productGroup,
+				organization: this.checkDefinition.organization
 			},
 			value
 		);
 	}
 }
 
-export default ExpirationTest;
+export default ExpirationCheck;

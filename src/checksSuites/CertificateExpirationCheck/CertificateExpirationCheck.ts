@@ -4,20 +4,20 @@
 import https, { RequestOptions } from 'https';
 import { TLSSocket } from 'tls';
 
-import ExpirationTest from '../ExpirationTest.js';
-import { CertificateExpirationTestDefinition } from './CertificateExpirationTestDefinition.js';
+import ExpirationCheck from '../ExpirationCheck.js';
+import { CertificateExpirationCheckDefinition } from './CertificateExpirationCheckDefinition.js';
 
-class CertificateExpirationTest extends ExpirationTest {
-	public testName: string = 'certificate_expiration';
+class CertificateExpirationCheck extends ExpirationCheck {
+	public checkName: string = 'certificate_expiration';
 
 	private readonly _requestOptions: RequestOptions;
 
 	public constructor(
-		public testDefinition: CertificateExpirationTestDefinition
+		public checkDefinition: CertificateExpirationCheckDefinition
 	) {
-		super( testDefinition );
+		super( checkDefinition );
 
-		const url: URL = new URL( this.testDefinition.url );
+		const url: URL = new URL( this.checkDefinition.url );
 
 		this._requestOptions = {
 			host: url.host,
@@ -52,4 +52,4 @@ class CertificateExpirationTest extends ExpirationTest {
 	}
 }
 
-export default CertificateExpirationTest;
+export default CertificateExpirationCheck;
