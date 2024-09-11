@@ -57,7 +57,7 @@ export default class Metrics implements IMetrics {
 	 * or the total number of bytes sent in HTTP requests.
 	 */
 	public counter( name: string, labelNames: string[] = [] ): Counter<string> {
-		name = this._prepareMetricName( name, 'counter' );
+		name = this._prepareMetricName( name, 'count' );
 
 		return this.register.getSingleMetric( name ) as Counter<string> ||
 			new Counter( { registers: [ this.register ], name, help: METRIC_DESCRIPTION, labelNames } );
