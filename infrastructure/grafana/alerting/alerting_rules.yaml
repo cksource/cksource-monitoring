@@ -17,7 +17,7 @@ groups:
               model:
                 disableTextWrap: false
                 editorMode: builder
-                expr: increase(monitoring_test_fails_counter{test_name=~".*_expiration"}[24h])
+                expr: increase(monitoring_check_fails_counter{check_name=~".*_expiration"}[24h])
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: true
@@ -86,7 +86,7 @@ groups:
           noDataState: NoData
           execErrState: Error
           annotations:
-            description: Test `{{ index $labels "test_name" }}` failed for `{{ index $labels "product_name" }}`
+            description: Test `{{ index $labels "check_name" }}` failed for `{{ index $labels "product_name" }}`
           for: 1h
           isPaused: false
     - orgId: 1
