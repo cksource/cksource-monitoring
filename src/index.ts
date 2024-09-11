@@ -11,7 +11,7 @@ import { ICheck } from './checksSuites/Check.js';
 
 import { getChecks } from './common/getChecks.js';
 
-const APPLICATION_NAME: string = 'cksource-monitoring';
+const APPLICATION_NAME: string = 'tiugo-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
 
 const metrics: Metrics = Metrics.getInstance();

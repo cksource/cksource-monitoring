@@ -9,7 +9,7 @@ terraform {
 
   backend "s3" {
     bucket = "cksource-ci-terraform-states"
-    key    = "cksource/cksource-monitoring/circleci"
+    key    = "cksource/tiugo-monitoring/circleci"
     region = "eu-central-1"
   }
 }
@@ -22,7 +22,7 @@ provider "circleci" {
 
 locals {
   organization = "cksource"
-  project      = "cksource-monitoring"
+  project      = "tiugo-monitoring"
 
   env_variables = {
     AWS_OIDC_ROLE_ARN = data.terraform_remote_state.aws.outputs.oidc_role_arn
