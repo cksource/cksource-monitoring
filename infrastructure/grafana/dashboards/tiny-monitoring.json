@@ -112,7 +112,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "sum by(product_name, check_name) (increase(monitoring_check_fails_counter{check_name=\"ping\", organization=\"Tiny\"}[60s]))",
+          "expr": "sum by(product_name, check_name) (increase(monitoring_check_fails_count{check_name=\"ping\", organization=\"Tiny\"}[60s]))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
