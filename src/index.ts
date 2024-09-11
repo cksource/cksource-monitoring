@@ -5,19 +5,19 @@
 import { Pushgateway } from 'prom-client';
 import { SecretsManager } from '@aws-sdk/client-secrets-manager';
 
-import TestsRunner from './common/TestsRunner.js';
+import ChecksRunner from './common/ChecksRunner.js';
 import Metrics from './common/Metrics.js';
-import { ITest } from './tests/Test.js';
+import { ICheck } from './checksSuites/Check.js';
 
-import { getTestsDefinition } from './testsDefinition.js';
+import { getChecks } from './common/getChecks.js';
 
 const APPLICATION_NAME: string = 'cksource-monitoring';
 const PUSHGATEWAY_URL: string = process.env.PUSHGATEWAY_URL ?? 'http://pushgateway:9091';
 
 const metrics: Metrics = Metrics.getInstance();
 
-export const handler = async ( event: {tests: string[];} ): Promise<string> => {
-	console.log( '--- Tests triggered with the following types: ', event?.tests?.join( ',' ) );
+export const handler = async ( event: {checks: string[];} ): Promise<string> => {
+	console.log( '--- Checks triggered with the following types: ', event?.checks?.join( ',' ) );
 
 	try {
 		const BASIC_AUTH_PASSWORD: string = await _getBasicAuthPassword();
@@ -31,19 +31,19 @@ export const handler = async ( event: {tests: string[];} ): Promise<string> => {
 			metrics.register
 		);
 
-		// Generate the tests set that will be executed by the test runner.
-		const TESTS: ITest[] = getTestsDefinition( event.tests );
+		// Generate the checks set that will be executed by the check runner.
+		const CHECKS: ICheck[] = getChecks( event.checks );
 
-		const testRunner: TestsRunner = new TestsRunner( TESTS, event.tests );
+		const checksRunner: ChecksRunner = new ChecksRunner( CHECKS, event.checks );
 
-		await testRunner.runTests();
+		await checksRunner.runChecks();
 
 		await pushGateway.pushAdd( { jobName: APPLICATION_NAME } );
 	} catch ( error ) {
 		console.log( error );
 	}
 
-	console.log( '--- Tests finished: ', new Date() );
+	console.log( '--- Checks finished: ', new Date() );
 
 	return 'Done';
 };

@@ -4,11 +4,11 @@
 
 import * as net from 'net';
 
-import ExpirationTest from '../ExpirationTest.js';
-import { DomainExpirationTestDefinition } from './DomainExpirationTestDefinition.js';
+import ExpirationCheck from '../ExpirationCheck.js';
+import { DomainExpirationCheckDefinition } from './DomainExpirationCheckDefinition.js';
 
-class DomainExpirationTest extends ExpirationTest {
-	public testName: string = 'domain_expiration';
+class DomainExpirationCheck extends ExpirationCheck {
+	public checkName: string = 'domain_expiration';
 
 	private readonly _domain: string;
 
@@ -22,10 +22,10 @@ class DomainExpirationTest extends ExpirationTest {
 	};
 
 	public constructor(
-		public testDefinition: DomainExpirationTestDefinition
+		public checkDefinition: DomainExpirationCheckDefinition
 	) {
-		super( testDefinition );
-		this._domain = testDefinition.domain;
+		super( checkDefinition );
+		this._domain = checkDefinition.domain;
 	}
 
 	protected async getExpirationDate(): Promise<number|null> {
@@ -82,4 +82,4 @@ class DomainExpirationTest extends ExpirationTest {
 	}
 }
 
-export default DomainExpirationTest;
+export default DomainExpirationCheck;

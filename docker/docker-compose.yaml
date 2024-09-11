@@ -4,9 +4,9 @@ version: "3.8"
 services:
   app:
     container_name: cksource-monitoring
-    build: 
+    build:
       context: ../
-      dockerfile: ./docker/tests-runner/Dockerfile.dev
+      dockerfile: ./docker/checks-runner/Dockerfile.dev
     env_file:
       - ../.env
     volumes:
@@ -21,7 +21,7 @@ services:
     env_file:
       - ../.env
     environment:
-      GF_AUTH_ANONYMOUS_ENABLED: true 
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
     ports:
       - "3000:3000"
 

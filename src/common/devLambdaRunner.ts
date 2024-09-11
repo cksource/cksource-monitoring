@@ -4,8 +4,9 @@
 
 import { handler } from '../index.js';
 
-const eventData: {tests: string[];} = { tests: [ 'ping' ] };
-// const eventData: {tests: string[];} = { tests: [ 'certificate', 'domain' ] };
+const eventData: {checks: string[];} = { checks: [ 'ping' ] };
+// const eventData: {checks: string[];} = { checks: [ 'certificate', 'domain' ] };
+// const eventData: {checks: string[];} = { checks: [ 'ping', 'certificate', 'domain' ] };
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 ( async () => {

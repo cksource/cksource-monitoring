@@ -123,7 +123,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "monitoring_expiration_test_gauge{test_name=\"certificate_expiration\", organization=\"Tiny\"}",
+          "expr": "monitoring_expiration_check_gauge{check_name=\"certificate_expiration\", organization=\"Tiny\"}",
           "format": "heatmap",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -256,7 +256,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "monitoring_expiration_test_gauge{test_name=\"domain_expiration\", organization=\"Tiny\"}",
+          "expr": "monitoring_expiration_check_gauge{check_name=\"domain_expiration\", organization=\"Tiny\"}",
           "format": "table",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
@@ -297,7 +297,7 @@
               "organization": true,
               "product_group": true,
               "service": true,
-              "test_name": true
+              "check_name": true
             },
             "indexByName": {},
             "renameByName": {
@@ -411,7 +411,7 @@
               "disableTextWrap": false,
               "editorMode": "builder",
               "exemplar": false,
-              "expr": "increase(monitoring_test_fails_counter{test_name=\"certificate_expiration\", organization=\"Tiny\"}[72h])",
+              "expr": "increase(monitoring_check_fails_count{check_name=\"certificate_expiration\", organization=\"Tiny\"}[72h])",
               "format": "heatmap",
               "fullMetaSearch": false,
               "includeNullMetadata": true,
@@ -422,7 +422,7 @@
               "useBackend": false
             }
           ],
-          "title": "Certificate tests - fails in last 72h",
+          "title": "Certificate checks - fails in last 72h",
           "transformations": [
             {
               "id": "seriesToRows",
@@ -547,7 +547,7 @@
               "disableTextWrap": false,
               "editorMode": "builder",
               "exemplar": false,
-              "expr": "increase(monitoring_test_fails_counter{test_name=\"domain_expiration\", organization=\"Tiny\"}[72h])",
+              "expr": "increase(monitoring_check_fails_count{check_name=\"domain_expiration\", organization=\"Tiny\"}[72h])",
               "format": "heatmap",
               "fullMetaSearch": false,
               "includeNullMetadata": true,
@@ -558,7 +558,7 @@
               "useBackend": false
             }
           ],
-          "title": "Domain tests - fails in last 72h",
+          "title": "Domain checks - fails in last 72h",
           "transformations": [
             {
               "id": "seriesToRows",
@@ -593,7 +593,7 @@
           "type": "table"
         }
       ],
-      "title": "Internal - tests status",
+      "title": "Internal - checks status",
       "type": "row"
     }
   ],
