@@ -38,10 +38,9 @@ workflows:
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           dockerfile_path: ./docker/checks-runner/Dockerfile
           requires: [run_tests]
-          # TODO: Uncomment before merge
-          # filters:
-          #   branches:
-          #     only: [master]
+          filters:
+            branches:
+              only: [master]
       - cs-orb/release_to_ecr:
           use_oidc_role: true
           name: 'release_prometheus'
@@ -49,10 +48,9 @@ workflows:
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           dockerfile_path: ./docker/prometheus/Dockerfile
           requires: [run_tests]
-          # TODO: Uncomment before merge
-          # filters:
-          #   branches:
-          #     only: [master]
+          filters:
+            branches:
+              only: [master]
       - cs-orb/release_to_ecr:
           use_oidc_role: true
           name: 'release_grafana'
@@ -60,10 +58,9 @@ workflows:
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           dockerfile_path: ./docker/grafana/Dockerfile
           requires: [run_tests]
-          # TODO: Uncomment before merge
-          # filters:
-          #   branches:
-          #     only: [master]
+          filters:
+            branches:
+              only: [master]
       - cs-orb/release_to_ecr:
           use_oidc_role: true
           name: 'release_pushgateway'
@@ -71,7 +68,6 @@ workflows:
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           dockerfile_path: ./docker/pushgateway/Dockerfile
           requires: [run_tests]
-          # TODO: Uncomment before merge
-          # filters:
-          #   branches:
-          #     only: [master]
+          filters:
+            branches:
+              only: [master]
