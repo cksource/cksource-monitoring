@@ -2,7 +2,7 @@
   "name": "tiugo-monitoring",
   "version": "0.0.1",
   "type": "module",
-  "description": "CKSource Monitoring",
+  "description": "Tiugo Monitoring",
   "repository": {
     "type": "git",
     "url": "git@github.com:cksource/tiugo-monitoring.git"
