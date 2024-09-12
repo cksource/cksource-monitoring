@@ -34,3 +34,8 @@ pnpm-lock.yaml
 # temporary workspace files
 /tsconfig.watch.json
 /ecosystem.workspace.config.json
+
+
+# terraform files
+*.tfvars
+.terraform
