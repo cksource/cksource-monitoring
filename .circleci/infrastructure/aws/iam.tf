@@ -1,5 +1,5 @@
 locals {
-  project = "cksource-monitoring"
+  project = "tiugo-monitoring"
 }
 
 resource "aws_iam_role" "oidc" {

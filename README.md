@@ -1,4 +1,4 @@
-# CKSource-Monitoring
+# Tiugo Monitoring
 
 **Note: if this is the first run, see the "[first run](#first-run)" section**
 
@@ -45,7 +45,7 @@ This will update the files in `infrastructure` folder. Commit this files to `mas
 ## Project setup
 
 1. Clone repository.
-2. Go to `cksource-monitoring` main directory and run `pnpm install`.
+2. Go to `tiugo-monitoring` main directory and run `pnpm install`.
 3. Duplicate `.env.template` file and save it as `.env`. Fill out missing env variables.
 
 After project setup, the project can be started. See the [Quick start](#quick-start) section.

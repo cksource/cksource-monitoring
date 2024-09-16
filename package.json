@@ -1,18 +1,18 @@
 {
-  "name": "cksource-monitoring",
+  "name": "tiugo-monitoring",
   "version": "0.0.1",
   "type": "module",
-  "description": "CKSource Monitoring",
+  "description": "Tiugo Monitoring",
   "repository": {
     "type": "git",
-    "url": "git@github.com:cksource/cksource-monitoring.git"
+    "url": "git@github.com:cksource/tiugo-monitoring.git"
   },
   "license": "UNLICENSED",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc --build",
     "docker:start": "docker-compose -f docker/docker-compose.yaml up --build",
-    "docker:logs": "docker logs cksource-monitoring -f",
+    "docker:logs": "docker logs tiugo-monitoring -f",
     "docker:stop": "docker-compose -f docker/docker-compose.yaml down",
     "deps:check": "ncu",
     "lint": "eslint '**/*.ts'",
