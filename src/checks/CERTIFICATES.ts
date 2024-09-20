@@ -75,6 +75,9 @@ export const CERTIFICATES: Record<OrganizationName, string[]> = {
 		'https://api.buttercms.com',
 		'https://www.buttercms.com',
 		'https://staging.buttercms.com',
+		'https://cdn.buttercms.com',
+		'https://cdnjs.buttercms.com',
+		'https://fs.buttercms.com',
 		'https://buttercms-ai-proxy.internal.cke-cs.com'
 	]
 };
