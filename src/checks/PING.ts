@@ -17,11 +17,6 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 				name: 'tiugotech.com',
 				url: 'https://www.tiugotech.com/',
 				expectedContent: 'Tiugo Technologies'
-			},
-			{
-				name: 'tiugotech.com (Should fail)',
-				url: 'https://www.tiugotech.com/',
-				expectedContent: 'This_string_does_not_exist'
 			}
 		]
 	},
@@ -31,16 +26,6 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 				name: 'cksource.com',
 				url: 'https://cksource.com/',
 				expectedContent: 'CKSource'
-			},
-			{
-				name: 'cksource.com (Should fail)',
-				url: 'https://cksource.com/',
-				expectedContent: 'This_string_does_not_exist'
-			},
-			{
-				name: 'cksource.com (Should fail 2)',
-				url: 'https://cksource.com/',
-				expectedContent: 'This_string_does_not_exist'
 			},
 			{
 				name: 'onlinehtmleditor.dev',
@@ -158,11 +143,6 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 			{
 				name: 'Tiny CLA',
 				url: 'https://cla.tiny.cloud/tiny/img/cla-workflow.png'
-			},
-			{
-				name: 'Tiny Home (should fail)',
-				url: 'https://www.tiny.cloud/',
-				expectedContent: 'This_string_does_not_exist'
 			}
 		]
 	},
@@ -172,11 +152,6 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 				name: 'Landing page',
 				url: 'https://buttercms.com',
 				expectedContent: 'ButterCMS'
-			},
-			{
-				name: 'Landing page (Should fail)',
-				url: 'https://buttercms.com',
-				expectedContent: 'This_string_does_not_exist'
 			},
 			{
 				name: 'Home page',
