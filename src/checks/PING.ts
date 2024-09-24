@@ -46,55 +46,67 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 			},
 			{
 				name: '/docs',
-				url: 'https://ckeditor.com/docs/'
+				url: 'https://ckeditor.com/docs/',
+				expectedContent: 'CKEditor Ecosystem Documentation'
 			},
 			{
 				name: '/builder',
-				url: 'https://ckeditor.com/ckeditor-5/builder/'
+				url: 'https://ckeditor.com/ckeditor-5/builder/',
+				expectedContent: 'CKEditor 5 Builder'
 			},
 			{
 				name: '/cke4',
-				url: 'https://ckeditor.com/cke4/addons/plugins/all'
+				url: 'https://ckeditor.com/cke4/addons/plugins/all',
+				expectedContent: 'Plugins'
 			},
 			{
 				name: '/docs/ckfinder',
-				url: 'https://ckeditor.com/docs/ckfinder/ckfinder3/'
+				url: 'https://ckeditor.com/docs/ckfinder/ckfinder3/',
+				expectedContent: 'CKFinder 3 Documentation'
 			},
 			{
 				name: '/ckfinder/demo',
-				url: 'https://ckeditor.com/ckfinder/demo/'
+				url: 'https://ckeditor.com/ckfinder/demo/',
+				expectedContent: 'CKFinder demo'
 			},
 			{
 				name: '/partners',
-				url: 'https://ckeditor.com/partners/'
+				url: 'https://ckeditor.com/partners/',
+				expectedContent: 'Service'
 			},
 			{
 				name: '/technology',
-				url: 'https://ckeditor.com/technology-partners'
+				url: 'https://ckeditor.com/technology-partners',
+				expectedContent: 'Technology'
 			}
 		],
 		CDNs: [
 			{
 				name: 'CKEditor CDN',
-				url: 'https://cdn.ckeditor.com/'
+				url: 'https://cdn.ckeditor.com/',
+				expectedContent: 'CKEditor CDN'
 			},
 			{
 				name: 'CKSource CDN',
-				url: 'https://download.cksource.com/'
+				url: 'https://download.cksource.com/',
+				expectedContent: 'download page'
 			},
 			{
 				name: 'CKBox CDN',
-				url: 'https://cdn.ckbox.io/healthz.html'
+				url: 'https://cdn.ckbox.io/healthz.html',
+				expectedContent: 'OK!'
 			},
 			{
 				name: 'CKBox zips CDN',
-				url: 'https://download.ckbox.io/healthz.html'
+				url: 'https://download.ckbox.io/healthz.html',
+				expectedContent: 'OK!'
 			}
 		],
 		internalTools: [
 			{
 				name: 'CKE5 nightly docs',
-				url: 'https://ckeditor5.github.io/docs/nightly/ckeditor5/latest/index.html'
+				url: 'https://ckeditor5.github.io/docs/nightly/ckeditor5/latest/index.html',
+				expectedContent: 'CKEditor 5 documentation'
 			},
 			{
 				name: 'CKEditor CLA',
