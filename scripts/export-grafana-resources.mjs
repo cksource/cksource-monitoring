@@ -25,10 +25,6 @@ const GRAFANA_PASSWORD = process.env.GF_SECURITY_ADMIN_PASSWORD;
 			JSON.stringify( dashboardData.dashboard, null, 2 )
 		);
 	}
-
-	const alerts = await request( '/api/v1/provisioning/alert-rules/export', { type: 'text' } );
-
-	fs.writeFileSync( './infrastructure/grafana/alerting/alerting_rules.yaml', alerts );
 } )();
 
 async function request( path, { type = 'json' } = {} ) {
@@ -46,4 +42,3 @@ async function request( path, { type = 'json' } = {} ) {
 
 	return res.json();
 }
-
