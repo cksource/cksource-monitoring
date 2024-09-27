@@ -5,6 +5,7 @@ provider "registry.terraform.io/mrolla/circleci" {
   version = "0.6.1"
   hashes = [
     "h1:VzGE61KiuJt3aEHr8vCcXJwJv83mQBPWCh2nZ7L0wPI=",
+    "h1:vOmZ0/Mw/6YxMMsHqxuvxp0aVdHBcmMb+czhXxFEWE8=",
     "zh:3402c43ff20e9e34e7919495c21212b5ad162cea00feeb272e0644e26aaf8964",
     "zh:3b0cd3a07e48d4420b4ed6b0f8cc710209e7247511032f9c3d2756ddc291bddb",
     "zh:51f46e3dd1a2665d3d0b3bf5dc29b9cc0769328d12f0cf44ca24fd95c8c7f760",

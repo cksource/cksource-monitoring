@@ -219,7 +219,7 @@
           "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "sum by(check_name, product_name) (rate(monitoring_check_histogram_sum{check_name=\"ping\", status=\"success\", organization=\"Tiny\"}[1m])) / sum by(check_name, product_name) (rate(monitoring_check_histogram_count{check_name=\"ping\", status=\"success\", organization=\"Tiny\"}[1m]))",
+          "expr": "sum by(check_name, product_name) (rate(monitoring_check_histogram_sum{check_name=\"ping\", status=\"success\", organization=\"Tiny\"}[2m])) / sum by(check_name, product_name) (rate(monitoring_check_histogram_count{check_name=\"ping\", status=\"success\", organization=\"Tiny\"}[2m]))",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": false,

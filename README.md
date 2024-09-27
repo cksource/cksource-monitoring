@@ -1,4 +1,4 @@
-# CKSource-Monitoring
+# Tiugo Monitoring
 
 **Note: if this is the first run, see the "[first run](#first-run)" section**
 
@@ -7,24 +7,14 @@
 1. `pnpm run docker:start`
 3. Go to [Dashboards](http://localhost:3000/dashboards) and browse available dashboards.
 
-## Create/edit Grafana dashboards in UI
+## Create/edit Grafana dashboards
 
 1. [Login](http://localhost:3000/login) to Grafana as Admin (use credentials from `.env` file).
 2. Choose dashboard from [Dashboards](http://localhost:3000/dashboards) or create new one.
 3. Edit Dashboard and save changes by pressing "Save dashboard" button.
 4. Export changes. See the "[Exporting changes](#export-changes-made-in-grafana-UI)" section. 
 
-## Create/edit Grafana alerts in UI
-
-1. [Login](http://localhost:3000/login) to Grafana as Admin (use credentials from `.env` file).
-2. Modify/add some of below resources:
-   1. [Alert rules](http://localhost:3000/alerting/list) - verify results of tests
-   2. [Contact points](http://localhost:3000/alerting/notifications) - define where alert notifications can be sent
-   3. [Notification policies](http://localhost:3000/alerting/routes) - define which alerts should be sent to which contact points
-3. Make sure you saved changes in Grafana UI by pressing "Save" button for each modified resource.
-4. Save changes made in Grafana UI permanently. See the "[Exporting changes](#export-changes-made-in-grafana-ui)" section.
-
-*Note: Already created alert resources cannot be modified through UI. You can still adjust them by modifying files in `infrastructure/grafana/alerting/`.*
+These dashboards are used only for local development. Alerts and dashboards used by [Grafana Cloud}(https://tiugo.grafana.net) will not be updated this way.
 
 ## Export changes made in Grafana UI
 
@@ -33,7 +23,7 @@ Run exporting scripts in the root directory of this repo:
 node scripts/export-grafana-resources.mjs
 ```
 
-This will update the files in `infrastructure` folder. Commit this files to `master` branch to rebuild the Grafana image and update the service.
+This will update the files in `infrastructure` folder. You can commit these files to share the changes with other devs.
 
 ## First run
 
@@ -45,7 +35,7 @@ This will update the files in `infrastructure` folder. Commit this files to `mas
 ## Project setup
 
 1. Clone repository.
-2. Go to `cksource-monitoring` main directory and run `pnpm install`.
+2. Go to `tiugo-monitoring` main directory and run `pnpm install`.
 3. Duplicate `.env.template` file and save it as `.env`. Fill out missing env variables.
 
 After project setup, the project can be started. See the [Quick start](#quick-start) section.

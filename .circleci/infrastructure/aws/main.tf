@@ -7,7 +7,7 @@ terraform {
 
   backend "s3" {
     bucket              = "cksource-ci-terraform-states"
-    key                 = "cksource/cksource-monitoring/aws"
+    key                 = "cksource/tiugo-monitoring/aws"
     region              = "eu-central-1"
     allowed_account_ids = [955517586947]
     profile             = "dev"

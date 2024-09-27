@@ -34,7 +34,7 @@ workflows:
       - cs-orb/release_to_ecr:
           use_oidc_role: true
           name: 'release_checks_lambda'
-          image_name: it-cksource-monitoring-lambda-service
+          image_name: it-tiugo-monitoring-lambda-service
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           dockerfile_path: ./docker/checks-runner/Dockerfile
           requires: [run_tests]
@@ -44,7 +44,7 @@ workflows:
       - cs-orb/release_to_ecr:
           use_oidc_role: true
           name: 'release_prometheus'
-          image_name: it-cksource-monitoring-prometheus-service
+          image_name: it-tiugo-monitoring-prometheus-service
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           dockerfile_path: ./docker/prometheus/Dockerfile
           requires: [run_tests]
@@ -53,18 +53,8 @@ workflows:
               only: [master]
       - cs-orb/release_to_ecr:
           use_oidc_role: true
-          name: 'release_grafana'
-          image_name: it-cksource-monitoring-grafana-service
-          version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
-          dockerfile_path: ./docker/grafana/Dockerfile
-          requires: [run_tests]
-          filters:
-            branches:
-              only: [master]
-      - cs-orb/release_to_ecr:
-          use_oidc_role: true
           name: 'release_pushgateway'
-          image_name: it-cksource-monitoring-pushgateway-service
+          image_name: it-tiugo-monitoring-pushgateway-service
           version_callback: echo $(node -pe "require('./package.json').version")-$(git rev-parse HEAD | cut -c1-10)
           dockerfile_path: ./docker/pushgateway/Dockerfile
           requires: [run_tests]

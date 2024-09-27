@@ -12,7 +12,6 @@ export const CERTIFICATES: Record<OrganizationName, string[]> = {
 		'https://ckbox.io',
 		'https://cdn.ckbox.io',
 		'https://download.ckbox.io',
-		'https://cdn-source.ckbox.io',
 
 		'https://ckeditor.com',
 		'https://builder-api.ckeditor.com',
