@@ -34,3 +34,12 @@ scrape_configs:
       - targets: ['buttercms-redis-exporter.internal.cke-cs-dev.com']
         labels:
           service: 'buttercms-redis-exporter'
+  - job_name: buttercms-fastly-exporter
+    metrics_path: /metrics
+    scheme: https
+    # Can be slow as it connects to different infrastructure
+    scrape_timeout: 5s
+    static_configs:
+      - targets: ['buttercms-fastly-exporter.internal.cke-cs-dev.com']
+        labels:
+          service: 'buttercms-fastly-exporter'
