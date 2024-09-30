@@ -21,7 +21,7 @@ export const CERTIFICATES: Record<OrganizationName, string[]> = {
 		'https://cke4.ckeditor.com',
 		'https://ckeditor-demo-preview-1.ckeditor.com',
 		'https://prev1.ckeditor.com',
-		'https://preview-blog.ckeditor.com',
+		'https://development-website.ckeditor.com',
 		'https://preview.ckeditor.com',
 		'https://svn.ckeditor.com',
 		'https://dev.ckeditor.com',
