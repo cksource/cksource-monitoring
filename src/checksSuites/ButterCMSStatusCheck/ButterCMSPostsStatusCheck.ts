@@ -20,8 +20,6 @@ type ButterCMSResponse<T = unknown> = {
 }
 
 class ButterCMSPostsStatusCheck extends ButterCMSStatusCheck {
-	public checkName: string = 'buttercms_posts';
-
 	public constructor(
 	public checkDefinition: CheckDefinition
 	) {

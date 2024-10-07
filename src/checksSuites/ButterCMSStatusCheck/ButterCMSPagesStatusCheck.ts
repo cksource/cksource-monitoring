@@ -32,8 +32,6 @@ type GetPageData = {
 }
 
 class ButterCMSPagesStatusCheck extends ButterCMSStatusCheck {
-	public checkName: string = 'buttercms_pages';
-
 	public constructor(
 	public checkDefinition: CheckDefinition
 	) {

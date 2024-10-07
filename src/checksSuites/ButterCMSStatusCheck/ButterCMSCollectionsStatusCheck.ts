@@ -33,8 +33,6 @@ type GetCollectionItemsData = {
 }
 
 class ButterCMSCollectionsStatusCheck extends ButterCMSStatusCheck {
-	public checkName: string = 'buttercms_collections';
-
 	public constructor(
 	public checkDefinition: CheckDefinition
 	) {

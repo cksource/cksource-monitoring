@@ -15,7 +15,7 @@ const BUTTERCMS_API_KEY: string = await _getButterCMSApiKey() ?? '';
 const BUTTERCMS_BASE_URL: string = process.env.BUTTERCMS_BASE_URL ?? '';
 
 abstract class ButterCMSStatusCheck implements ICheck {
-	public abstract readonly checkName: string;
+	public checkName: string = 'buttercms_status';
 
 	public constructor(
 		public checkDefinition: ICheckDefinition
