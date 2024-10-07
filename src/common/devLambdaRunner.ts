@@ -5,6 +5,7 @@
 import { handler } from '../index.js';
 
 const eventData: {checks: string[];} = { checks: [ 'ping' ] };
+// const eventData: {checks: string[];} = { checks: [ 'buttercms_status' ] };
 // const eventData: {checks: string[];} = { checks: [ 'certificate', 'domain' ] };
 // const eventData: {checks: string[];} = { checks: [ 'ping', 'certificate', 'domain' ] };
 

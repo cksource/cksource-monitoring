@@ -13,6 +13,11 @@ import { DomainExpirationCheckDefinition } from '../checksSuites/DomainExpiratio
 import CertificateExpirationCheck from '../checksSuites/CertificateExpirationCheck/CertificateExpirationCheck.js';
 import { CertificateExpirationCheckDefinition } from '../checksSuites/CertificateExpirationCheck/CertificateExpirationCheckDefinition.js';
 
+import ButterCMSPostsStatusCheck from '../checksSuites/ButterCMSStatusCheck/ButterCMSPostsStatusCheck.js';
+import ButterCMSPagesStatusCheck from '../checksSuites/ButterCMSStatusCheck/ButterCMSPagesStatusCheck.js';
+import ButterCMSCollectionsStatusCheck from '../checksSuites/ButterCMSStatusCheck/ButterCMSCollectionsStatusCheck.js';
+import { CheckDefinition } from '../checksSuites/CheckDefinition.js';
+
 import { PING, IPingCheckEntry } from '../checks/PING.js';
 import { DOMAINS } from '../checks/DOMAINS.js';
 import { CERTIFICATES } from '../checks/CERTIFICATES.js';
@@ -60,6 +65,24 @@ export function getChecks( checkTypesToRun: string[] ): ICheck[] {
 				} ) ) );
 			} );
 		}
+	}
+
+	if ( checkTypesToRun.includes( 'buttercms_status' ) ) {
+		CHECKS.push( new ButterCMSPostsStatusCheck( new CheckDefinition( {
+			organization: 'ButterCMS',
+			productGroup: 'apis',
+			productName: 'posts'
+		} ) ) );
+		CHECKS.push( new ButterCMSPagesStatusCheck( new CheckDefinition( {
+			organization: 'ButterCMS',
+			productGroup: 'apis',
+			productName: 'pages'
+		} ) ) );
+		CHECKS.push( new ButterCMSCollectionsStatusCheck( new CheckDefinition( {
+			organization: 'ButterCMS',
+			productGroup: 'apis',
+			productName: 'collections'
+		} ) ) );
 	}
 
 	return CHECKS;
