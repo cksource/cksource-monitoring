@@ -291,13 +291,13 @@
             "excludeByName": {
               "Time": true,
               "__name__": true,
+              "check_name": true,
               "exported_job": true,
               "instance": true,
               "job": true,
               "organization": true,
               "product_group": true,
-              "service": true,
-              "check_name": true
+              "service": true
             },
             "indexByName": {},
             "renameByName": {
@@ -612,6 +612,6 @@
   "timezone": "",
   "title": "Tiny - Certificates and domains",
   "uid": "ce384700-26aa-4c4a-8287-d931c931c322",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }

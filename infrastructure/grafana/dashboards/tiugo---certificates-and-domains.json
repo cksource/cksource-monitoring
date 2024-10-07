@@ -158,13 +158,13 @@
             "excludeByName": {
               "Time": true,
               "__name__": true,
+              "check_name": true,
               "exported_job": true,
               "instance": true,
               "job": true,
               "organization": true,
               "product_group": true,
-              "service": true,
-              "check_name": true
+              "service": true
             },
             "indexByName": {},
             "renameByName": {
@@ -300,13 +300,13 @@
             "excludeByName": {
               "Time": true,
               "__name__": true,
+              "check_name": true,
               "exported_job": true,
               "instance": true,
               "job": true,
               "organization": true,
               "product_group": true,
-              "service": true,
-              "check_name": true
+              "service": true
             },
             "indexByName": {},
             "renameByName": {
@@ -621,6 +621,6 @@
   "timezone": "",
   "title": "Tiugo - Certificates and domains",
   "uid": "ee5793c4-d18b-44f7-8eaf-c21afad94efd",
-  "version": 3,
+  "version": 1,
   "weekStart": ""
 }

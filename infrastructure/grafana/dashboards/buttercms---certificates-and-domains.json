@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 9,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -291,13 +291,13 @@
             "excludeByName": {
               "Time": true,
               "__name__": true,
+              "check_name": true,
               "exported_job": true,
               "instance": true,
               "job": true,
               "organization": true,
               "product_group": true,
-              "service": true,
-              "check_name": true
+              "service": true
             },
             "indexByName": {},
             "renameByName": {
@@ -611,6 +611,6 @@
   "timezone": "",
   "title": "ButterCMS - Certificates and domains",
   "uid": "d5008913-ef03-4da9-b33f-8e2f83a4e332",
-  "version": 3,
+  "version": 1,
   "weekStart": ""
 }
