@@ -67,7 +67,9 @@ export default class SecretsManagerClient implements ISecretsManagerClient {
 
 	private async _fetchSecretValue( secretName: string ): Promise<string> {
 		if ( process.env[ secretName ] ) {
-			return process.env[ secretName ];
+			const value: string = process.env[ secretName ] ?? '';
+
+			return value;
 		}
 
 		const response: GetSecretValueCommandOutput = await this._secretsManagerClient.send(
