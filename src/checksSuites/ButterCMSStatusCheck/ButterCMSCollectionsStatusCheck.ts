@@ -8,7 +8,6 @@ import assert from 'node:assert/strict';
 
 import ButterCMSStatusCheck from './ButterCMSStatusCheck.js';
 import { CheckDefinition } from '../CheckDefinition.js';
-import { IMetrics } from '../../common/Metrics.js';
 
 import { ContentFailError } from '../../errors/ContentFailError.js';
 import { RequestFailError } from '../../errors/RequestFailError.js';
@@ -39,13 +38,11 @@ class ButterCMSCollectionsStatusCheck extends ButterCMSStatusCheck {
 		super( checkDefinition );
 	}
 
-	public async run( metrics?: IMetrics ): Promise<void> {
+	public async run(): Promise<void> {
 		const timestamp: string = ( new Date() ).toISOString();
 		// eslint-disable-next-line @typescript-eslint/typedef
 		const slug = 'monitoring-collection';
 		const expectedTitle: string = `Tiugo Monitoring - ${ timestamp }`;
-		// const body: string = `<h1>New post from Tiugo monitoring</h1><p>${ timestamp }</p>`;
-		// const updatedBody: string = body.replace( 'New', 'Updated' );
 
 		const createCollectionItemRequestOptions: RequestInit = {
 			method: 'POST',
@@ -61,17 +58,20 @@ class ButterCMSCollectionsStatusCheck extends ButterCMSStatusCheck {
 		const createCollectionItem: ButterCMSResponse = await this.sendRequest( '/v2/content/', createCollectionItemRequestOptions );
 		assert( createCollectionItem.status === 202, new RequestFailError( createCollectionItem ) );
 
-		await this.delay( 1000 );
+		let createdItem: ICollectionItem[] = [];
+		await this.waitUntil(
+			async () => {
+				const getCollectionItems: ButterCMSResponse<GetCollectionItemsData> = await this.sendRequest( `/v2/content/${ slug }/` );
+				assert( getCollectionItems.status === 200, new RequestFailError( getCollectionItems ) );
 
-		const getCollectionItems: ButterCMSResponse<GetCollectionItemsData> = await this.sendRequest( `/v2/content/${ slug }/` );
-		assert( getCollectionItems.status === 200, new RequestFailError( getCollectionItems ) );
-
-		const createdItem: ICollectionItem[] = ( getCollectionItems.data.data[ slug ] as ICollectionItem[] ).filter(
-			( item: ICollectionItem ) => item.title === expectedTitle
-		);
-		assert(
-			createdItem.length !== 0,
-			new ContentFailError( { ...getCollectionItems, createdItem, expectedItemTitle: expectedTitle } )
+				createdItem = ( getCollectionItems.data.data[ slug ] ).filter(
+					( item: ICollectionItem ) => item.title === expectedTitle
+				);
+				assert(
+					createdItem.length !== 0,
+					new ContentFailError( { ...getCollectionItems, createdItem, expectedItemTitle: expectedTitle } )
+				);
+			}
 		);
 
 		const deleteCollectionItem: ButterCMSResponse = await this.sendRequest(
@@ -80,16 +80,19 @@ class ButterCMSCollectionsStatusCheck extends ButterCMSStatusCheck {
 		);
 		assert( deleteCollectionItem.status === 204, new RequestFailError( deleteCollectionItem ) );
 
-		const getCollectionAfterDelete: ButterCMSResponse = await this.sendRequest( `/v2/content/${ slug }/` );
-		assert( getCollectionAfterDelete.status === 200, new RequestFailError( getCollectionAfterDelete ) );
-		const createdItemAfterDelete: ICollectionItem[] = ( getCollectionItems.data.data[ slug ] as ICollectionItem[] ).filter(
-			( item: ICollectionItem ) => item.title === expectedTitle
+		await this.waitUntil(
+			async () => {
+				const getCollectionAfterDelete: ButterCMSResponse<GetCollectionItemsData> = await this.sendRequest( `/v2/content/${ slug }/` );
+				assert( getCollectionAfterDelete.status === 200, new RequestFailError( getCollectionAfterDelete ) );
+				const createdItemAfterDelete: ICollectionItem[] = ( getCollectionAfterDelete.data.data[ slug ] ).filter(
+					( item: ICollectionItem ) => item.title === expectedTitle
+				);
+				assert(
+					createdItemAfterDelete.length === 0,
+					new ContentFailError( { ...getCollectionAfterDelete, createdItemAfterDelete, NotExpectedItemTitle: expectedTitle } )
+				);
+			}
 		);
-		assert(
-			createdItemAfterDelete.length !== 0,
-			new ContentFailError( { ...getCollectionAfterDelete, createdItemAfterDelete, NotExpectedItemTitle: expectedTitle } )
-		);
-		//
 	}
 }
 

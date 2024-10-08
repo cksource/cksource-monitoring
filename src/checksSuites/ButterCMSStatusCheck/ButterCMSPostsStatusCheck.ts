@@ -8,7 +8,6 @@ import assert from 'node:assert/strict';
 
 import ButterCMSStatusCheck from './ButterCMSStatusCheck.js';
 import { CheckDefinition } from '../CheckDefinition.js';
-import { IMetrics } from '../../common/Metrics.js';
 
 import { ContentFailError } from '../../errors/ContentFailError.js';
 import { RequestFailError } from '../../errors/RequestFailError.js';
@@ -26,7 +25,7 @@ class ButterCMSPostsStatusCheck extends ButterCMSStatusCheck {
 		super( checkDefinition );
 	}
 
-	public async run( metrics?: IMetrics ): Promise<void> {
+	public async run(): Promise<void> {
 		const timestamp: string = ( new Date() ).toISOString();
 		const slug: string = `monitoring-${ timestamp.replaceAll( /:|\./g, '-' ).toLowerCase() }`;
 		const title: string = `Tiugo Monitoring - ${ timestamp }`;
@@ -52,16 +51,27 @@ class ButterCMSPostsStatusCheck extends ButterCMSStatusCheck {
 		const createPost: ButterCMSResponse = await this.sendRequest( '/v2/posts/', createPostRequestOptions );
 		assert( createPost.status === 202, new RequestFailError( createPost ) );
 
-		await this.delay( 1000 );
-
-		const getPost: ButterCMSResponse<{data: {body: string;};}> = await this.sendRequest( `/v2/posts/${ slug }/` );
-		assert( getPost.status === 200, new RequestFailError( getPost ) );
-		assert( getPost.data.data.body === body, new ContentFailError( { ...getPost, expectedContent: body } ) );
+		await this.waitUntil(
+			async () => {
+				const getPost: ButterCMSResponse<{data: {body: string;};}> = await this.sendRequest( `/v2/posts/${ slug }/` );
+				assert( getPost.status === 200, new RequestFailError( getPost ) );
+				assert( getPost.data.data.body === body, new ContentFailError( { ...getPost, expectedContent: body } ) );
+			}
+		);
 
 		const updatePost: ButterCMSResponse = await this.sendRequest( `/v2/posts/${ slug }/`, updatePostRequestOptions );
 		assert( updatePost.status <= 202, new RequestFailError( updatePost ) );
 
-		await this.delay( 1000 );
+		await this.waitUntil(
+			async () => {
+				const getPostAfterUpdate: ButterCMSResponse<{data: {body: string;};}> = await this.sendRequest( `/v2/posts/${ slug }/` );
+				assert( getPostAfterUpdate.status === 200, new RequestFailError( getPostAfterUpdate ) );
+				assert(
+					getPostAfterUpdate.data.data.body === updatedBody,
+					new ContentFailError( { ...getPostAfterUpdate, expectedContent: updatedBody } )
+				);
+			}
+		);
 
 		const getPostAfterUpdate: ButterCMSResponse<{data: {body: string;};}> = await this.sendRequest( `/v2/posts/${ slug }/` );
 		assert( getPostAfterUpdate.status === 200, new RequestFailError( getPostAfterUpdate ) );
@@ -73,8 +83,12 @@ class ButterCMSPostsStatusCheck extends ButterCMSStatusCheck {
 		const deletePost: ButterCMSResponse = await this.sendRequest( `/v2/posts/${ slug }/`, { method: 'DELETE' } );
 		assert( deletePost.status === 204, new RequestFailError( deletePost ) );
 
-		const getPostAfterDelete: ButterCMSResponse = await this.sendRequest( `/v2/posts/${ slug }/` );
-		assert( getPostAfterDelete.status === 404, new RequestFailError( getPostAfterDelete ) );
+		await this.waitUntil(
+			async () => {
+				const getPostAfterDelete: ButterCMSResponse = await this.sendRequest( `/v2/posts/${ slug }/` );
+				assert( getPostAfterDelete.status === 404, new RequestFailError( getPostAfterDelete ) );
+			}
+		);
 	}
 }
 
