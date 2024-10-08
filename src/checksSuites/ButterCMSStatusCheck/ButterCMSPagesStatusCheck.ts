@@ -31,10 +31,12 @@ type GetPageData = {
 }
 
 class ButterCMSPagesStatusCheck extends ButterCMSStatusCheck {
-	public constructor(
-	public checkDefinition: CheckDefinition
-	) {
-		super( checkDefinition );
+	public constructor() {
+		super( new CheckDefinition( {
+			organization: 'ButterCMS',
+			productGroup: 'apis',
+			productName: 'pages'
+		} ) );
 	}
 
 	public async run(): Promise<void> {

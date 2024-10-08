@@ -19,10 +19,12 @@ type ButterCMSResponse<T = unknown> = {
 }
 
 class ButterCMSPostsStatusCheck extends ButterCMSStatusCheck {
-	public constructor(
-	public checkDefinition: CheckDefinition
-	) {
-		super( checkDefinition );
+	public constructor() {
+		super( new CheckDefinition( {
+			organization: 'ButterCMS',
+			productGroup: 'apis',
+			productName: 'posts'
+		} ) );
 	}
 
 	public async run(): Promise<void> {
