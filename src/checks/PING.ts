@@ -109,7 +109,7 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 			{
 				name: 'CKEditor 4 versions',
 				url: 'https://cke4.ckeditor.com/ckeditor4-secure-version/versions.json',
-				expectedContent: 'OK!'
+				expectedContent: 'secureVersion'
 			}
 		],
 		internalTools: [
