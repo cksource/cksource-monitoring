@@ -74,7 +74,7 @@ export default class SecretsManagerClient implements ISecretsManagerClient {
 
 		const response: GetSecretValueCommandOutput = await this._secretsManagerClient.send(
 			new GetSecretValueCommand( {
-				SecretId: `${ secretName }_ID`
+				SecretId: process.env[ `${ secretName }_ID` ]
 			} )
 		);
 
