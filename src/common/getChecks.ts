@@ -13,6 +13,10 @@ import { DomainExpirationCheckDefinition } from '../checksSuites/DomainExpiratio
 import CertificateExpirationCheck from '../checksSuites/CertificateExpirationCheck/CertificateExpirationCheck.js';
 import { CertificateExpirationCheckDefinition } from '../checksSuites/CertificateExpirationCheck/CertificateExpirationCheckDefinition.js';
 
+import ButterCMSPostsStatusCheck from '../checksSuites/ButterCMSStatusCheck/ButterCMSPostsStatusCheck.js';
+import ButterCMSPagesStatusCheck from '../checksSuites/ButterCMSStatusCheck/ButterCMSPagesStatusCheck.js';
+import ButterCMSCollectionsStatusCheck from '../checksSuites/ButterCMSStatusCheck/ButterCMSCollectionsStatusCheck.js';
+
 import { PING, IPingCheckEntry } from '../checks/PING.js';
 import { DOMAINS } from '../checks/DOMAINS.js';
 import { CERTIFICATES } from '../checks/CERTIFICATES.js';
@@ -60,6 +64,12 @@ export function getChecks( checkTypesToRun: string[] ): ICheck[] {
 				} ) ) );
 			} );
 		}
+	}
+
+	if ( checkTypesToRun.includes( 'buttercms_status' ) ) {
+		CHECKS.push( new ButterCMSPostsStatusCheck() );
+		CHECKS.push( new ButterCMSPagesStatusCheck() );
+		CHECKS.push( new ButterCMSCollectionsStatusCheck() );
 	}
 
 	return CHECKS;
