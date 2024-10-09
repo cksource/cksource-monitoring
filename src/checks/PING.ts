@@ -36,6 +36,11 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 				name: 'onlinemarkdowneditor.dev',
 				url: 'https://onlinemarkdowneditor.dev/',
 				expectedContent: 'CKEditor 5'
+			},
+			{
+				name: 'dashboard.ckeditor.com',
+				url: 'https://dashboard.ckeditor.com',
+				expectedContent: 'Dashboard'
 			}
 		],
 		ckeditorWebsite: [
@@ -100,6 +105,11 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 				name: 'CKBox zips CDN',
 				url: 'https://download.ckbox.io/healthz.html',
 				expectedContent: 'OK!'
+			},
+			{
+				name: 'CKEditor 4 versions',
+				url: 'https://cke4.ckeditor.com/ckeditor4-secure-version/versions.json',
+				expectedContent: 'OK!'
 			}
 		],
 		internalTools: [
@@ -162,6 +172,11 @@ export const PING: Record<OrganizationName, Record<string, IPingCheckEntry[]>> =
 				name: 'Login page',
 				url: 'https://buttercms.com/login/',
 				expectedContent: 'Login'
+			},
+			{
+				name: 'Status page',
+				url: 'https://status.buttercms.com',
+				expectedContent: 'Uptime'
 			}
 		],
 		apis: [
