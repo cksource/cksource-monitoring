@@ -61,7 +61,10 @@ abstract class ButterCMSStatusCheck implements ICheck {
 
 			setTimeout( () => {
 				clearInterval( interval );
-				reject( returnedError );
+				reject(
+					returnedError ??
+					new Error( `The function execution did not complete within the specified timeout period of ${ timeout / 1000 } seconds` )
+				);
 			}, timeout );
 		} );
 	}
